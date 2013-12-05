@@ -226,6 +226,11 @@ local clockRefreshLoop = function()
 	end
 end
 
+-- Event handler for chat commands
+local eventHandler = function()
+
+end
+
 local function init()
 	local hasBridge, bridgeDir = functions.locatePeripheral("glassesbridge")
 	if (hasBridge ~= true) then
