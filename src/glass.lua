@@ -226,19 +226,6 @@ local clockRefreshLoop = function()
 	end
 end
 
-local function scaleAnimation(scale)
-for i = 1, 20 do
-	mainbox.setWidth(i*X/scale)
-	mainbox.setHeight(i*X/scale)
-	header.setWidth(i*X/scale)
-	header.setHeight(i*X/scale)
-	edgebox.setWidth(i*X/scale)
-	edgebox.setHeight(i*X/scale)
-	sleep(0.05)
-end
-
-end
-
 local function init()
 	local hasBridge, bridgeDir = functions.locatePeripheral("glassesbridge")
 	if (hasBridge ~= true) then
@@ -262,9 +249,9 @@ local function init()
 	
 	drawMain(mainX, mainY, mainWidth, mainHeight)
 	drawHeader(mainX, mainY)
-	--drawTps(mainX, mainY)
-	--drawSanta(mainX + 10, mainY - 1)
-	--drawData()
+	drawTps(mainX, mainY)
+	drawSanta(mainX + 10, mainY - 1)
+	drawData()
 	
 	parallel.waitForAll(dataRefreshLoop, clockRefreshLoop)
 end
