@@ -227,7 +227,7 @@ local function drawSanta(inputX, inputY)
 	
 	--set zindexes
 	for key, value in pairs(boxArray) do
-		value.setZIndex(6)
+		value.setZIndex(7)
 	end
 end
 
