@@ -230,6 +230,13 @@ local tickRefreshLoop = function()
 	end
 end
 
+local rssRefreshLoop = function()
+	while true do
+		
+		sleep(60)
+	end
+end
+
 local clockRefreshLoop = function()
 	while true do
 		local nTime = os.time()
