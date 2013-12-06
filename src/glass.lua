@@ -50,7 +50,7 @@ local lineMultiplier = headerHeight
 local smallX = 10
 local smallY = 65
 local smallWidth = 100
-local smallHeight = 40
+local smallHeight = 30
 
 -- Full TPS size:
 local largeX = 10
@@ -93,7 +93,7 @@ local function drawTps(inputX, inputY)
 			tpsText.setScale(size.normal)
 			tpsText.setZIndex(4)
 			
-			clockText = bridge.addText(inputX + smallWidth - 60, inputY + headerHeight + 5, "", colors.white)
+			clockText = bridge.addText(inputX + smallWidth - 50, inputY + headerHeight + 5, "", colors.white)
 			clockText.setScale(size.large)
 			clockText.setZIndex(4)
 		end,
