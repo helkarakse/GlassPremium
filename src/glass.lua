@@ -12,12 +12,18 @@ os.loadAPI("parser")
 
 -- Variables
 local jsonFile = "profile.txt"
+
+-- Glass elements
 local bridge, mainBox, edgeBox
 local header, headerText, clockText, tpsText, lastUpdatedText
+
+-- Display limit
 local limit = 5
 
+-- For the refresh loop
 local lastUpdated, currentFileSize
 
+-- Color array
 local colors = {
 	headerStart = 0x18caf0,
 	headerEnd = 0x9fedfd,
@@ -25,11 +31,15 @@ local colors = {
 	red = 0xFF0000
 }
 
+-- Text size array
 local size = {
 	small = 0.6, normal = 1, large = 1.25
 }
 
--- Positioning Variables
+-- Data arrays
+local entitiesArray, chunksArray, typesArray, callsArray
+
+-- Positioning variables
 local headerHeight = (size.small * 10)
 local tpsHeight = (size.normal * 10)
 local lineMultiplier = headerHeight
@@ -39,7 +49,8 @@ local mainY = 65
 local mainWidth = 250
 local mainHeight = (28 * lineMultiplier) + 10
 
-local entitiesArray, chunksArray, typesArray, callsArray
+-- Event handling related
+local currentDisplay = 1 -- main display
 
 -- Functions
 local function drawMain(inputX, inputY, inputWidth, inputHeight)
@@ -228,7 +239,19 @@ end
 
 -- Event handler for chat commands
 local eventHandler = function()
-
+	while true do
+		local event, message = os.pullEvent("chat_command")
+		
+		-- switch statement (for efficiency vs if/else)
+		local action = {
+			[1] = function() end,
+			[2] = function() end,
+			[3] = function() end,
+			[4] = function() end
+		}
+		
+		action[currentDisplay]()
+	end
 end
 
 local function init()
