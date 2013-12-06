@@ -199,7 +199,7 @@ local function drawData()
 end
 
 -- Data Retrieval
-local function getXML()
+local function getRssData()
 	local xmlString
 	local data = http.get(rssLink)
 	if (data) then
@@ -213,23 +213,27 @@ local function getXML()
 	end
 end
 
+local function getTickData()
+	local file = fs.open(jsonFile, "r")
+	local text = file.readAll()
+	file.close()
+	
+	-- reset the updated time and the new file size
+	currentFileSize = fs.getSize(jsonFile)
+	functions.debug("Setting the current file size to: ", currentFileSize)
+	lastUpdated = 0
+	
+	-- re-parse the data
+	tickParser.parseData(text)
+end
+
 -- Loops
 local tickRefreshLoop = function()
 	lastUpdated = 0
 	while true do
 		if (fs.getSize(jsonFile) ~= currentFileSize) then
 			functions.debug("File size of profile.txt has changed. Assuming new data.")
-			local file = fs.open(jsonFile, "r")
-			local text = file.readAll()
-			file.close()
-			
-			-- reset the updated time and the new file size
-			currentFileSize = fs.getSize(jsonFile)
-			functions.debug("Setting the current file size to: ", currentFileSize)
-			lastUpdated = 0
-			
-			-- re-parse the data
-			tickParser.parseData(text)
+			getTickData()
 			bridge.clear()
 			
 			-- redraw the new data
