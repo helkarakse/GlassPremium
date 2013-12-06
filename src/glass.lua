@@ -49,8 +49,8 @@ local lineMultiplier = headerHeight
 -- Small TPS Size:
 local smallX = 10
 local smallY = 65
-local smallWidth = 100
-local smallHeight = 30
+local smallWidth = 95
+local smallHeight = 35
 
 -- Full TPS size:
 local largeX = 10
@@ -93,7 +93,7 @@ local function drawTps(inputX, inputY)
 			tpsText.setScale(size.normal)
 			tpsText.setZIndex(4)
 			
-			clockText = bridge.addText(inputX + smallWidth - 50, inputY + headerHeight + 5, "", colors.white)
+			clockText = bridge.addText(inputX + 5, inputY + headerHeight + 5, "", colors.white)
 			clockText.setScale(size.large)
 			clockText.setZIndex(4)
 		end,
@@ -268,6 +268,7 @@ local function drawScreen()
 			drawMain(smallX, smallY, smallWidth, smallHeight)
 			drawHeader(smallX, smallY)
 			drawTps(smallX, smallY)
+			drawSanta(smallX + 10, smallY - 1)
 			end,
 		[2] = function()
 			-- draw main, header, tps and data
@@ -275,12 +276,14 @@ local function drawScreen()
 			drawHeader(largeX, largeY)
 			drawTps(largeX, largeY)
 			drawData()
+			drawSanta(largeX + 10, largeY - 1)
 			end,
 		[3] = function()
 			drawMain(rssX, rssY, rssWidth, rssHeight)
 			drawHeader(rssX, rssY)
 			drawTps(rssX, rssY)
 			drawRss(rssX + 5, rssY + headerHeight + 5)
+			drawSanta(rssX + 10, rssY - 1)
 			end,
 		[4] = function()
 			end
@@ -408,13 +411,7 @@ local function init()
 	
 	getTickData()
 	getRssData()
-	
 	drawScreen()
---	drawMain(largeX, largeY, largeWidth, largeHeight)
---	drawHeader(largeX, largeY)
---	drawTps(largeX, largeY)
---	--	drawSanta(largeX + 10, largeY - 1)
---	drawData()
 	
 	parallel.waitForAll(tickRefreshLoop, clockRefreshLoop, rssRefreshLoop, eventHandler)
 end
