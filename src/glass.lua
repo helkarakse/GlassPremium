@@ -70,7 +70,7 @@ local function drawMain(inputX, inputY, inputWidth, inputHeight)
 end
 
 local function drawHeader(inputX, inputY)
-	headerText = bridge.addText(inputX, inputY + 1, "OTE GlassPremium (c) Helk & Shot 2013", colors.white)
+	headerText = bridge.addText(inputX, inputY + 1, "OTE Glass (c) Helk & Shot 2013", colors.white)
 	headerText.setZIndex(3)
 	headerText.setScale(size.small)
 end
@@ -87,7 +87,7 @@ local function drawTps(inputX, inputY)
 			tpsText.setScale(size.normal)
 			tpsText.setZIndex(4)
 			
-			clockText = bridge.addText(20, 55, "", colors.white)
+			clockText = bridge.addText(inputX + 10, inputY + headerHeight + 10, "", colors.white)
 			clockText.setScale(size.large)
 			clockText.setZIndex(4)
 		end,
