@@ -238,6 +238,10 @@ local function drawScreen()
 			drawHeader(largeX, largeY)
 			drawTps(largeX, largeY)
 			drawData()
+			end,
+		[3] = function()
+			end,
+		[4] = function()
 			end
 	}
 	
@@ -319,7 +323,7 @@ local eventHandler = function()
 		local args = functions.explode(" ", message)
 		if (args[1] == "change") then
 			functions.debug("Changing screen to: ", args[2])
-			currentDisplay = args[2]
+			currentDisplay = tonumber(args[2])
 			drawScreen()
 		else
 			-- switch statement (for efficiency vs if/else)
