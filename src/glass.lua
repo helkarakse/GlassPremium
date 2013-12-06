@@ -9,6 +9,7 @@
 -- Libraries
 os.loadAPI("functions")
 os.loadAPI("tickParser")
+os.loadAPI("rssParser")
 
 -- Variables
 local jsonFile = "profile.txt"
@@ -196,7 +197,7 @@ local function drawData()
 	drawCalls(mainX + 5, mainY + headerHeight + 5 + ((limit + 2) * 3 * lineMultiplier))
 end
 
-local dataRefreshLoop = function()
+local tickRefreshLoop = function()
 	lastUpdated = 0
 	while true do
 		if (fs.getSize(jsonFile) ~= currentFileSize) then
@@ -292,7 +293,7 @@ local function init()
 	drawSanta(mainX + 10, mainY - 1)
 	drawData()
 	
-	parallel.waitForAll(dataRefreshLoop, clockRefreshLoop, eventHandler)
+	parallel.waitForAll(tickRefreshLoop, clockRefreshLoop, eventHandler)
 end
 
 init()
