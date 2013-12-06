@@ -61,7 +61,7 @@ local largeHeight = (28 * lineMultiplier) + 10
 -- RSS size:
 local rssX = 10
 local rssY = 65
-local rssWidth = 150
+local rssWidth = 250
 local rssHeight = (10 * lineMultiplier) + 10
 
 -- Event handling related
@@ -246,13 +246,13 @@ local function drawRss(inputX, inputY)
 --	end
 	
 	table.insert(rssArray, bridge.addText(inputX, inputY, "Title", colors.white).setScale(size.small))
-	table.insert(rssArray, bridge.addText(inputX + 100, inputY, "Date", colors.white).setScale(size.small))
+	table.insert(rssArray, bridge.addText(inputX + 150, inputY, "Date", colors.white).setScale(size.small))
 	
 	local j = 1
 	for key, value in pairs(data) do
 		local title, link, desc, pubDate, guid = rssParser.parseItem(value)
 		table.insert(rssArray, bridge.addText(inputX, inputY + (lineMultiplier * j), functions.truncate(title, 50), colors.white).setScale(size.small))
-		table.insert(rssArray, bridge.addText(inputX + 100, inputY + (lineMultiplier * j), date, colors.white).setScale(size.small))
+		table.insert(rssArray, bridge.addText(inputX + 150, inputY + (lineMultiplier * j), pubDate, colors.white).setScale(size.small))
 		j = j + 1
 	end
 	
