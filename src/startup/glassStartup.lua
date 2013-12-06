@@ -15,7 +15,7 @@ local fileArray = {
 	{link = "https://raw.github.com/helkarakse/LuaLibs/master/src/libs/libXml.lua", file = "xml"},
 	{link = "https://raw.github.com/helkarakse/LuaLibs/master/src/parser/tickParser.lua", file = "tickParser"},
 	{link = "https://raw.github.com/helkarakse/LuaLibs/master/src/parser/rssParser.lua", file = "rssParser"},
-	{link = "https://raw.github.com/helkarakse/GlassPremium/master/src/glass.lua", file = "glass"}
+	{link = "https://raw.github.com/helkarakse/GlassPremium/develop/src/glass.lua", file = "glass"}
 }
 
 -- This filename is the file that will be executed
