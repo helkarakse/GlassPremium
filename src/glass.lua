@@ -17,7 +17,7 @@ local rssLink = "http://www.otegamers.com/index.php?app=core&module=global&secti
 
 -- Glass elements
 local bridge, mainBox, edgeBox
-local header, headerText, clockText, tpsText, lastUpdatedText
+local header, headerText, clockText, tpsText, lastUpdatedText, rssUpdatedText
 
 -- Display limit
 local limit = 5
@@ -61,7 +61,7 @@ local largeHeight = (28 * lineMultiplier) + 10
 -- RSS size:
 local rssX = 10
 local rssY = 65
-local rssWidth = 250
+local rssWidth = 225
 local rssHeight = (12 * lineMultiplier) + 10
 
 -- Event handling related
@@ -118,6 +118,15 @@ local function drawTps(inputX, inputY)
 			lastUpdatedText.setScale(size.small)
 			lastUpdatedText.setZIndex(4)
 		end,
+		[3] = function()
+			local rssUpdatedLabelText = bridge.addText(inputX + largeWidth - 100, inputY + 1, "Last Updated:", colors.white)
+			rssUpdatedLabelText.setScale(size.small)
+			rssUpdatedLabelText.setZIndex(4)
+			
+			rssUpdatedText = bridge.addText(inputX + largeWidth - 55, inputY + 1, "", colors.white)
+			rssUpdatedText.setScale(size.small)
+			rssUpdatedText.setZIndex(4)
+		end
 	}
 	
 	switch[currentDisplay]()
@@ -268,6 +277,7 @@ local function drawScreen()
 		[3] = function()
 			drawMain(rssX, rssY, rssWidth, rssHeight)
 			drawHeader(rssX, rssY)
+			drawTps(rssX, rssY)
 			drawRss(rssX + 5, rssY + headerHeight + 5)
 			end,
 		[4] = function()
@@ -332,6 +342,9 @@ end
 local rssRefreshLoop = function()
 	while true do
 		getRssData()
+		if (currentDisplay == 3) then
+			rssUpdatedText.setText(rssParser.convertDate(rssParser.getPubDate()))
+		end
 		sleep(60)
 	end
 end
