@@ -50,7 +50,7 @@ local lineMultiplier = headerHeight
 local smallX = 10
 local smallY = 65
 local smallWidth = 100
-local smallHeight = (28 * lineMultiplier) + 10
+local smallHeight = 50
 
 -- Full TPS size:
 local largeX = 10
@@ -70,7 +70,7 @@ local function drawMain(inputX, inputY, inputWidth, inputHeight)
 end
 
 local function drawHeader(inputX, inputY)
-	headerText = bridge.addText(inputX, inputY + 1, "OTE Glass - Tick Lite (c) Helk & Shot 2013", colors.white)
+	headerText = bridge.addText(inputX, inputY + 1, "OTE GlassPremium (c) Helk & Shot 2013", colors.white)
 	headerText.setZIndex(3)
 	headerText.setScale(size.small)
 end
