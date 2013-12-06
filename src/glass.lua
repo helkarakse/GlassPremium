@@ -280,7 +280,7 @@ local function drawScreen()
 		[3] = function()
 			drawMain(rssX, rssY, rssWidth, rssHeight)
 			drawHeader(rssX, rssY)
-			drawRss(rssX, rssY)
+			drawRss(rssX + 5, rssY + headerHeight + 5)
 			end,
 		[4] = function()
 			end
@@ -413,7 +413,7 @@ local function init()
 --	--	drawSanta(largeX + 10, largeY - 1)
 --	drawData()
 	
-	parallel.waitForAll(tickRefreshLoop, clockRefreshLoop, eventHandler)
+	parallel.waitForAll(tickRefreshLoop, clockRefreshLoop, rssRefreshLoop, eventHandler)
 end
 
 init()
