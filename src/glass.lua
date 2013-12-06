@@ -363,11 +363,12 @@ local function init()
 	tickParser.parseData(text)
 	functions.debug("Data parsing complete.")
 	
-	drawMain(largeX, largeY, largeWidth, largeHeight)
-	drawHeader(largeX, largeY)
-	drawTps(largeX, largeY)
-	--	drawSanta(largeX + 10, largeY - 1)
-	drawData()
+	drawScreen()
+--	drawMain(largeX, largeY, largeWidth, largeHeight)
+--	drawHeader(largeX, largeY)
+--	drawTps(largeX, largeY)
+--	--	drawSanta(largeX + 10, largeY - 1)
+--	drawData()
 	
 	parallel.waitForAll(tickRefreshLoop, clockRefreshLoop, eventHandler)
 end
