@@ -64,8 +64,8 @@ local currentDisplay = 1 -- main display
 -- Functions
 local function drawMain(inputX, inputY, inputWidth, inputHeight)
 	mainBox = bridge.addBox(inputX, inputY, inputWidth, inputHeight, colors.headerEnd, 0.3)
-	header = bridge.addGradientBox(inputX-5, inputY, inputWidth, headerHeight, colors.headerEnd, 0, colors.headerStart, 1, 2)
-	edgeBox = bridge.addGradientBox(inputX, inputY+inputHeight-2, inputWidth, 2, colors.headerStart, 1, colors.headerEnd, 0, 2)
+	header = bridge.addGradientBox(inputX - 5, inputY, inputWidth, headerHeight, colors.headerEnd, 0, colors.headerStart, 1, 2)
+	edgeBox = bridge.addGradientBox(inputX, inputY+inputHeight - 2, inputWidth, 2, colors.headerStart, 1, colors.headerEnd, 0, 2)
 	header.setZIndex(2)
 end
 
@@ -77,26 +77,34 @@ end
 
 local function drawTps(inputX, inputY)
 	local tps = tickParser.getTps()
-	
-	local tpsLabelText = bridge.addText(largeX + largeWidth - 55, largeY + largeHeight - tpsHeight, "TPS:", colors.white)
-	tpsLabelText.setScale(size.normal)
-	tpsLabelText.setZIndex(4)
-	
-	tpsText = bridge.addText(largeX + largeWidth - 30, largeY + largeHeight - tpsHeight, tps, tickParser.getTpsHexColor(tps))
-	tpsText.setScale(size.normal)
-	tpsText.setZIndex(4)
-	
-	clockText = bridge.addText(largeX + largeWidth - 30, inputY + 1, "", colors.white)
-	clockText.setScale(size.small)
-	clockText.setZIndex(4)
-	
-	local lastUpdatedLabelText = bridge.addText(largeX + largeWidth - 100, inputY + 1, "Last Updated:", colors.white)
-	lastUpdatedLabelText.setScale(size.small)
-	lastUpdatedLabelText.setZIndex(4)
-	
-	lastUpdatedText = bridge.addText(largeX + largeWidth - 55, inputY + 1, "", colors.white)
-	lastUpdatedText.setScale(size.small)
-	lastUpdatedText.setZIndex(4)
+	local switch = {
+		[1] = function()
+			tpsText = bridge.addText(inputX, inputY - tpsHeight, tps, tickParser.getTpsHexColor(tps))
+			tpsText.setScale(size.normal)
+			tpsText.setZIndex(4)
+		end,
+		[2] = function()
+			local tpsLabelText = bridge.addText(inputX + largeWidth - 55, inputY + largeHeight - tpsHeight, "TPS:", colors.white)
+			tpsLabelText.setScale(size.normal)
+			tpsLabelText.setZIndex(4)
+			
+			tpsText = bridge.addText(inputX + largeWidth - 30, inputY + largeHeight - tpsHeight, tps, tickParser.getTpsHexColor(tps))
+			tpsText.setScale(size.normal)
+			tpsText.setZIndex(4)
+			
+			clockText = bridge.addText(inputX + largeWidth - 30, inputY + 1, "", colors.white)
+			clockText.setScale(size.small)
+			clockText.setZIndex(4)
+			
+			local lastUpdatedLabelText = bridge.addText(inputX + largeWidth - 100, inputY + 1, "Last Updated:", colors.white)
+			lastUpdatedLabelText.setScale(size.small)
+			lastUpdatedLabelText.setZIndex(4)
+			
+			lastUpdatedText = bridge.addText(inputX + largeWidth - 55, inputY + 1, "", colors.white)
+			lastUpdatedText.setScale(size.small)
+			lastUpdatedText.setZIndex(4)
+		end,
+	}
 end
 
 local function drawEntities(inputX, inputY)
@@ -249,7 +257,8 @@ local tickRefreshLoop = function()
 			local switch = {
 				[1] = function()
 					-- update tps only
-					
+					drawMain(smallX, smallY, smallWidth, smallHeight)
+					drawHeader(smallX, smallY)
 					end,
 				[2] = function()
 					-- update the full tps
@@ -270,7 +279,6 @@ end
 
 local rssRefreshLoop = function()
 	while true do
-		
 		sleep(60)
 	end
 end
