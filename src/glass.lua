@@ -65,7 +65,7 @@ local currentDisplay = 1 -- main display
 local function drawMain(inputX, inputY, inputWidth, inputHeight)
 	mainBox = bridge.addBox(inputX, inputY, inputWidth, inputHeight, colors.headerEnd, 0.3)
 	header = bridge.addGradientBox(inputX - 5, inputY, inputWidth, headerHeight, colors.headerEnd, 0, colors.headerStart, 1, 2)
-	edgeBox = bridge.addGradientBox(inputX, inputY+inputHeight - 2, inputWidth, 2, colors.headerStart, 1, colors.headerEnd, 0, 2)
+	edgeBox = bridge.addGradientBox(inputX, inputY + inputHeight - 2, inputWidth, 2, colors.headerStart, 1, colors.headerEnd, 0, 2)
 	header.setZIndex(2)
 end
 
@@ -223,12 +223,13 @@ local function drawScreen()
 	bridge.clear()
 	local switch = {
 		[1] = function()
-			-- update tps only
+			-- draw main, header and tps
 			drawMain(smallX, smallY, smallWidth, smallHeight)
 			drawHeader(smallX, smallY)
+			drawTps(smallX, smallY)
 			end,
 		[2] = function()
-			-- update the full tps
+			-- draw main, header, tps and data
 			drawMain(largeX, largeY, largeWidth, largeHeight)
 			drawHeader(largeX, largeY)
 			drawTps(largeX, largeY)
