@@ -281,7 +281,9 @@ local tickRefreshLoop = function()
 			functions.debug("Current display is: ", currentDisplay)
 			drawScreen()
 		else
-			lastUpdatedText.setText(lastUpdated .. "s")
+			if (currentDisplay == 2) then
+				lastUpdatedText.setText(lastUpdated .. "s")
+			end
 		end
 		
 		lastUpdated = lastUpdated + 1
