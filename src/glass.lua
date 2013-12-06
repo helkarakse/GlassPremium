@@ -119,11 +119,11 @@ local function drawTps(inputX, inputY)
 			lastUpdatedText.setZIndex(4)
 		end,
 		[3] = function()
-			local rssUpdatedLabelText = bridge.addText(inputX + largeWidth - 150, inputY + 1, "Last Updated:", colors.white)
+			local rssUpdatedLabelText = bridge.addText(inputX + largeWidth - 125, inputY + 1, "Last Updated:", colors.white)
 			rssUpdatedLabelText.setScale(size.small)
 			rssUpdatedLabelText.setZIndex(4)
 			
-			rssUpdatedText = bridge.addText(inputX + largeWidth - 105, inputY + 1, "", colors.white)
+			rssUpdatedText = bridge.addText(inputX + largeWidth - 80, inputY + 1, "", colors.white)
 			rssUpdatedText.setScale(size.small)
 			rssUpdatedText.setZIndex(4)
 		end
