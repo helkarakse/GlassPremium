@@ -241,16 +241,27 @@ end
 local eventHandler = function()
 	while true do
 		local event, message = os.pullEvent("chat_command")
-		
 		-- switch statement (for efficiency vs if/else)
-		local action = {
-			[1] = function() end,
-			[2] = function() end,
-			[3] = function() end,
-			[4] = function() end
+		local switch = {
+			[1] = function()
+				-- tick and clock
+				functions.debug("Message was retrieved by the event [1]: ", message)
+				end,
+			[2] = function()
+				-- full tick
+				functions.debug("Message was retrieved by the event [2]: ", message)
+				end,
+			[3] = function()
+				-- rss
+				functions.debug("Message was retrieved by the event [3]: ", message)
+				end,
+			[4] = function()
+				-- help
+				functions.debug("Message was retrieved by the event [4]: ", message)
+				end
 		}
 		
-		action[currentDisplay]()
+		switch[currentDisplay]()
 	end
 end
 
@@ -281,7 +292,7 @@ local function init()
 	drawSanta(mainX + 10, mainY - 1)
 	drawData()
 	
-	parallel.waitForAll(dataRefreshLoop, clockRefreshLoop)
+	parallel.waitForAll(dataRefreshLoop, clockRefreshLoop, eventHandler)
 end
 
 init()
