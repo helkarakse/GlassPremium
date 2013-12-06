@@ -46,10 +46,17 @@ local headerHeight = (size.small * 10)
 local tpsHeight = (size.normal * 10)
 local lineMultiplier = headerHeight
 
-local mainX = 10
-local mainY = 65
-local mainWidth = 250
-local mainHeight = (28 * lineMultiplier) + 10
+-- Small TPS Size:
+local smallX = 10
+local smallY = 65
+local smallWidth = 100
+local smallHeight = (28 * lineMultiplier) + 10
+
+-- Full TPS size:
+local largeX = 10
+local largeY = 65
+local largeWidth = 250
+local largeHeight = (28 * lineMultiplier) + 10
 
 -- Event handling related
 local currentDisplay = 1 -- main display
@@ -71,23 +78,23 @@ end
 local function drawTps(inputX, inputY)
 	local tps = tickParser.getTps()
 	
-	local tpsLabelText = bridge.addText(mainX + mainWidth - 55, mainY + mainHeight - tpsHeight, "TPS:", colors.white)
+	local tpsLabelText = bridge.addText(largeX + largeWidth - 55, largeY + largeHeight - tpsHeight, "TPS:", colors.white)
 	tpsLabelText.setScale(size.normal)
 	tpsLabelText.setZIndex(4)
 	
-	tpsText = bridge.addText(mainX + mainWidth - 30, mainY + mainHeight - tpsHeight, tps, tickParser.getTpsHexColor(tps))
+	tpsText = bridge.addText(largeX + largeWidth - 30, largeY + largeHeight - tpsHeight, tps, tickParser.getTpsHexColor(tps))
 	tpsText.setScale(size.normal)
 	tpsText.setZIndex(4)
 	
-	clockText = bridge.addText(mainX + mainWidth - 30, inputY + 1, "", colors.white)
+	clockText = bridge.addText(largeX + largeWidth - 30, inputY + 1, "", colors.white)
 	clockText.setScale(size.small)
 	clockText.setZIndex(4)
 	
-	local lastUpdatedLabelText = bridge.addText(mainX + mainWidth - 100, inputY + 1, "Last Updated:", colors.white)
+	local lastUpdatedLabelText = bridge.addText(largeX + largeWidth - 100, inputY + 1, "Last Updated:", colors.white)
 	lastUpdatedLabelText.setScale(size.small)
 	lastUpdatedLabelText.setZIndex(4)
 	
-	lastUpdatedText = bridge.addText(mainX + mainWidth - 55, inputY + 1, "", colors.white)
+	lastUpdatedText = bridge.addText(largeX + largeWidth - 55, inputY + 1, "", colors.white)
 	lastUpdatedText.setScale(size.small)
 	lastUpdatedText.setZIndex(4)
 end
@@ -192,10 +199,10 @@ local function drawSanta(inputX, inputY)
 end
 
 local function drawData()
-	drawEntities(mainX + 5, mainY + headerHeight + 5)
-	drawChunks(mainX + 5, mainY + headerHeight + 5 + ((limit + 2) * lineMultiplier))
-	drawTypes(mainX + 5, mainY + headerHeight + 5 + ((limit + 2) * 2 * lineMultiplier))
-	drawCalls(mainX + 5, mainY + headerHeight + 5 + ((limit + 2) * 3 * lineMultiplier))
+	drawEntities(largeX + 5, largeY + headerHeight + 5)
+	drawChunks(largeX + 5, largeY + headerHeight + 5 + ((limit + 2) * lineMultiplier))
+	drawTypes(largeX + 5, largeY + headerHeight + 5 + ((limit + 2) * 2 * lineMultiplier))
+	drawCalls(largeX + 5, largeY + headerHeight + 5 + ((limit + 2) * 3 * lineMultiplier))
 end
 
 -- Data Retrieval
@@ -232,16 +239,26 @@ local tickRefreshLoop = function()
 	lastUpdated = 0
 	while true do
 		if (fs.getSize(jsonFile) ~= currentFileSize) then
+			-- Get the new data
 			functions.debug("File size of profile.txt has changed. Assuming new data.")
 			getTickData()
-			bridge.clear()
 			
 			-- redraw the new data
-			drawMain(mainX, mainY, mainWidth, mainHeight)
-			drawHeader(mainX, mainY)
-			drawTps(mainX, mainY)
-			drawSanta(mainX + 10, mainY - 1)
-			drawData()
+			functions.debug("Current display is: ", currentDisplay)
+			bridge.clear()
+			local switch = {
+				[1] = function()
+					-- update tps only
+					
+					end,
+				[2] = function()
+					-- update the full tps
+					drawMain(largeX, largeY, largeWidth, largeHeight)
+					drawHeader(largeX, largeY)
+					drawTps(largeX, largeY)
+					drawData()
+					end
+			}
 		else
 			lastUpdatedText.setText(lastUpdated .. "s")
 		end
@@ -315,10 +332,10 @@ local function init()
 	tickParser.parseData(text)
 	functions.debug("Data parsing complete.")
 	
-	drawMain(mainX, mainY, mainWidth, mainHeight)
-	drawHeader(mainX, mainY)
-	drawTps(mainX, mainY)
-	drawSanta(mainX + 10, mainY - 1)
+	drawMain(largeX, largeY, largeWidth, largeHeight)
+	drawHeader(largeX, largeY)
+	drawTps(largeX, largeY)
+	--	drawSanta(largeX + 10, largeY - 1)
 	drawData()
 	
 	parallel.waitForAll(tickRefreshLoop, clockRefreshLoop, eventHandler)
