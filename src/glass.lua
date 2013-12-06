@@ -50,7 +50,7 @@ local lineMultiplier = headerHeight
 local smallX = 10
 local smallY = 65
 local smallWidth = 100
-local smallHeight = 50
+local smallHeight = 40
 
 -- Full TPS size:
 local largeX = 10
