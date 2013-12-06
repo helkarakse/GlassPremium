@@ -250,7 +250,7 @@ local function drawRss(inputX, inputY)
 	
 	local j = 0
 	for key, value in pairs(data) do
-		local title, link, desc, pubDate, guid = parser.parseItem(value)
+		local title, link, desc, pubDate, guid = rssParser.parseItem(value)
 		table.insert(rssArray, bridge.addText(inputX, inputY + (lineMultiplier * j), title, colors.white).setScale(size.small))
 		table.insert(rssArray, bridge.addText(inputX + 100, inputY + (lineMultiplier * j), date, colors.white).setScale(size.small))
 		j = j + 1
