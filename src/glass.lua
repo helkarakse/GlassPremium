@@ -13,6 +13,7 @@ os.loadAPI("rssParser")
 
 -- Variables
 local jsonFile = "profile.txt"
+local rssLink = "http://www.otegamers.com/index.php?app=core&module=global&section=rss&type=forums&id=24"
 
 -- Glass elements
 local bridge, mainBox, edgeBox
@@ -197,6 +198,22 @@ local function drawData()
 	drawCalls(mainX + 5, mainY + headerHeight + 5 + ((limit + 2) * 3 * lineMultiplier))
 end
 
+-- Data Retrieval
+local function getXML()
+	local xmlString
+	local data = http.get(rssLink)
+	if (data) then
+    	functions.debug("XML file successfully retrieved.")
+		xmlString = data.readAll()
+		rssParser.parseData(xmlString)
+		return true
+	else
+		functions.debug("Could not retrieve xml file.")
+		return false
+	end
+end
+
+-- Loops
 local tickRefreshLoop = function()
 	lastUpdated = 0
 	while true do
