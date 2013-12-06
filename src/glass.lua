@@ -58,6 +58,12 @@ local largeY = 65
 local largeWidth = 250
 local largeHeight = (28 * lineMultiplier) + 10
 
+-- RSS size:
+local rssX = 10
+local rssY = 65
+local rssWidth = 150
+local rssHeight = (10 * lineMultiplier) + 10
+
 -- Event handling related
 local currentDisplay = 1 -- main display
 
@@ -223,6 +229,38 @@ local function drawData()
 	drawCalls(largeX + 5, largeY + headerHeight + 5 + ((limit + 2) * 3 * lineMultiplier))
 end
 
+local function drawRss(inputX, inputY)
+	local data = rssParser.getItems()
+	local rssArray = {}
+	
+--	for key, value in pairs(items) do
+--		local title, link, desc, pubDate, guid = parser.parseItem(value)
+--		
+--		-- data display
+--		monitor.setCursorPos(xPos, yPos)
+--		monitor.write(functions.truncate(title, titleLimit))
+--		monitor.setCursorPos(xPos + titleLimit, yPos)
+--		monitor.write(parser.convertDate(pubDate))
+--		
+--		yPos = yPos + 1
+--	end
+	
+	table.insert(rssArray, bridge.addText(inputX, inputY, "Title", colors.white).setScale(size.small))
+	table.insert(rssArray, bridge.addText(inputX + 100, inputY, "Date", colors.white).setScale(size.small))
+	
+	local j = 0
+	for key, value in pairs(data) do
+		local title, link, desc, pubDate, guid = parser.parseItem(value)
+		table.insert(rssArray, bridge.addText(inputX, inputY + (lineMultiplier * j), title, colors.white).setScale(size.small))
+		table.insert(rssArray, bridge.addText(inputX + 100, inputY + (lineMultiplier * j), date, colors.white).setScale(size.small))
+		j = j + 1
+	end
+	
+	for i = 1, #rssArray do
+		rssArray[i].setZIndex(5)
+	end
+end
+
 local function drawScreen()
 	bridge.clear()
 	local switch = {
@@ -240,6 +278,9 @@ local function drawScreen()
 			drawData()
 			end,
 		[3] = function()
+			drawMain(rssX, rssY, rssWidth, rssHeight)
+			drawHeader(rssX, rssY)
+			drawRss(rssX, rssY)
 			end,
 		[4] = function()
 			end
