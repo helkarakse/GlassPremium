@@ -109,6 +109,8 @@ local function drawTps(inputX, inputY)
 			lastUpdatedText.setZIndex(4)
 		end,
 	}
+	
+	switch[currentDisplay]()
 end
 
 local function drawEntities(inputX, inputY)
@@ -217,6 +219,26 @@ local function drawData()
 	drawCalls(largeX + 5, largeY + headerHeight + 5 + ((limit + 2) * 3 * lineMultiplier))
 end
 
+local function drawScreen()
+	bridge.clear()
+	local switch = {
+		[1] = function()
+			-- update tps only
+			drawMain(smallX, smallY, smallWidth, smallHeight)
+			drawHeader(smallX, smallY)
+			end,
+		[2] = function()
+			-- update the full tps
+			drawMain(largeX, largeY, largeWidth, largeHeight)
+			drawHeader(largeX, largeY)
+			drawTps(largeX, largeY)
+			drawData()
+			end
+	}
+	
+	switch[currentDisplay]()
+end
+
 -- Data Retrieval
 local function getRssData()
 	local xmlString
@@ -257,21 +279,7 @@ local tickRefreshLoop = function()
 			
 			-- redraw the new data
 			functions.debug("Current display is: ", currentDisplay)
-			bridge.clear()
-			local switch = {
-				[1] = function()
-					-- update tps only
-					drawMain(smallX, smallY, smallWidth, smallHeight)
-					drawHeader(smallX, smallY)
-					end,
-				[2] = function()
-					-- update the full tps
-					drawMain(largeX, largeY, largeWidth, largeHeight)
-					drawHeader(largeX, largeY)
-					drawTps(largeX, largeY)
-					drawData()
-					end
-			}
+			drawScreen()
 		else
 			lastUpdatedText.setText(lastUpdated .. "s")
 		end
@@ -289,6 +297,7 @@ end
 
 local clockRefreshLoop = function()
 	while true do
+		-- no currentDisplay checks because clock will be on all of them
 		local nTime = os.time()
 		clockText.setText(textutils.formatTime(nTime, false))
 		sleep(1)
@@ -299,27 +308,35 @@ end
 local eventHandler = function()
 	while true do
 		local event, message = os.pullEvent("chat_command")
-		-- switch statement (for efficiency vs if/else)
-		local switch = {
-			[1] = function()
-				-- tick and clock
-				functions.debug("Message was retrieved by the event [1]: ", message)
-				end,
-			[2] = function()
-				-- full tick
-				functions.debug("Message was retrieved by the event [2]: ", message)
-				end,
-			[3] = function()
-				-- rss
-				functions.debug("Message was retrieved by the event [3]: ", message)
-				end,
-			[4] = function()
-				-- help
-				functions.debug("Message was retrieved by the event [4]: ", message)
-				end
-		}
 		
-		switch[currentDisplay]()
+		local args = functions.explode(" ", message)
+		if (args[1] == "change") then
+			functions.debug("Changing screen to: ", args[2])
+			currentDisplay = args[2]
+			drawScreen()
+		else
+			-- switch statement (for efficiency vs if/else)
+			local switch = {
+				[1] = function()
+					-- tick and clock
+					functions.debug("Message was retrieved by the event [1]: ", message)
+					end,
+				[2] = function()
+					-- full tick
+					functions.debug("Message was retrieved by the event [2]: ", message)
+					end,
+				[3] = function()
+					-- rss
+					functions.debug("Message was retrieved by the event [3]: ", message)
+					end,
+				[4] = function()
+					-- help
+					functions.debug("Message was retrieved by the event [4]: ", message)
+					end
+			}
+			
+			switch[currentDisplay]()
+		end
 	end
 end
 
