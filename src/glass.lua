@@ -343,6 +343,7 @@ end
 
 local rssRefreshLoop = function()
 	while true do
+		getRssData()
 		sleep(60)
 	end
 end
@@ -402,16 +403,8 @@ local function init()
 		bridge.clear()
 	end
 	
-	local file = fs.open(jsonFile, "r")
-	local text = file.readAll()
-	file.close()
-	
-	currentFileSize = fs.getSize(jsonFile)
-	functions.debug("Setting the current file size to: ", currentFileSize)
-	
-	functions.debug("Beginning initial data parsing.")
-	tickParser.parseData(text)
-	functions.debug("Data parsing complete.")
+	getTickData()
+	getRssData()
 	
 	drawScreen()
 --	drawMain(largeX, largeY, largeWidth, largeHeight)
