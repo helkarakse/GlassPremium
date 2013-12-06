@@ -79,9 +79,13 @@ local function drawTps(inputX, inputY)
 	local tps = tickParser.getTps()
 	local switch = {
 		[1] = function()
-			tpsText = bridge.addText(inputX, inputY - tpsHeight, tps, tickParser.getTpsHexColor(tps))
+			tpsText = bridge.addText(65, 114, tps, tickParser.getTpsHexColor(tps))
 			tpsText.setScale(size.normal)
 			tpsText.setZIndex(4)
+			
+			clockText = bridge.addText(20, 95, "", colors.white)
+			clockText.setScale(size.large)
+			clockText.setZIndex(4)
 		end,
 		[2] = function()
 			local tpsLabelText = bridge.addText(inputX + largeWidth - 55, inputY + largeHeight - tpsHeight, "TPS:", colors.white)
