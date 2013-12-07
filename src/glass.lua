@@ -38,6 +38,7 @@ local configExists, configArray = functions.readTable(configFile)
 if (configExists ~= true) then
 	functions.debug("Config file not found, creating config array in memory")
 	
+	-- default settings
 	configArray = {
 		textColor = colors.white, -- text color
 		textSize = 1 -- textSize will be multiplied against the default text sizes in the size array
@@ -310,7 +311,9 @@ local function drawScreen()
 			drawSanta(rssX + 10, rssY - 1)
 			end,
 		[4] = function()
-			end
+			end,
+		[5] = function()
+			end,
 	}
 	
 	switch[currentDisplay]()
@@ -402,7 +405,6 @@ local eventHandler = function()
 			currentDisplay = tonumber(args[2])
 			drawScreen()
 		else
-			-- switch statement (for efficiency vs if/else)
 			local switch = {
 				[1] = function()
 					-- tick and clock
@@ -417,9 +419,17 @@ local eventHandler = function()
 					functions.debug("Message was retrieved by the event [3]: ", message)
 					end,
 				[4] = function()
-					-- help
+					-- options
 					functions.debug("Message was retrieved by the event [4]: ", message)
+					if (args[1] == "size") then
+						configArray.textSize = tonumber(args[2])
+						drawScreen()
 					end
+					end,
+				[5] = function()
+					-- help
+					functions.debug("Message was retrieved by the event [5]:", message)
+					end,
 			}
 			
 			switch[currentDisplay]()
