@@ -401,10 +401,11 @@ local function updateSize(newSize)
 	
 	functions.debug("The old text size was ", oldSize)
 	
-	for key, value in pairs(size) do
+	for i = 0, #size do
 		functions.debug("Iterating through size array.")
-		local multiplier = value / oldSize
-		value = multiplier * newSize
+		local multiplier = size[i] / oldSize
+		local value = multiplier * newSize
+		size[i] = value
 		functions.debug("The multiplier for ", key, " is ", multiplier)
 	end
 	
