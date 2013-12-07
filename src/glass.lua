@@ -76,29 +76,12 @@ local headerHeight = (size.small * 10)
 local tpsHeight = (size.normal * 10)
 local lineMultiplier = headerHeight
 
--- Small TPS Size:
-local smallX = 10
-local smallY = 65
-local smallWidth = 95
-local smallHeight = 35
-
--- Full TPS size:
-local largeX = 10
-local largeY = 65
-local largeWidth = 250
-local largeHeight = (28 * lineMultiplier) + 10
-
--- RSS size:
-local rssX = 10
-local rssY = 65
-local rssWidth = 225
-local rssHeight = (12 * lineMultiplier) + 10
-
--- Options size
-local optionsX = 10
-local optionsY = 65
-local optionsWidth = 250
-local optionsHeight = ((#configArray + 3) * lineMultiplier)  + 10
+local positionArray = {
+	{x = 10, y = 65, width = 95, height = 35}, -- small
+	{x = 10, y = 65, width = 250, height = (28 * lineMultiplier) + 10}, -- large
+	{x = 10, y = 65, width = 225, height = (12 * lineMultiplier) + 10}, -- rss
+	{x = 10, y = 65, width = 250, height = ((#configArray + 5) * lineMultiplier)  + 10}, -- options
+}
 
 -- Event handling related
 local currentDisplay = 1 -- main display
@@ -268,10 +251,10 @@ local function drawSanta(inputX, inputY)
 end
 
 local function drawData()
-	drawEntities(largeX + 5, largeY + headerHeight + 5)
-	drawChunks(largeX + 5, largeY + headerHeight + 5 + ((limit + 2) * lineMultiplier))
-	drawTypes(largeX + 5, largeY + headerHeight + 5 + ((limit + 2) * 2 * lineMultiplier))
-	drawCalls(largeX + 5, largeY + headerHeight + 5 + ((limit + 2) * 3 * lineMultiplier))
+	drawEntities(positionArray[currentDisplay].x + 5, positionArray[currentDisplay].y + headerHeight + 5)
+	drawChunks(positionArray[currentDisplay].x + 5, positionArray[currentDisplay].y + headerHeight + 5 + ((limit + 2) * lineMultiplier))
+	drawTypes(positionArray[currentDisplay].x + 5, positionArray[currentDisplay].y + headerHeight + 5 + ((limit + 2) * 2 * lineMultiplier))
+	drawCalls(positionArray[currentDisplay].x + 5, positionArray[currentDisplay].y + headerHeight + 5 + ((limit + 2) * 3 * lineMultiplier))
 end
 
 local function drawRss(inputX, inputY)
@@ -321,31 +304,31 @@ local function drawScreen()
 	local switch = {
 		[1] = function()
 			-- draw main, header and tps
-			drawMain(smallX, smallY, smallWidth, smallHeight)
-			drawHeader(smallX, smallY)
-			drawTps(smallX, smallY)
-			drawSanta(smallX + 10, smallY - 1)
+			drawMain(positionArray[currentDisplay].x, positionArray[currentDisplay].y, positionArray[currentDisplay].width, positionArray[currentDisplay].height)
+			drawHeader(positionArray[currentDisplay].x, positionArray[currentDisplay].y)
+			drawTps(positionArray[currentDisplay].x, positionArray[currentDisplay].y)
+			drawSanta(positionArray[currentDisplay].x + 10, positionArray[currentDisplay].y - 1)
 			end,
 		[2] = function()
 			-- draw main, header, tps and data
-			drawMain(largeX, largeY, largeWidth, largeHeight)
-			drawHeader(largeX, largeY)
-			drawTps(largeX, largeY)
+			drawMain(positionArray[currentDisplay].x, positionArray[currentDisplay].y, positionArray[currentDisplay].width, positionArray[currentDisplay].height)
+			drawHeader(positionArray[currentDisplay].x, positionArray[currentDisplay].y)
+			drawTps(positionArray[currentDisplay].x, positionArray[currentDisplay].y)
 			drawData()
-			drawSanta(largeX + 10, largeY - 1)
+			drawSanta(positionArray[currentDisplay].x + 10, positionArray[currentDisplay].y - 1)
 			end,
 		[3] = function()
-			drawMain(rssX, rssY, rssWidth, rssHeight)
-			drawHeader(rssX, rssY)
-			drawTps(rssX, rssY)
-			drawRss(rssX + 5, rssY + headerHeight + 5)
-			drawSanta(rssX + 10, rssY - 1)
+			drawMain(rssX, positionArray[currentDisplay].y, positionArray[currentDisplay].width, positionArray[currentDisplay].height)
+			drawHeader(rssX, positionArray[currentDisplay].y)
+			drawTps(rssX, positionArray[currentDisplay].y)
+			drawRss(rssX + 5, positionArray[currentDisplay].y + headerHeight + 5)
+			drawSanta(rssX + 10, positionArray[currentDisplay].y - 1)
 			end,
 		[4] = function()
-			drawMain(optionsX, optionsY, optionsWidth, optionsHeight)
-			drawHeader(optionsX, optionsY)
-			drawOptions(optionsX + 5, optionsY  + headerHeight + 5)
-			drawSanta(optionsX + 10, optionsY - 1)
+			drawMain(positionArray[currentDisplay].x, positionArray[currentDisplay].y, positionArray[currentDisplay].width, positionArray[currentDisplay].height)
+			drawHeader(positionArray[currentDisplay].x, positionArray[currentDisplay].y)
+			drawOptions(positionArray[currentDisplay].x + 5, positionArray[currentDisplay].y  + headerHeight + 5)
+			drawSanta(positionArray[currentDisplay].x + 10, positionArray[currentDisplay].y - 1)
 			end,
 		[5] = function()
 			end,
