@@ -21,6 +21,18 @@ local jsonFile = "profile.txt"
 local rssLink = "http://www.otegamers.com/index.php?app=core&module=global&section=rss&type=forums&id=24"
 local configFile = "config"
 
+-- Color array
+local colors = {
+	headerStart = 0x18caf0,
+	headerEnd = 0x9fedfd,
+	white = 0xFFFFFF,
+	red = 0xFF0000,
+	black = 0x000000,
+	green = 0x00FF00,
+	blue = 0x0000FF,
+	yellow = 0xFFFF00,
+}
+
 -- Load configuration file
 local configExists, configArray = functions.readTable(configFile)
 if (configExists ~= true) then
@@ -39,12 +51,6 @@ local limit = 5
 
 -- For the refresh loop
 local lastUpdated, currentFileSize
-
--- Color array
-local customColors = {
-	headerStart = 0x18caf0,
-	headerEnd = 0x9fedfd
-}
 
 -- Text size array
 local size = {
