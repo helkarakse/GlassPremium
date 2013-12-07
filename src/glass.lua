@@ -1,9 +1,14 @@
 --[[
 
-	Terminal Glasses Lite Version 0.1 Dev
+	OTE GlassPremium Version 0.8 Dev
 	Do not modify, copy or distribute without permission of author
 	Helkarakse & Shotexpert, 20131203
-
+	
+	TODO: Add opacity changes via chat commands
+	TODO: Add color changes via chat commands
+	TODO: Add animations for the opening and closing
+	TODO: Add text size changing
+	TODO: Add configs so that size, color and opacity changes can be retained
 ]]
 
 -- Libraries
@@ -14,6 +19,16 @@ os.loadAPI("rssParser")
 -- Variables
 local jsonFile = "profile.txt"
 local rssLink = "http://www.otegamers.com/index.php?app=core&module=global&section=rss&type=forums&id=24"
+local configFile = "config"
+
+-- Load configuration file
+local configExists, configArray = functions.readTable(configFile)
+if (configExists ~= true) then
+	configArray = {
+		textColor = colors.white, -- text color
+		textSize = 1 -- textSize will be multiplied against the default text sizes in the size array
+	}
+end
 
 -- Glass elements
 local bridge, mainBox, edgeBox
@@ -26,16 +41,14 @@ local limit = 5
 local lastUpdated, currentFileSize
 
 -- Color array
-local colors = {
+local customColors = {
 	headerStart = 0x18caf0,
-	headerEnd = 0x9fedfd,
-	white = 0xffffff, 
-	red = 0xFF0000
+	headerEnd = 0x9fedfd
 }
 
 -- Text size array
 local size = {
-	small = 0.6, normal = 1, large = 1.25
+	small = 0.6 * configArray.textSize, normal = 1  * configArray.textSize, large = 1.25  * configArray.textSize
 }
 
 -- Data arrays
@@ -69,14 +82,14 @@ local currentDisplay = 1 -- main display
 
 -- Functions
 local function drawMain(inputX, inputY, inputWidth, inputHeight)
-	mainBox = bridge.addBox(inputX, inputY, inputWidth, inputHeight, colors.headerEnd, 0.3)
-	header = bridge.addGradientBox(inputX - 5, inputY, inputWidth, headerHeight, colors.headerEnd, 0, colors.headerStart, 1, 2)
-	edgeBox = bridge.addGradientBox(inputX, inputY + inputHeight - 2, inputWidth, 2, colors.headerStart, 1, colors.headerEnd, 0, 2)
+	mainBox = bridge.addBox(inputX, inputY, inputWidth, inputHeight, customColors.headerEnd, 0.3)
+	header = bridge.addGradientBox(inputX - 5, inputY, inputWidth, headerHeight, customColors.headerEnd, 0, customColors.headerStart, 1, 2)
+	edgeBox = bridge.addGradientBox(inputX, inputY + inputHeight - 2, inputWidth, 2, customColors.headerStart, 1, customColors.headerEnd, 0, 2)
 	header.setZIndex(2)
 end
 
 local function drawHeader(inputX, inputY)
-	headerText = bridge.addText(inputX, inputY + 1, "OTE Glass (c) Helk & Shot 2013", colors.white)
+	headerText = bridge.addText(inputX, inputY + 1, "OTE Glass (c) Helk & Shot 2013", configArray.textColor)
 	headerText.setZIndex(3)
 	headerText.setScale(size.small)
 end
@@ -85,7 +98,7 @@ local function drawTps(inputX, inputY)
 	local tps = tickParser.getTps()
 	local switch = {
 		[1] = function()
-			local tpsLabelText = bridge.addText(inputX + smallWidth - 55, inputY + smallHeight - tpsHeight, "TPS:", colors.white)
+			local tpsLabelText = bridge.addText(inputX + smallWidth - 55, inputY + smallHeight - tpsHeight, "TPS:", configArray.textColor)
 			tpsLabelText.setScale(size.normal)
 			tpsLabelText.setZIndex(4)
 			
@@ -93,12 +106,12 @@ local function drawTps(inputX, inputY)
 			tpsText.setScale(size.normal)
 			tpsText.setZIndex(4)
 			
-			clockText = bridge.addText(inputX + 5, inputY + headerHeight + 5, "", colors.white)
+			clockText = bridge.addText(inputX + 5, inputY + headerHeight + 5, "", configArray.textColor)
 			clockText.setScale(size.large)
 			clockText.setZIndex(4)
 		end,
 		[2] = function()
-			local tpsLabelText = bridge.addText(inputX + largeWidth - 55, inputY + largeHeight - tpsHeight, "TPS:", colors.white)
+			local tpsLabelText = bridge.addText(inputX + largeWidth - 55, inputY + largeHeight - tpsHeight, "TPS:", configArray.textColor)
 			tpsLabelText.setScale(size.normal)
 			tpsLabelText.setZIndex(4)
 			
@@ -106,24 +119,24 @@ local function drawTps(inputX, inputY)
 			tpsText.setScale(size.normal)
 			tpsText.setZIndex(4)
 			
-			clockText = bridge.addText(inputX + largeWidth - 30, inputY + 1, "", colors.white)
+			clockText = bridge.addText(inputX + largeWidth - 30, inputY + 1, "", configArray.textColor)
 			clockText.setScale(size.small)
 			clockText.setZIndex(4)
 			
-			local lastUpdatedLabelText = bridge.addText(inputX + largeWidth - 100, inputY + 1, "Last Updated:", colors.white)
+			local lastUpdatedLabelText = bridge.addText(inputX + largeWidth - 100, inputY + 1, "Last Updated:", configArray.textColor)
 			lastUpdatedLabelText.setScale(size.small)
 			lastUpdatedLabelText.setZIndex(4)
 			
-			lastUpdatedText = bridge.addText(inputX + largeWidth - 55, inputY + 1, "", colors.white)
+			lastUpdatedText = bridge.addText(inputX + largeWidth - 55, inputY + 1, "", configArray.textColor)
 			lastUpdatedText.setScale(size.small)
 			lastUpdatedText.setZIndex(4)
 		end,
 		[3] = function()
-			local rssUpdatedLabelText = bridge.addText(inputX + largeWidth - 125, inputY + 1, "Last Updated:", colors.white)
+			local rssUpdatedLabelText = bridge.addText(inputX + largeWidth - 125, inputY + 1, "Last Updated:", configArray.textColor)
 			rssUpdatedLabelText.setScale(size.small)
 			rssUpdatedLabelText.setZIndex(4)
 			
-			rssUpdatedText = bridge.addText(inputX + largeWidth - 80, inputY + 1, "", colors.white)
+			rssUpdatedText = bridge.addText(inputX + largeWidth - 80, inputY + 1, "", configArray.textColor)
 			rssUpdatedText.setScale(size.small)
 			rssUpdatedText.setZIndex(4)
 		end
@@ -136,16 +149,16 @@ local function drawEntities(inputX, inputY)
 	local data = tickParser.getSingleEntities()
 	entitiesArray = {}
 	
-	table.insert(entitiesArray, bridge.addText(inputX, inputY, "Entity Name:", colors.white).setScale(size.small))
-	table.insert(entitiesArray, bridge.addText(inputX + 100, inputY, "Position:", colors.white).setScale(size.small))
-	table.insert(entitiesArray, bridge.addText(inputX + 150, inputY, "%", colors.white).setScale(size.small))
-	table.insert(entitiesArray, bridge.addText(inputX + 200, inputY, "Dimension:", colors.white).setScale(size.small))
+	table.insert(entitiesArray, bridge.addText(inputX, inputY, "Entity Name:", configArray.textColor).setScale(size.small))
+	table.insert(entitiesArray, bridge.addText(inputX + 100, inputY, "Position:", configArray.textColor).setScale(size.small))
+	table.insert(entitiesArray, bridge.addText(inputX + 150, inputY, "%", configArray.textColor).setScale(size.small))
+	table.insert(entitiesArray, bridge.addText(inputX + 200, inputY, "Dimension:", configArray.textColor).setScale(size.small))
 	
 	for i = 1, limit do
-		table.insert(entitiesArray, bridge.addText(inputX, inputY + (lineMultiplier * i), data[i].name, colors.white).setScale(size.small))
-		table.insert(entitiesArray, bridge.addText(inputX + 100, inputY + (lineMultiplier * i), data[i].position, colors.white).setScale(size.small))
+		table.insert(entitiesArray, bridge.addText(inputX, inputY + (lineMultiplier * i), data[i].name, configArray.textColor).setScale(size.small))
+		table.insert(entitiesArray, bridge.addText(inputX + 100, inputY + (lineMultiplier * i), data[i].position, configArray.textColor).setScale(size.small))
 		table.insert(entitiesArray, bridge.addText(inputX + 150, inputY + (lineMultiplier * i), data[i].percent, tickParser.getPercentHexColor(data[i].percent)).setScale(size.small))
-		table.insert(entitiesArray, bridge.addText(inputX + 200, inputY + (lineMultiplier * i), tickParser.getDimensionName(tickParser.getServerId(os.getComputerID()), data[i].dimId), colors.white).setScale(size.small))
+		table.insert(entitiesArray, bridge.addText(inputX + 200, inputY + (lineMultiplier * i), tickParser.getDimensionName(tickParser.getServerId(os.getComputerID()), data[i].dimId), configArray.textColor).setScale(size.small))
 	end
 	
 	for i = 1, #entitiesArray do
@@ -157,13 +170,13 @@ local function drawChunks(inputX, inputY)
 	local data = tickParser.getChunks()
 	chunksArray = {}
 	
-	table.insert(chunksArray, bridge.addText(inputX, inputY, "Chunk Position (X, Z):", colors.white).setScale(size.small))
-	table.insert(chunksArray, bridge.addText(inputX + 100, inputY, "Time/Tick:", colors.white).setScale(size.small))
-	table.insert(chunksArray, bridge.addText(inputX + 150, inputY, "%", colors.white).setScale(size.small))
+	table.insert(chunksArray, bridge.addText(inputX, inputY, "Chunk Position (X, Z):", configArray.textColor).setScale(size.small))
+	table.insert(chunksArray, bridge.addText(inputX + 100, inputY, "Time/Tick:", configArray.textColor).setScale(size.small))
+	table.insert(chunksArray, bridge.addText(inputX + 150, inputY, "%", configArray.textColor).setScale(size.small))
 	
 	for i = 1, limit do
-		table.insert(chunksArray, bridge.addText(inputX, inputY + (lineMultiplier * i), data[i].positionX .. ", " .. data[i].positionZ, colors.white).setScale(size.small))
-		table.insert(chunksArray, bridge.addText(inputX + 100, inputY + (lineMultiplier * i), data[i].time, colors.white).setScale(size.small))
+		table.insert(chunksArray, bridge.addText(inputX, inputY + (lineMultiplier * i), data[i].positionX .. ", " .. data[i].positionZ, configArray.textColor).setScale(size.small))
+		table.insert(chunksArray, bridge.addText(inputX + 100, inputY + (lineMultiplier * i), data[i].time, configArray.textColor).setScale(size.small))
 		table.insert(chunksArray, bridge.addText(inputX + 150, inputY + (lineMultiplier * i), data[i].percent, tickParser.getPercentHexColor(data[i].percent)).setScale(size.small))
 	end
 	
@@ -176,13 +189,13 @@ local function drawTypes(inputX, inputY)
 	local data = tickParser.getEntityByTypes()
 	typesArray = {}
 	
-	table.insert(typesArray, bridge.addText(inputX, inputY, "Entity Type:", colors.white).setScale(size.small))
-	table.insert(typesArray, bridge.addText(inputX + 100, inputY, "Time/Tick:", colors.white).setScale(size.small))
-	table.insert(typesArray, bridge.addText(inputX + 150, inputY, "%", colors.white).setScale(size.small))
+	table.insert(typesArray, bridge.addText(inputX, inputY, "Entity Type:", configArray.textColor).setScale(size.small))
+	table.insert(typesArray, bridge.addText(inputX + 100, inputY, "Time/Tick:", configArray.textColor).setScale(size.small))
+	table.insert(typesArray, bridge.addText(inputX + 150, inputY, "%", configArray.textColor).setScale(size.small))
 	
 	for i = 1, limit do
-		table.insert(typesArray, bridge.addText(inputX, inputY + (lineMultiplier * i), data[i].type, colors.white).setScale(size.small))
-		table.insert(typesArray, bridge.addText(inputX + 100, inputY + (lineMultiplier * i), data[i].time, colors.white).setScale(size.small))
+		table.insert(typesArray, bridge.addText(inputX, inputY + (lineMultiplier * i), data[i].type, configArray.textColor).setScale(size.small))
+		table.insert(typesArray, bridge.addText(inputX + 100, inputY + (lineMultiplier * i), data[i].time, configArray.textColor).setScale(size.small))
 		table.insert(typesArray, bridge.addText(inputX + 150, inputY + (lineMultiplier * i), data[i].percent, tickParser.getPercentHexColor(data[i].percent)).setScale(size.small))
 	end
 	
@@ -195,14 +208,14 @@ local function drawCalls(inputX, inputY)
 	local data = tickParser.getAverageCalls()
 	callsArray = {}
 	
-	table.insert(callsArray, bridge.addText(inputX, inputY, "Entity Name:", colors.white).setScale(size.small))
-	table.insert(callsArray, bridge.addText(inputX + 100, inputY, "Time/Tick:", colors.white).setScale(size.small))
-	table.insert(callsArray, bridge.addText(inputX + 150, inputY, "Average Calls", colors.white).setScale(size.small))
+	table.insert(callsArray, bridge.addText(inputX, inputY, "Entity Name:", configArray.textColor).setScale(size.small))
+	table.insert(callsArray, bridge.addText(inputX + 100, inputY, "Time/Tick:", configArray.textColor).setScale(size.small))
+	table.insert(callsArray, bridge.addText(inputX + 150, inputY, "Average Calls", configArray.textColor).setScale(size.small))
 	
 	for i = 1, limit do
-		table.insert(callsArray, bridge.addText(inputX, inputY + (lineMultiplier * i), data[i].name, colors.white).setScale(size.small))
-		table.insert(callsArray, bridge.addText(inputX + 100, inputY + (lineMultiplier * i), data[i].time, colors.white).setScale(size.small))
-		table.insert(callsArray, bridge.addText(inputX + 150, inputY + (lineMultiplier * i), data[i].calls, colors.white).setScale(size.small))
+		table.insert(callsArray, bridge.addText(inputX, inputY + (lineMultiplier * i), data[i].name, configArray.textColor).setScale(size.small))
+		table.insert(callsArray, bridge.addText(inputX + 100, inputY + (lineMultiplier * i), data[i].time, configArray.textColor).setScale(size.small))
+		table.insert(callsArray, bridge.addText(inputX + 150, inputY + (lineMultiplier * i), data[i].calls, configArray.textColor).setScale(size.small))
 	end
 	
 	for i = 1, #callsArray do
@@ -244,14 +257,14 @@ local function drawRss(inputX, inputY)
 	local data = rssParser.getItems()
 	local rssArray = {}
 	
-	table.insert(rssArray, bridge.addText(inputX, inputY, "Title", colors.white).setScale(size.small))
-	table.insert(rssArray, bridge.addText(inputX + 150, inputY, "Date", colors.white).setScale(size.small))
+	table.insert(rssArray, bridge.addText(inputX, inputY, "Title", configArray.textColor).setScale(size.small))
+	table.insert(rssArray, bridge.addText(inputX + 150, inputY, "Date", configArray.textColor).setScale(size.small))
 	
 	local j = 1
 	for key, value in pairs(data) do
 		local title, link, desc, pubDate, guid = rssParser.parseItem(value)
-		table.insert(rssArray, bridge.addText(inputX, inputY + (lineMultiplier * j), functions.truncate(title, 50), colors.white).setScale(size.small))
-		table.insert(rssArray, bridge.addText(inputX + 150, inputY + (lineMultiplier * j), rssParser.convertDate(pubDate), colors.white).setScale(size.small))
+		table.insert(rssArray, bridge.addText(inputX, inputY + (lineMultiplier * j), functions.truncate(title, 50), configArray.textColor).setScale(size.small))
+		table.insert(rssArray, bridge.addText(inputX + 150, inputY + (lineMultiplier * j), rssParser.convertDate(pubDate), configArray.textColor).setScale(size.small))
 		j = j + 1
 	end
 	
@@ -293,6 +306,10 @@ local function drawScreen()
 end
 
 -- Data Retrieval
+local function getConfig()
+
+end
+
 local function getRssData()
 	local xmlString
 	local data = http.get(rssLink)
@@ -409,6 +426,7 @@ local function init()
 		bridge.clear()
 	end
 	
+	getConfig()
 	getTickData()
 	getRssData()
 	drawScreen()
