@@ -399,11 +399,16 @@ end
 local function updateSize(newSize)
 	local oldSize = configArray.textSize
 	
+	functions.debug("The old text size was ", oldSize)
+	
 	for key, value in pairs(size) do
+		functions.debug("Iterating through size array.")
 		local multiplier = value / oldSize
 		value = multiplier * newSize
+		functions.debug("The multiplier for ", key, " is ", multiplier)
 	end
 	
+	functions.debug("Writing data to disk")
 	functions.writeTable(configArray, configFile)
 end
 
@@ -435,6 +440,7 @@ local eventHandler = function()
 					-- options
 					functions.debug("Message was retrieved by the event [4]: ", message)
 					if (args[1] == "size") then
+						functions.debug("Changing text size to: ", args[2])
 						updateSize(tonumber(args[2]))
 						drawScreen()
 					end
