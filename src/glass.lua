@@ -304,22 +304,19 @@ local function drawOptions(inputX, inputY)
 	table.insert(optionsArray, bridge.addText(inputX + 100, inputY, "Keyword", configArray.textColor.value).setScale(size.small))
 	table.insert(optionsArray, bridge.addText(inputX + 150, inputY, "Value", configArray.textColor.value).setScale(size.small))
 	
---	local j = 1
---	for key, value in pairs(configArray) do
---		table.insert(optionsArray, bridge.addText(inputX, inputY + (lineMultiplier * j), key, configArray.textColor.value).setScale(size.small))
---		table.insert(optionsArray, bridge.addText(inputX + 100, inputY + (lineMultiplier * j), "placeholder", configArray.textColor.value).setScale(size.small))
---		table.insert(optionsArray, bridge.addText(inputX + 150, inputY + (lineMultiplier * j), tostring(value), configArray.textColor.value).setScale(size.small))
---		j = j + 1
---	end
-	
-	for j = 1, #configArray do
-		functions.debug(configArray[j].name)
-		functions.debug(configArray[j].keyword)
-		functions.debug(tostring(configArray[j].value))
-		table.insert(optionsArray, bridge.addText(inputX, inputY + (lineMultiplier * j), configArray[j].name, configArray.textColor.value).setScale(size.small))
-		table.insert(optionsArray, bridge.addText(inputX + 100, inputY + (lineMultiplier * j), configArray[j].keyword, configArray.textColor.value).setScale(size.small))
-		table.insert(optionsArray, bridge.addText(inputX + 150, inputY + (lineMultiplier * j), tostring(configArray[j].value), configArray.textColor.value).setScale(size.small))
+	local j = 1
+	for key, value in pairs(configArray) do
+		table.insert(optionsArray, bridge.addText(inputX, inputY + (lineMultiplier * j), value.name, configArray.textColor.value).setScale(size.small))
+		table.insert(optionsArray, bridge.addText(inputX + 100, inputY + (lineMultiplier * j), value.keyword, configArray.textColor.value).setScale(size.small))
+		table.insert(optionsArray, bridge.addText(inputX + 150, inputY + (lineMultiplier * j), tostring(value.value), configArray.textColor.value).setScale(size.small))
+		j = j + 1
 	end
+	
+--	for j = 1, #configArray do
+--		table.insert(optionsArray, bridge.addText(inputX, inputY + (lineMultiplier * j), configArray[j].name, configArray.textColor.value).setScale(size.small))
+--		table.insert(optionsArray, bridge.addText(inputX + 100, inputY + (lineMultiplier * j), configArray[j].keyword, configArray.textColor.value).setScale(size.small))
+--		table.insert(optionsArray, bridge.addText(inputX + 150, inputY + (lineMultiplier * j), tostring(configArray[j].value), configArray.textColor.value).setScale(size.small))
+--	end
 	
 	for i = 1, #optionsArray do
 		optionsArray[i].setZIndex(5)
