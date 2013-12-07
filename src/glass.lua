@@ -95,7 +95,7 @@ local positionArray = {
 	{x = 10, y = 65, width = 95, height = 35}, -- small
 	{x = 10, y = 65, width = 250, height = (28 * lineMultiplier) + 10}, -- large
 	{x = 10, y = 65, width = 225, height = (12 * lineMultiplier) + 10}, -- rss
-	{x = 10, y = 65, width = 250, height = ((#configArray + 5) * lineMultiplier)  + 10}, -- options
+	{x = 10, y = 65, width = 250, height = ((#configArray + 7) * lineMultiplier)  + 10}, -- options
 }
 
 -- Event handling related
@@ -311,6 +311,8 @@ local function drawOptions(inputX, inputY)
 		table.insert(optionsArray, bridge.addText(inputX + 150, inputY + (lineMultiplier * j), tostring(value.value), configArray.textColor.value).setScale(size.small))
 		j = j + 1
 	end
+	
+	table.insert(optionsArray, bridge.addText(inputX, inputY + (lineMultiplier * j), "To change the options, type $$<keyword> <value> in chat.", configArray.textColor.value).setScale(size.small))
 	
 --	for j = 1, #configArray do
 --		table.insert(optionsArray, bridge.addText(inputX, inputY + (lineMultiplier * j), configArray[j].name, configArray.textColor.value).setScale(size.small))
