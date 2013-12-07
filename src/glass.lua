@@ -4,11 +4,8 @@
 	Do not modify, copy or distribute without permission of author
 	Helkarakse & Shotexpert, 20131203
 	
-	TODO: Add opacity changes via chat commands
 	TODO: Add color changes via chat commands
 	TODO: Add animations for the opening and closing
-	TODO: Add text size changing
-	TODO: Add configs so that size, color and opacity changes can be retained
 ]]
 
 -- Libraries
@@ -492,6 +489,10 @@ local eventHandler = function()
 				currentDisplay = tonumber(args[2])
 				drawScreen()
 			end
+		elseif (args[1] == "hide") then
+			bridge.clear()
+		elseif (args[1] == "show") then
+			drawScreen()
 		else
 			local switch = {
 				[1] = function()
