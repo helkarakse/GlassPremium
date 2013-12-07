@@ -101,14 +101,17 @@ local function drawHeader(inputX, inputY)
 end
 
 local function drawTps(inputX, inputY)
+	local width = positionArray[currentDisplay].width
+	local height = positionArray[currentDisplay].height
+	
 	local tps = tickParser.getTps()
 	local switch = {
 		[1] = function()
-			local tpsLabelText = bridge.addText(inputX + smallWidth - 55, inputY + smallHeight - tpsHeight, "TPS:", configArray.textColor)
+			local tpsLabelText = bridge.addText(inputX + width - 55, inputY + height - tpsHeight, "TPS:", configArray.textColor)
 			tpsLabelText.setScale(size.normal)
 			tpsLabelText.setZIndex(4)
 			
-			tpsText = bridge.addText(inputX + smallWidth - 30, inputY + smallHeight - tpsHeight, tps, tickParser.getTpsHexColor(tps))
+			tpsText = bridge.addText(inputX + width - 30, inputY + height - tpsHeight, tps, tickParser.getTpsHexColor(tps))
 			tpsText.setScale(size.normal)
 			tpsText.setZIndex(4)
 			
@@ -117,32 +120,32 @@ local function drawTps(inputX, inputY)
 			clockText.setZIndex(4)
 		end,
 		[2] = function()
-			local tpsLabelText = bridge.addText(inputX + largeWidth - 55, inputY + largeHeight - tpsHeight, "TPS:", configArray.textColor)
+			local tpsLabelText = bridge.addText(inputX + width - 55, inputY + height - tpsHeight, "TPS:", configArray.textColor)
 			tpsLabelText.setScale(size.normal)
 			tpsLabelText.setZIndex(4)
 			
-			tpsText = bridge.addText(inputX + largeWidth - 30, inputY + largeHeight - tpsHeight, tps, tickParser.getTpsHexColor(tps))
+			tpsText = bridge.addText(inputX + width - 30, inputY + height - tpsHeight, tps, tickParser.getTpsHexColor(tps))
 			tpsText.setScale(size.normal)
 			tpsText.setZIndex(4)
 			
-			clockText = bridge.addText(inputX + largeWidth - 30, inputY + 1, "", configArray.textColor)
+			clockText = bridge.addText(inputX + width - 30, inputY + 1, "", configArray.textColor)
 			clockText.setScale(size.small)
 			clockText.setZIndex(4)
 			
-			local lastUpdatedLabelText = bridge.addText(inputX + largeWidth - 100, inputY + 1, "Last Updated:", configArray.textColor)
+			local lastUpdatedLabelText = bridge.addText(inputX + width - 100, inputY + 1, "Last Updated:", configArray.textColor)
 			lastUpdatedLabelText.setScale(size.small)
 			lastUpdatedLabelText.setZIndex(4)
 			
-			lastUpdatedText = bridge.addText(inputX + largeWidth - 55, inputY + 1, "", configArray.textColor)
+			lastUpdatedText = bridge.addText(inputX + width - 55, inputY + 1, "", configArray.textColor)
 			lastUpdatedText.setScale(size.small)
 			lastUpdatedText.setZIndex(4)
 		end,
 		[3] = function()
-			local rssUpdatedLabelText = bridge.addText(inputX + largeWidth - 125, inputY + 1, "Last Updated:", configArray.textColor)
+			local rssUpdatedLabelText = bridge.addText(inputX + width - 125, inputY + 1, "Last Updated:", configArray.textColor)
 			rssUpdatedLabelText.setScale(size.small)
 			rssUpdatedLabelText.setZIndex(4)
 			
-			rssUpdatedText = bridge.addText(inputX + largeWidth - 80, inputY + 1, "", configArray.textColor)
+			rssUpdatedText = bridge.addText(inputX + width - 80, inputY + 1, "", configArray.textColor)
 			rssUpdatedText.setScale(size.small)
 			rssUpdatedText.setZIndex(4)
 		end
@@ -300,35 +303,40 @@ local function drawOptions(inputX, inputY)
 end
 
 local function drawScreen()
+	local xPos = positionArray[currentDisplay].x
+	local yPos = positionArray[currentDisplay].y
+	local width = positionArray[currentDisplay].width
+	local height = positionArray[currentDisplay].height
+	
 	bridge.clear()
 	local switch = {
 		[1] = function()
 			-- draw main, header and tps
-			drawMain(positionArray[currentDisplay].x, positionArray[currentDisplay].y, positionArray[currentDisplay].width, positionArray[currentDisplay].height)
-			drawHeader(positionArray[currentDisplay].x, positionArray[currentDisplay].y)
-			drawTps(positionArray[currentDisplay].x, positionArray[currentDisplay].y)
-			drawSanta(positionArray[currentDisplay].x + 10, positionArray[currentDisplay].y - 1)
+			drawMain(xPos, yPos, width, height)
+			drawHeader(xPos, yPos)
+			drawTps(xPos, yPos)
+			drawSanta(xPos + 10, yPos - 1)
 			end,
 		[2] = function()
 			-- draw main, header, tps and data
-			drawMain(positionArray[currentDisplay].x, positionArray[currentDisplay].y, positionArray[currentDisplay].width, positionArray[currentDisplay].height)
-			drawHeader(positionArray[currentDisplay].x, positionArray[currentDisplay].y)
-			drawTps(positionArray[currentDisplay].x, positionArray[currentDisplay].y)
+			drawMain(xPos, yPos, width, height)
+			drawHeader(xPos, yPos)
+			drawTps(xPos, yPos)
 			drawData()
-			drawSanta(positionArray[currentDisplay].x + 10, positionArray[currentDisplay].y - 1)
+			drawSanta(xPos + 10, yPos - 1)
 			end,
 		[3] = function()
-			drawMain(rssX, positionArray[currentDisplay].y, positionArray[currentDisplay].width, positionArray[currentDisplay].height)
-			drawHeader(rssX, positionArray[currentDisplay].y)
-			drawTps(rssX, positionArray[currentDisplay].y)
-			drawRss(rssX + 5, positionArray[currentDisplay].y + headerHeight + 5)
-			drawSanta(rssX + 10, positionArray[currentDisplay].y - 1)
+			drawMain(xPos, yPos, width, height)
+			drawHeader(xPos, yPos)
+			drawTps(xPos, yPos)
+			drawRss(xPos + 5, yPos + headerHeight + 5)
+			drawSanta(xPos + 10, yPos - 1)
 			end,
 		[4] = function()
-			drawMain(positionArray[currentDisplay].x, positionArray[currentDisplay].y, positionArray[currentDisplay].width, positionArray[currentDisplay].height)
-			drawHeader(positionArray[currentDisplay].x, positionArray[currentDisplay].y)
-			drawOptions(positionArray[currentDisplay].x + 5, positionArray[currentDisplay].y  + headerHeight + 5)
-			drawSanta(positionArray[currentDisplay].x + 10, positionArray[currentDisplay].y - 1)
+			drawMain(xPos, yPos, width, height)
+			drawHeader(xPos, yPos)
+			drawOptions(xPos + 5, yPos  + headerHeight + 5)
+			drawSanta(xPos + 10, yPos - 1)
 			end,
 		[5] = function()
 			end,
