@@ -94,6 +94,12 @@ local rssY = 65
 local rssWidth = 225
 local rssHeight = (12 * lineMultiplier) + 10
 
+-- Options size
+local optionsX = 10
+local optionsY = 65
+local optionsWidth = 250
+local optionsHeight = ((#configArray + 2) * lineMultiplier)  + 10
+
 -- Event handling related
 local currentDisplay = 1 -- main display
 
@@ -290,6 +296,26 @@ local function drawRss(inputX, inputY)
 	end
 end
 
+local function drawOptions(inputX, inputY)
+	local optionsArray = {}
+	
+	table.insert(optionsArray, bridge.addText(inputX, inputY, "Configuration Name", configArray.textColor).setScale(size.small))
+	table.insert(optionsArray, bridge.addText(inputX + 150, inputY, "Keyword", configArray.textColor).setScale(size.small))
+	table.insert(optionsArray, bridge.addText(inputX + 200, inputY, "Value", configArray.textColor).setScale(size.small))
+	
+	local j = 1
+	for key, value in pairs(configArray) do
+		table.insert(optionsArray, bridge.addText(inputX, inputY + (lineMultiplier * j), key, configArray.textColor).setScale(size.small))
+		table.insert(optionsArray, bridge.addText(inputX + 150, inputY + (lineMultiplier * j), "placeholder", configArray.textColor).setScale(size.small))
+		table.insert(optionsArray, bridge.addText(inputX + 200, inputY + (lineMultiplier * j), value, configArray.textColor).setScale(size.small))
+		j = j + 1
+	end
+	
+	for i = 1, #optionsArray do
+		optionsArray[i].setZIndex(5)
+	end
+end
+
 local function drawScreen()
 	bridge.clear()
 	local switch = {
@@ -316,6 +342,10 @@ local function drawScreen()
 			drawSanta(rssX + 10, rssY - 1)
 			end,
 		[4] = function()
+			drawMain(optionsX, optionsY, optionsWidth, optionsHeight)
+			drawHeader(optionsX, optionsY)
+			drawOptions(optionsX, optionsY)
+			drawSanta(optionsX + 10, optionsY - 1)
 			end,
 		[5] = function()
 			end,
