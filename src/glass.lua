@@ -312,6 +312,7 @@ local function drawOptions(inputX, inputY)
 		j = j + 1
 	end
 	
+	j = j + 1
 	table.insert(optionsArray, bridge.addText(inputX, inputY + (lineMultiplier * j), "To change the options, type $$<keyword> <value> in chat.", configArray.textColor.value).setScale(size.small))
 	
 --	for j = 1, #configArray do
