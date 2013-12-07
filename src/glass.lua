@@ -408,6 +408,7 @@ local function updateSize(newSize)
 		functions.debug("The multiplier for ", key, " is ", multiplier)
 	end
 	
+	configArray.textSize = newSize
 	functions.debug("Writing data to disk")
 	functions.writeTable(configArray, configFile)
 end
