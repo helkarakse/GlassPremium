@@ -467,7 +467,7 @@ local eventHandler = function()
 		
 		local args = functions.explode(" ", message)
 		if (args[1] == "change") then
-			if (args[2] ~= "") then
+			if (#args > 1 and (tonumber(args[2]) >= 1 and tonumber(args[2]) <= 5)) then
 				functions.debug("Changing screen to: ", args[2])
 				currentDisplay = tonumber(args[2])
 				drawScreen()
