@@ -402,6 +402,11 @@ local function updateSize(newSize)
 	size.normal = constSizeNormal * newSize
 	size.large = constSizeLarge * newSize
 	
+	-- update the header, tpsHeights and lineMultiplier as the sizes changed
+	headerHeight = (size.small * 10)
+	tpsHeight = (size.normal * 10)
+	lineMultiplier = headerHeight
+	
 	configArray.textSize = newSize
 	functions.debug("Writing data to disk")
 	functions.writeTable(configArray, configFile)
