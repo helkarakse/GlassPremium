@@ -310,7 +310,7 @@ local function drawOptions(inputX, inputY)
 		table.insert(optionsArray, bridge.addText(inputX + 100, inputY + (lineMultiplier * j), value.keyword, configArray.textColor.value).setScale(size.small))
 		
 		if (key == "textColor") then
-			table.insert(optionsArray, bridge.addText(inputX + 150, inputY + (lineMultiplier * j), tostring(tonumber(value.value, 16)), configArray.textColor.value).setScale(size.small))
+			table.insert(optionsArray, bridge.addText(inputX + 150, inputY + (lineMultiplier * j), functions.decToHex(value.value), configArray.textColor.value).setScale(size.small))
 		else
 			table.insert(optionsArray, bridge.addText(inputX + 150, inputY + (lineMultiplier * j), tostring(value.value), configArray.textColor.value).setScale(size.small))
 		end
