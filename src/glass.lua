@@ -394,6 +394,19 @@ local clockRefreshLoop = function()
 	end
 end
 
+-- User config functions
+-- Update the text size
+local function updateSize(newSize)
+	local oldSize = configArray.textSize
+	
+	for key, value in pairs(size) do
+		local multiplier = value / oldSize
+		value = multiplier * newSize
+	end
+	
+	functions.writeTable(configArray, configFile)
+end
+
 -- Event handler for chat commands
 local eventHandler = function()
 	while true do
@@ -422,7 +435,7 @@ local eventHandler = function()
 					-- options
 					functions.debug("Message was retrieved by the event [4]: ", message)
 					if (args[1] == "size") then
-						configArray.textSize = tonumber(args[2])
+						updateSize(tonumber(args[2]))
 						drawScreen()
 					end
 					end,
