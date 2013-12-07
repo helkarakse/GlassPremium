@@ -460,7 +460,7 @@ local eventHandler = function()
 					if (args[1] == "size") then
 						updateSize(tonumber(args[2]))
 						drawScreen()
-					elseif (args[2] == "opacity") then
+					elseif (args[1] == "opacity") then
 						updateOpacity(tonumber(args[2]))
 						drawScreen()
 					end
