@@ -467,9 +467,11 @@ local eventHandler = function()
 		
 		local args = functions.explode(" ", message)
 		if (args[1] == "change") then
-			functions.debug("Changing screen to: ", args[2])
-			currentDisplay = tonumber(args[2])
-			drawScreen()
+			if (args[2] ~= "") then
+				functions.debug("Changing screen to: ", args[2])
+				currentDisplay = tonumber(args[2])
+				drawScreen()
+			end
 		else
 			local switch = {
 				[1] = function()
