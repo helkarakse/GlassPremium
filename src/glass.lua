@@ -401,7 +401,7 @@ local function updateSize(newSize)
 	
 	functions.debug("The old text size was ", oldSize)
 	
-	for i = 0, #size do
+	for i = 1, #size do
 		functions.debug("Iterating through size array.")
 		local multiplier = size[i] / oldSize
 		local value = multiplier * newSize
