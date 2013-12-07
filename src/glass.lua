@@ -36,10 +36,15 @@ local colors = {
 -- Load configuration file
 local configExists, configArray = functions.readTable(configFile)
 if (configExists ~= true) then
+	functions.debug("Config file not found, creating config array in memory")
+	
 	configArray = {
 		textColor = colors.white, -- text color
 		textSize = 1 -- textSize will be multiplied against the default text sizes in the size array
 	}
+	
+	functions.debug("Writing the config file to disk")
+	functions.writeTable(configArray, configFile)
 end
 
 -- Glass elements
