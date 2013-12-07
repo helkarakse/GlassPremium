@@ -422,7 +422,13 @@ local function updateOpacity(newOpacity)
 	functions.writeTable(configArray, configFile)
 end
 
+local function updateTextColor(newColor)
 
+end
+
+local function updateWindowColor(newColor)
+	
+end
 
 -- Event handler for chat commands
 local eventHandler = function()
