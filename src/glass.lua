@@ -313,6 +313,9 @@ local function drawOptions(inputX, inputY)
 --	end
 	
 	for j = 1, #configArray do
+		functions.debug(configArray[j].name)
+		functions.debug(configArray[j].keyword)
+		functions.debug(tostring(configArray[j].value))
 		table.insert(optionsArray, bridge.addText(inputX, inputY + (lineMultiplier * j), configArray[j].name, configArray.textColor.value).setScale(size.small))
 		table.insert(optionsArray, bridge.addText(inputX + 100, inputY + (lineMultiplier * j), configArray[j].keyword, configArray.textColor.value).setScale(size.small))
 		table.insert(optionsArray, bridge.addText(inputX + 150, inputY + (lineMultiplier * j), tostring(configArray[j].value), configArray.textColor.value).setScale(size.small))
