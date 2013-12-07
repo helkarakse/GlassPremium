@@ -300,7 +300,7 @@ end
 local function drawOptions(inputX, inputY)
 	local optionsArray = {}
 	
-	table.insert(optionsArray, bridge.addText(inputX, inputY, "Configuration Name", configArray.textColor.value).setScale(size.small))
+	table.insert(optionsArray, bridge.addText(inputX, inputY, "Option Name", configArray.textColor.value).setScale(size.small))
 	table.insert(optionsArray, bridge.addText(inputX + 100, inputY, "Keyword", configArray.textColor.value).setScale(size.small))
 	table.insert(optionsArray, bridge.addText(inputX + 150, inputY, "Value", configArray.textColor.value).setScale(size.small))
 	
@@ -308,7 +308,12 @@ local function drawOptions(inputX, inputY)
 	for key, value in pairs(configArray) do
 		table.insert(optionsArray, bridge.addText(inputX, inputY + (lineMultiplier * j), value.name, configArray.textColor.value).setScale(size.small))
 		table.insert(optionsArray, bridge.addText(inputX + 100, inputY + (lineMultiplier * j), value.keyword, configArray.textColor.value).setScale(size.small))
-		table.insert(optionsArray, bridge.addText(inputX + 150, inputY + (lineMultiplier * j), tostring(value.value), configArray.textColor.value).setScale(size.small))
+		
+		if (key == "textColor") then
+			table.insert(optionsArray, bridge.addText(inputX + 150, inputY + (lineMultiplier * j), tostring(tonumber(value.value, 16)), configArray.textColor.value).setScale(size.small))
+		else
+			table.insert(optionsArray, bridge.addText(inputX + 150, inputY + (lineMultiplier * j), tostring(value.value), configArray.textColor.value).setScale(size.small))
+		end
 		j = j + 1
 	end
 	
