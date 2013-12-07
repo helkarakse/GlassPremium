@@ -300,14 +300,14 @@ local function drawOptions(inputX, inputY)
 	local optionsArray = {}
 	
 	table.insert(optionsArray, bridge.addText(inputX, inputY, "Configuration Name", configArray.textColor).setScale(size.small))
-	table.insert(optionsArray, bridge.addText(inputX + 150, inputY, "Keyword", configArray.textColor).setScale(size.small))
-	table.insert(optionsArray, bridge.addText(inputX + 200, inputY, "Value", configArray.textColor).setScale(size.small))
+	table.insert(optionsArray, bridge.addText(inputX + 100, inputY, "Keyword", configArray.textColor).setScale(size.small))
+	table.insert(optionsArray, bridge.addText(inputX + 150, inputY, "Value", configArray.textColor).setScale(size.small))
 	
 	local j = 1
 	for key, value in pairs(configArray) do
 		table.insert(optionsArray, bridge.addText(inputX, inputY + (lineMultiplier * j), key, configArray.textColor).setScale(size.small))
-		table.insert(optionsArray, bridge.addText(inputX + 150, inputY + (lineMultiplier * j), "placeholder", configArray.textColor).setScale(size.small))
-		table.insert(optionsArray, bridge.addText(inputX + 200, inputY + (lineMultiplier * j), value, configArray.textColor).setScale(size.small))
+		table.insert(optionsArray, bridge.addText(inputX + 100, inputY + (lineMultiplier * j), "placeholder", configArray.textColor).setScale(size.small))
+		table.insert(optionsArray, bridge.addText(inputX + 150, inputY + (lineMultiplier * j), tostring(value), configArray.textColor).setScale(size.small))
 		j = j + 1
 	end
 	
@@ -344,7 +344,7 @@ local function drawScreen()
 		[4] = function()
 			drawMain(optionsX, optionsY, optionsWidth, optionsHeight)
 			drawHeader(optionsX, optionsY)
-			drawOptions(optionsX, optionsY)
+			drawOptions(optionsX + 5, optionsY + 5)
 			drawSanta(optionsX + 10, optionsY - 1)
 			end,
 		[5] = function()
