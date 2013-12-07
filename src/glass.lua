@@ -59,8 +59,12 @@ local limit = 5
 local lastUpdated, currentFileSize
 
 -- Text size array
+local constSizeSmall = 0.6
+local constSizeNormal = 1
+local constSizeLarge = 1.25
+
 local size = {
-	small = 0.6 * configArray.textSize, normal = 1  * configArray.textSize, large = 1.25  * configArray.textSize
+	small = constSizeSmall * configArray.textSize, normal = constSizeNormal  * configArray.textSize, large = constSizeLarge  * configArray.textSize
 }
 
 -- Data arrays
@@ -320,10 +324,6 @@ local function drawScreen()
 end
 
 -- Data Retrieval
-local function getConfig()
-
-end
-
 local function getRssData()
 	local xmlString
 	local data = http.get(rssLink)
@@ -397,16 +397,10 @@ end
 -- User config functions
 -- Update the text size
 local function updateSize(newSize)
-	local oldSize = configArray.textSize
-	
-	functions.debug("The old text size was ", oldSize)
-	
-	for i = 1, #size do
-		functions.debug("Iterating through size array.")
-		local multiplier = size[i] / oldSize
-		local value = multiplier * newSize
-		size[i] = value
-	end
+	-- update the size array with the new sizes
+	size.small = constSizeSmall * newSize
+	size.normal = constSizeNormal * newSize
+	size.large = constSizeLarge * newSize
 	
 	configArray.textSize = newSize
 	functions.debug("Writing data to disk")
@@ -467,7 +461,6 @@ local function init()
 		bridge.clear()
 	end
 	
-	getConfig()
 	getTickData()
 	getRssData()
 	drawScreen()
