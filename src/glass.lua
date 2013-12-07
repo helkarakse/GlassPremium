@@ -406,7 +406,6 @@ local function updateSize(newSize)
 		local multiplier = size[i] / oldSize
 		local value = multiplier * newSize
 		size[i] = value
-		functions.debug("The multiplier for ", key, " is ", multiplier)
 	end
 	
 	configArray.textSize = newSize
