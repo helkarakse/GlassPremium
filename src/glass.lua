@@ -88,9 +88,9 @@ local currentDisplay = 1 -- main display
 
 -- Functions
 local function drawMain(inputX, inputY, inputWidth, inputHeight)
-	mainBox = bridge.addBox(inputX, inputY, inputWidth, inputHeight, customColors.headerEnd, 0.3)
-	header = bridge.addGradientBox(inputX - 5, inputY, inputWidth, headerHeight, customColors.headerEnd, 0, customColors.headerStart, 1, 2)
-	edgeBox = bridge.addGradientBox(inputX, inputY + inputHeight - 2, inputWidth, 2, customColors.headerStart, 1, customColors.headerEnd, 0, 2)
+	mainBox = bridge.addBox(inputX, inputY, inputWidth, inputHeight, colors.headerEnd, 0.3)
+	header = bridge.addGradientBox(inputX - 5, inputY, inputWidth, headerHeight, colors.headerEnd, 0, colors.headerStart, 1, 2)
+	edgeBox = bridge.addGradientBox(inputX, inputY + inputHeight - 2, inputWidth, 2, colors.headerStart, 1, colors.headerEnd, 0, 2)
 	header.setZIndex(2)
 end
 
