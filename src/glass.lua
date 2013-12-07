@@ -41,7 +41,8 @@ if (configExists ~= true) then
 	-- default settings
 	configArray = {
 		textColor = colors.white, -- text color
-		textSize = 1 -- textSize will be multiplied against the default text sizes in the size array
+		textSize = 1, -- text size multiplier (multiplied against constants)
+		opacity = 0.15 -- opacity of the windows
 	}
 	
 	functions.debug("Writing the config file to disk")
@@ -98,7 +99,7 @@ local currentDisplay = 1 -- main display
 
 -- Functions
 local function drawMain(inputX, inputY, inputWidth, inputHeight)
-	mainBox = bridge.addBox(inputX, inputY, inputWidth, inputHeight, colors.headerEnd, 0.3)
+	mainBox = bridge.addBox(inputX, inputY, inputWidth, inputHeight, colors.headerEnd, configArray.opacity)
 	header = bridge.addGradientBox(inputX - 5, inputY, inputWidth, headerHeight, colors.headerEnd, 0, colors.headerStart, 1, 2)
 	edgeBox = bridge.addGradientBox(inputX, inputY + inputHeight - 2, inputWidth, 2, colors.headerStart, 1, colors.headerEnd, 0, 2)
 	header.setZIndex(2)
@@ -397,6 +398,7 @@ end
 -- User config functions
 -- Update the text size
 local function updateSize(newSize)
+	functions.debug("Updating the text size from ", configArray.textSize, " to ", newSize)
 	-- update the size array with the new sizes
 	size.small = constSizeSmall * newSize
 	size.normal = constSizeNormal * newSize
@@ -411,6 +413,16 @@ local function updateSize(newSize)
 	functions.debug("Writing data to disk")
 	functions.writeTable(configArray, configFile)
 end
+
+-- Update the opacity of the main box
+local function updateOpacity(newOpacity)
+	functions.debug("Updating the opacity from ", configArray.opacity, " to ", newOpacity)
+	configArray.opacity = newOpacity
+	functions.debug("Writing data to disk")
+	functions.writeTable(configArray, configFile)
+end
+
+
 
 -- Event handler for chat commands
 local eventHandler = function()
@@ -440,8 +452,10 @@ local eventHandler = function()
 					-- options
 					functions.debug("Message was retrieved by the event [4]: ", message)
 					if (args[1] == "size") then
-						functions.debug("Changing text size to: ", args[2])
 						updateSize(tonumber(args[2]))
+						drawScreen()
+					elseif (args[2] == "opacity") then
+						updateOpacity(tonumber(args[2]))
 						drawScreen()
 					end
 					end,
