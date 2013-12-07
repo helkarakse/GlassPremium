@@ -98,7 +98,7 @@ local rssHeight = (12 * lineMultiplier) + 10
 local optionsX = 10
 local optionsY = 65
 local optionsWidth = 250
-local optionsHeight = ((#configArray + 2) * lineMultiplier)  + 10
+local optionsHeight = ((#configArray + 3) * lineMultiplier)  + 10
 
 -- Event handling related
 local currentDisplay = 1 -- main display
@@ -344,7 +344,7 @@ local function drawScreen()
 		[4] = function()
 			drawMain(optionsX, optionsY, optionsWidth, optionsHeight)
 			drawHeader(optionsX, optionsY)
-			drawOptions(optionsX + 5, optionsY + 5)
+			drawOptions(optionsX + 5, optionsY  + headerHeight + 5)
 			drawSanta(optionsX + 10, optionsY - 1)
 			end,
 		[5] = function()
