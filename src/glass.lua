@@ -52,12 +52,18 @@ local function getDefaultConfig()
 			value = 0.15,
 			formattedValue = "0.15"
 		},
-		windowColor = {
-			name = "Window Color",
-			keyword = "window",
-			value = colors.headerEnd,
+		windowStartColor = {
+			name = "Window Gradient Start Color",
+			keyword = "window start",
+			value = colors.headerStart,
 			type = "color"
 		},
+		windowEndColor = {
+			name = "Window Gradient End Color",
+			keyword = "window end",
+			value = colors.headerEnd,
+			type = "color"
+		}
 	}
 	
 	return array
@@ -111,9 +117,9 @@ local currentDisplay = 1 -- main display
 
 -- Functions
 local function drawMain(inputX, inputY, inputWidth, inputHeight)
-	mainBox = bridge.addBox(inputX, inputY, inputWidth, inputHeight, colors.headerEnd, configArray.opacity.value)
-	header = bridge.addGradientBox(inputX - 5, inputY, inputWidth, headerHeight, colors.headerEnd, 0, colors.headerStart, 1, 2)
-	edgeBox = bridge.addGradientBox(inputX, inputY + inputHeight - 2, inputWidth, 2, colors.headerStart, 1, colors.headerEnd, 0, 2)
+	mainBox = bridge.addBox(inputX, inputY, inputWidth, inputHeight, configArray.windowEndColor.value, configArray.opacity.value)
+	header = bridge.addGradientBox(inputX - 5, inputY, inputWidth, headerHeight, configArray.windowEndColor.value, 0, configArray.windowStartColor.value, 1, 2)
+	edgeBox = bridge.addGradientBox(inputX, inputY + inputHeight - 2, inputWidth, 2, configArray.windowStartColor.value, 1, configArray.windowEndColor.value, 0, 2)
 	header.setZIndex(2)
 end
 
