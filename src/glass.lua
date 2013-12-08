@@ -41,7 +41,7 @@ if (configExists ~= true) then
 			name = "Text Color",
 			keyword = "color",
 			value = colors.white,
-			formattedValue = "white"
+			formattedValue = ""
 		},
 		textSize = {
 			name = "Text Size",
@@ -54,7 +54,13 @@ if (configExists ~= true) then
 			keyword = "opacity",
 			value = 0.15,
 			formattedValue = "0.15"
-		}
+		},
+		windowColor = {
+			name = "Window Color",
+			keyword = "window",
+			value = colors.headerEnd,
+			formattedValue = ""
+		},
 	}
 	
 	functions.debug("Writing the config file to disk")
@@ -470,7 +476,11 @@ local function updateOpacity(newOpacity)
 end
 
 local function updateTextColor(newColor)
-
+	newColor = tonumber("0x" .. newColor)
+	functions.debug("Updating the text color from ", functions.decToHex(configArray.textColor.value), " to ", functions.decToHex(newColor))
+	configArray.textColor.value = newColor
+	functions.debug("Writing data to disk")
+	functions.writeTable(configArray, configFile)
 end
 
 local function updateWindowColor(newColor)
@@ -496,31 +506,34 @@ local eventHandler = function()
 		else
 			local switch = {
 				[1] = function()
-					-- tick and clock
-					functions.debug("Message was retrieved by the event [1]: ", message)
+						-- tick and clock
+						functions.debug("Message was retrieved by the event [1]: ", message)
 					end,
 				[2] = function()
-					-- full tick
-					functions.debug("Message was retrieved by the event [2]: ", message)
+						-- full tick
+						functions.debug("Message was retrieved by the event [2]: ", message)
 					end,
 				[3] = function()
-					-- rss
-					functions.debug("Message was retrieved by the event [3]: ", message)
+						-- rss
+						functions.debug("Message was retrieved by the event [3]: ", message)
 					end,
 				[4] = function()
-					-- options
-					functions.debug("Message was retrieved by the event [4]: ", message)
-					if (args[1] == "size") then
-						updateSize(tonumber(args[2]))
-						drawScreen()
-					elseif (args[1] == "opacity") then
-						updateOpacity(tonumber(args[2]))
-						drawScreen()
-					end
+						-- options
+						functions.debug("Message was retrieved by the event [4]: ", message)
+						if (args[1] == "size") then
+							updateSize(tonumber(args[2]))
+							drawScreen()
+						elseif (args[1] == "opacity") then
+							updateOpacity(tonumber(args[2]))
+							drawScreen()
+						elseif (args[1] == "color") then
+							updateTextColor(tonumber(args[2]))
+							drawScreen()
+						end
 					end,
 				[5] = function()
-					-- help
-					functions.debug("Message was retrieved by the event [5]:", message)
+						-- help
+						functions.debug("Message was retrieved by the event [5]:", message)
 					end,
 			}
 			
