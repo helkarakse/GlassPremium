@@ -30,13 +30,10 @@ local colors = {
 	yellow = 0xFFFF00,
 }
 
--- Load configuration file
-local configExists, configArray = functions.readTable(configFile)
-if (configExists ~= true) then
-	functions.debug("Config file not found, creating config array in memory")
-	
+-- Default config function
+local function getDefaultConfig()
 	-- default settings
-	configArray = {
+	local array = {
 		textColor = {
 			name = "Text Color",
 			keyword = "color",
@@ -63,6 +60,14 @@ if (configExists ~= true) then
 		},
 	}
 	
+	return array
+end
+
+-- Load configuration file
+local configExists, configArray = functions.readTable(configFile)
+if (configExists ~= true) then
+	functions.debug("Config file not found, creating config array in memory")
+	configArray = getDefaultConfig()
 	functions.debug("Writing the config file to disk")
 	functions.writeTable(configArray, configFile)
 end
@@ -532,7 +537,11 @@ local eventHandler = function()
 							updateTextColor(args[2])
 							drawScreen()
 						elseif (args[1] == "reset") then
-							
+							functions.debug("Resetting configuration back to factory defaults")
+							configArray = getDefaultConfig()
+							functions.debug("Writing the config file to disk")
+							functions.writeTable(configArray, configFile)
+							drawScreen()
 						end
 					end,
 				[5] = function()
