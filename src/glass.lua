@@ -38,7 +38,7 @@ local function getDefaultConfig()
 			name = "Text Color",
 			keyword = "color",
 			value = colors.white,
-			formattedValue = ""
+			type = "color"
 		},
 		textSize = {
 			name = "Text Size",
@@ -56,7 +56,7 @@ local function getDefaultConfig()
 			name = "Window Color",
 			keyword = "window",
 			value = colors.headerEnd,
-			formattedValue = ""
+			type = "color"
 		},
 	}
 	
@@ -317,7 +317,7 @@ local function drawOptions(inputX, inputY)
 		table.insert(optionsArray, bridge.addText(inputX, inputY + (lineMultiplier * j), value.name, configArray.textColor.value).setScale(size.small))
 		table.insert(optionsArray, bridge.addText(inputX + 100, inputY + (lineMultiplier * j), value.keyword, configArray.textColor.value).setScale(size.small))
 		
-		if (key == "textColor") then
+		if (value.type == "color") then
 			table.insert(optionsArray, bridge.addText(inputX + 150, inputY + (lineMultiplier * j), functions.decToHex(value.value), configArray.textColor.value).setScale(size.small))
 		else
 			table.insert(optionsArray, bridge.addText(inputX + 150, inputY + (lineMultiplier * j), tostring(value.value), configArray.textColor.value).setScale(size.small))
