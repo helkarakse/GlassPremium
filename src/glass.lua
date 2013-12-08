@@ -527,7 +527,7 @@ local eventHandler = function()
 							updateOpacity(tonumber(args[2]))
 							drawScreen()
 						elseif (args[1] == "color") then
-							updateTextColor(tonumber(args[2]))
+							updateTextColor(args[2])
 							drawScreen()
 						end
 					end,
