@@ -1,11 +1,11 @@
 --[[
 
-	OTE GlassPremium Version 0.8 Dev
+	OTE GlassPremium Version 1.0 Alpha
 	Do not modify, copy or distribute without permission of author
 	Helkarakse & Shotexpert, 20131203
 	
-	TODO: Add color changes via chat commands
-	TODO: Add animations for the opening and closing
+	TODO: Add animations for the opening and closing - version 1.1
+	TODO: Add granular reset functions for the config - version 1.1
 ]]
 
 -- Libraries
@@ -496,8 +496,20 @@ local function updateTextColor(newColor)
 	functions.writeTable(configArray, configFile)
 end
 
-local function updateWindowColor(newColor)
-	
+local function updateWindowStartColor(newColor)
+	newColor = tonumber("0x" .. newColor)
+	functions.debug("Updating the text color from ", functions.decToHex(configArray.windowStartColor.value), " to ", functions.decToHex(newColor))
+	configArray.windowStartColor.value = newColor
+	functions.debug("Writing data to disk")
+	functions.writeTable(configArray, configFile)
+end
+
+local function updateWindowEndColor(newColor)
+	newColor = tonumber("0x" .. newColor)
+	functions.debug("Updating the text color from ", functions.decToHex(configArray.windowEndColor.value), " to ", functions.decToHex(newColor))
+	configArray.windowEndColor.value = newColor
+	functions.debug("Writing data to disk")
+	functions.writeTable(configArray, configFile)
 end
 
 -- Event handler for chat commands
@@ -533,15 +545,21 @@ local eventHandler = function()
 				[4] = function()
 						-- options
 						functions.debug("Message was retrieved by the event [4]: ", message)
-						if (args[1] == "size") then
+						if (args[1] == "size" and args[2] ~= "") then
 							updateSize(tonumber(args[2]))
 							drawScreen()
-						elseif (args[1] == "opacity") then
+						elseif (args[1] == "opacity" and args[2] ~= "") then
 							updateOpacity(tonumber(args[2]))
 							drawScreen()
-						elseif (args[1] == "color") then
+						elseif (args[1] == "color" and args[2] ~= "") then
 							updateTextColor(args[2])
 							drawScreen()
+						elseif (args[1] == "window") then
+							if (args[2] == "start" and args[3] ~= "") then
+								updateWindowStartColor(args[3])
+							elseif (args[2] == "end" and args[3] ~= "") then
+								updateWindowEndColor(args[3])
+							end
 						elseif (args[1] == "reset") then
 							functions.debug("Resetting configuration back to factory defaults")
 							configArray = getDefaultConfig()
