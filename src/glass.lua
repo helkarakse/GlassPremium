@@ -545,19 +545,19 @@ local eventHandler = function()
 				[4] = function()
 						-- options
 						functions.debug("Message was retrieved by the event [4]: ", message)
-						if (args[1] == "size" and args[2] ~= "") then
+						if (args[1] == "size" and args[2] ~= nil) then
 							updateSize(tonumber(args[2]))
 							drawScreen()
-						elseif (args[1] == "opacity" and args[2] ~= "") then
+						elseif (args[1] == "opacity" and args[2] ~= nil) then
 							updateOpacity(tonumber(args[2]))
 							drawScreen()
-						elseif (args[1] == "color" and args[2] ~= "") then
+						elseif (args[1] == "color" and args[2] ~= nil) then
 							updateTextColor(args[2])
 							drawScreen()
 						elseif (args[1] == "window") then
-							if (args[2] == "start" and args[3] ~= "") then
+							if (args[2] == "start" and args[3] ~= nil) then
 								updateWindowStartColor(args[3])
-							elseif (args[2] == "end" and args[3] ~= "") then
+							elseif (args[2] == "end" and args[3] ~= nil) then
 								updateWindowEndColor(args[3])
 							end
 						elseif (args[1] == "reset") then
