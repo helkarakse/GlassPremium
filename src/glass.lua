@@ -109,7 +109,7 @@ local positionArray = {
 	{x = 10, y = 65, width = 95, height = 35}, -- small
 	{x = 10, y = 65, width = 250, height = (28 * lineMultiplier) + 10}, -- large
 	{x = 10, y = 65, width = 225, height = (12 * lineMultiplier) + 10}, -- rss
-	{x = 10, y = 65, width = 200, height = ((#configArray + 9) * lineMultiplier)  + 10}, -- options
+	{x = 10, y = 65, width = 200, height = ((functions.getTableCount(configArray) + 5) * lineMultiplier)  + 10}, -- options
 }
 
 -- Event handling related
