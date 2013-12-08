@@ -557,8 +557,10 @@ local eventHandler = function()
 						elseif (args[1] == "window") then
 							if (args[2] == "start" and args[3] ~= nil) then
 								updateWindowStartColor(args[3])
+								drawScreen()
 							elseif (args[2] == "end" and args[3] ~= nil) then
 								updateWindowEndColor(args[3])
+								drawScreen()
 							end
 						elseif (args[1] == "reset") then
 							functions.debug("Resetting configuration back to factory defaults")
