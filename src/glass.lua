@@ -579,6 +579,7 @@ local eventHandler = function()
 						elseif (args[1] == "reset") then
 							functions.debug("Resetting configuration back to factory defaults")
 							configArray = getDefaultConfig()
+							updateSize(configArray.textSize.value)
 							functions.debug("Writing the config file to disk")
 							functions.writeTable(configArray, configFile)
 							drawScreen()
