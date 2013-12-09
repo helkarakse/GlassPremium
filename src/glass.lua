@@ -23,6 +23,7 @@ local tonumber = tonumber
 local tostring = tostring
 local tableInsert = table.insert
 local pairs = pairs
+local type = type
 
 -- Color array
 local colors = {
@@ -531,7 +532,7 @@ local eventHandler = function()
 		
 		local args = functions.explode(" ", message)
 		if (args[1] == "change") then
-			if (args[2] ~= nil and (tonumber(args[2]) >= 1 and tonumber(args[2]) <= 5) and type(args[2]) == "number") then
+			if (args[2] ~= nil and (tonumber(args[2]) >= 1 and tonumber(args[2]) <= 5) and type(tonumber(args[2])) == "number") then
 				functions.debug("Changing screen to: ", args[2])
 				currentDisplay = tonumber(args[2])
 				drawScreen()
