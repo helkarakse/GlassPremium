@@ -531,6 +531,7 @@ local eventHandler = function()
 		elseif (args[1] == "hide") then
 			bridge.clear()
 			drawHeader(positionArray[currentDisplay].x, positionArray[currentDisplay].y, positionArray[currentDisplay].width)
+			drawSanta(positionArray[currentDisplay].x + 10, positionArray[currentDisplay].y - 1)
 		elseif (args[1] == "show") then
 			drawScreen()
 		else
