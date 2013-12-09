@@ -385,6 +385,9 @@ local function drawScreen()
 			drawSanta(xPos + 10, yPos - 1)
 			end,
 		[5] = function()
+			drawMain(xPos, yPos, width, height)
+			drawHeader(xPos, yPos)
+			drawSanta(xPos + 10, yPos - 1)
 			end,
 	}
 	
@@ -527,6 +530,7 @@ local eventHandler = function()
 			end
 		elseif (args[1] == "hide") then
 			bridge.clear()
+			drawHeader(positionArray[currentDisplay].x, positionArray[currentDisplay].y)
 		elseif (args[1] == "show") then
 			drawScreen()
 		else
