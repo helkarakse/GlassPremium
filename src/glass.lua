@@ -110,6 +110,7 @@ local positionArray = {
 	{x = 10, y = 65, width = 250, height = (28 * lineMultiplier) + 10}, -- large
 	{x = 10, y = 65, width = 225, height = (12 * lineMultiplier) + 10}, -- rss
 	{x = 10, y = 65, width = 200, height = ((functions.getTableCount(configArray) + 5) * lineMultiplier)  + 10}, -- options
+	{x = 10, y = 65, width = 250, height = 100} -- help
 }
 
 -- Event handling related
@@ -519,7 +520,7 @@ local eventHandler = function()
 		
 		local args = functions.explode(" ", message)
 		if (args[1] == "change") then
-			if (#args > 1 and (tonumber(args[2]) >= 1 and tonumber(args[2]) <= 5)) then
+			if (args[2] ~= nil and (tonumber(args[2]) >= 1 and tonumber(args[2]) <= 5)) then
 				functions.debug("Changing screen to: ", args[2])
 				currentDisplay = tonumber(args[2])
 				drawScreen()
