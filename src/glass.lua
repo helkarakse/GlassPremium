@@ -119,12 +119,12 @@ local currentDisplay = 1 -- main display
 -- Functions
 local function drawMain(inputX, inputY, inputWidth, inputHeight)
 	mainBox = bridge.addBox(inputX, inputY, inputWidth, inputHeight, configArray.windowEndColor.value, configArray.opacity.value)
-	header = bridge.addGradientBox(inputX - 5, inputY, inputWidth, headerHeight, configArray.windowEndColor.value, 0, configArray.windowStartColor.value, 1, 2)
 	edgeBox = bridge.addGradientBox(inputX, inputY + inputHeight - 2, inputWidth, 2, configArray.windowStartColor.value, 1, configArray.windowEndColor.value, 0, 2)
 	header.setZIndex(2)
 end
 
-local function drawHeader(inputX, inputY)
+local function drawHeader(inputX, inputY, inputWidth)
+	header = bridge.addGradientBox(inputX - 5, inputY, inputWidth, headerHeight, configArray.windowEndColor.value, 0, configArray.windowStartColor.value, 1, 2)
 	headerText = bridge.addText(inputX, inputY + 1, "OTE Glass (c) Helk & Shot 2013", configArray.textColor.value)
 	headerText.setZIndex(3)
 	headerText.setScale(size.small)
@@ -359,34 +359,34 @@ local function drawScreen()
 		[1] = function()
 			-- draw main, header and tps
 			drawMain(xPos, yPos, width, height)
-			drawHeader(xPos, yPos)
+			drawHeader(xPos, yPos, width)
 			drawTps(xPos, yPos)
 			drawSanta(xPos + 10, yPos - 1)
 			end,
 		[2] = function()
 			-- draw main, header, tps and data
 			drawMain(xPos, yPos, width, height)
-			drawHeader(xPos, yPos)
+			drawHeader(xPos, yPos, width)
 			drawTps(xPos, yPos)
 			drawData()
 			drawSanta(xPos + 10, yPos - 1)
 			end,
 		[3] = function()
 			drawMain(xPos, yPos, width, height)
-			drawHeader(xPos, yPos)
+			drawHeader(xPos, yPos, width)
 			drawTps(xPos, yPos)
 			drawRss(xPos + 5, yPos + headerHeight + 5)
 			drawSanta(xPos + 10, yPos - 1)
 			end,
 		[4] = function()
 			drawMain(xPos, yPos, width, height)
-			drawHeader(xPos, yPos)
+			drawHeader(xPos, yPos, width)
 			drawOptions(xPos + 5, yPos  + headerHeight + 5)
 			drawSanta(xPos + 10, yPos - 1)
 			end,
 		[5] = function()
 			drawMain(xPos, yPos, width, height)
-			drawHeader(xPos, yPos)
+			drawHeader(xPos, yPos, width)
 			drawSanta(xPos + 10, yPos - 1)
 			end,
 	}
@@ -530,7 +530,7 @@ local eventHandler = function()
 			end
 		elseif (args[1] == "hide") then
 			bridge.clear()
-			drawHeader(positionArray[currentDisplay].x, positionArray[currentDisplay].y)
+			drawHeader(positionArray[currentDisplay].x, positionArray[currentDisplay].y, positionArray[currentDisplay].width)
 		elseif (args[1] == "show") then
 			drawScreen()
 		else
