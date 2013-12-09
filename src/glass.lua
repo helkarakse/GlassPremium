@@ -195,14 +195,14 @@ local function drawEntities(inputX, inputY)
 	entitiesArray = {}
 	
 	tableInsert(entitiesArray, bridge.addText(inputX, inputY, "Entity Name:", configArray.textColor.value).setScale(size.small))
-	tableInsert(entitiesArray, bridge.addText(inputX + (100 * configArray.textSize.value), inputY, "Position:", configArray.textColor.value).setScale(size.small))
-	tableInsert(entitiesArray, bridge.addText(inputX + (150 * configArray.textSize.value), inputY, "%", configArray.textColor.value).setScale(size.small))
+	tableInsert(entitiesArray, bridge.addText(inputX + (125 * configArray.textSize.value), inputY, "Position:", configArray.textColor.value).setScale(size.small))
+	tableInsert(entitiesArray, bridge.addText(inputX + (175 * configArray.textSize.value), inputY, "%", configArray.textColor.value).setScale(size.small))
 	tableInsert(entitiesArray, bridge.addText(inputX + (200 * configArray.textSize.value), inputY, "Dimension:", configArray.textColor.value).setScale(size.small))
 	
 	for i = 1, limit do
 		tableInsert(entitiesArray, bridge.addText(inputX, inputY + (lineMultiplier * i), data[i].name, configArray.textColor.value).setScale(size.small))
-		tableInsert(entitiesArray, bridge.addText(inputX + (100 * configArray.textSize.value), inputY + (lineMultiplier * i), data[i].position, configArray.textColor.value).setScale(size.small))
-		tableInsert(entitiesArray, bridge.addText(inputX + (150 * configArray.textSize.value), inputY + (lineMultiplier * i), data[i].percent, tickParser.getPercentHexColor(data[i].percent)).setScale(size.small))
+		tableInsert(entitiesArray, bridge.addText(inputX + (125 * configArray.textSize.value), inputY + (lineMultiplier * i), data[i].position, configArray.textColor.value).setScale(size.small))
+		tableInsert(entitiesArray, bridge.addText(inputX + (175 * configArray.textSize.value), inputY + (lineMultiplier * i), data[i].percent, tickParser.getPercentHexColor(data[i].percent)).setScale(size.small))
 		tableInsert(entitiesArray, bridge.addText(inputX + (200 * configArray.textSize.value), inputY + (lineMultiplier * i), tickParser.getDimensionName(tickParser.getServerId(os.getComputerID()), data[i].dimId), configArray.textColor.value).setScale(size.small))
 	end
 	
@@ -216,13 +216,13 @@ local function drawChunks(inputX, inputY)
 	chunksArray = {}
 	
 	tableInsert(chunksArray, bridge.addText(inputX, inputY, "Chunk Position (X, Z):", configArray.textColor.value).setScale(size.small))
-	tableInsert(chunksArray, bridge.addText(inputX + (100 * configArray.textSize.value), inputY, "Time/Tick:", configArray.textColor.value).setScale(size.small))
-	tableInsert(chunksArray, bridge.addText(inputX + (150 * configArray.textSize.value), inputY, "%", configArray.textColor.value).setScale(size.small))
+	tableInsert(chunksArray, bridge.addText(inputX + (125 * configArray.textSize.value), inputY, "Time/Tick:", configArray.textColor.value).setScale(size.small))
+	tableInsert(chunksArray, bridge.addText(inputX + (175 * configArray.textSize.value), inputY, "%", configArray.textColor.value).setScale(size.small))
 	
 	for i = 1, limit do
 		tableInsert(chunksArray, bridge.addText(inputX, inputY + (lineMultiplier * i), data[i].positionX .. ", " .. data[i].positionZ, configArray.textColor.value).setScale(size.small))
-		tableInsert(chunksArray, bridge.addText(inputX + (100 * configArray.textSize.value), inputY + (lineMultiplier * i), data[i].time, configArray.textColor.value).setScale(size.small))
-		tableInsert(chunksArray, bridge.addText(inputX + (150 * configArray.textSize.value), inputY + (lineMultiplier * i), data[i].percent, tickParser.getPercentHexColor(data[i].percent)).setScale(size.small))
+		tableInsert(chunksArray, bridge.addText(inputX + (125 * configArray.textSize.value), inputY + (lineMultiplier * i), data[i].time, configArray.textColor.value).setScale(size.small))
+		tableInsert(chunksArray, bridge.addText(inputX + (175 * configArray.textSize.value), inputY + (lineMultiplier * i), data[i].percent, tickParser.getPercentHexColor(data[i].percent)).setScale(size.small))
 	end
 	
 	for i = 1, #chunksArray do
@@ -235,13 +235,13 @@ local function drawTypes(inputX, inputY)
 	typesArray = {}
 	
 	tableInsert(typesArray, bridge.addText(inputX, inputY, "Entity Type:", configArray.textColor.value).setScale(size.small))
-	tableInsert(typesArray, bridge.addText(inputX + (100 * configArray.textSize.value), inputY, "Time/Tick:", configArray.textColor.value).setScale(size.small))
-	tableInsert(typesArray, bridge.addText(inputX + (150 * configArray.textSize.value), inputY, "%", configArray.textColor.value).setScale(size.small))
+	tableInsert(typesArray, bridge.addText(inputX + (125 * configArray.textSize.value), inputY, "Time/Tick:", configArray.textColor.value).setScale(size.small))
+	tableInsert(typesArray, bridge.addText(inputX + (175 * configArray.textSize.value), inputY, "%", configArray.textColor.value).setScale(size.small))
 	
 	for i = 1, limit do
 		tableInsert(typesArray, bridge.addText(inputX, inputY + (lineMultiplier * i), data[i].type, configArray.textColor.value).setScale(size.small))
-		tableInsert(typesArray, bridge.addText(inputX + (100 * configArray.textSize.value), inputY + (lineMultiplier * i), data[i].time, configArray.textColor.value).setScale(size.small))
-		tableInsert(typesArray, bridge.addText(inputX + (150 * configArray.textSize.value), inputY + (lineMultiplier * i), data[i].percent, tickParser.getPercentHexColor(data[i].percent)).setScale(size.small))
+		tableInsert(typesArray, bridge.addText(inputX + (125 * configArray.textSize.value), inputY + (lineMultiplier * i), data[i].time, configArray.textColor.value).setScale(size.small))
+		tableInsert(typesArray, bridge.addText(inputX + (175 * configArray.textSize.value), inputY + (lineMultiplier * i), data[i].percent, tickParser.getPercentHexColor(data[i].percent)).setScale(size.small))
 	end
 	
 	for i = 1, #typesArray do
@@ -254,13 +254,13 @@ local function drawCalls(inputX, inputY)
 	callsArray = {}
 	
 	tableInsert(callsArray, bridge.addText(inputX, inputY, "Entity Name:", configArray.textColor.value).setScale(size.small))
-	tableInsert(callsArray, bridge.addText(inputX + (100 * configArray.textSize.value), inputY, "Time/Tick:", configArray.textColor.value).setScale(size.small))
-	tableInsert(callsArray, bridge.addText(inputX + (150 * configArray.textSize.value), inputY, "Average Calls", configArray.textColor.value).setScale(size.small))
+	tableInsert(callsArray, bridge.addText(inputX + (125 * configArray.textSize.value), inputY, "Time/Tick:", configArray.textColor.value).setScale(size.small))
+	tableInsert(callsArray, bridge.addText(inputX + (175 * configArray.textSize.value), inputY, "Average Calls", configArray.textColor.value).setScale(size.small))
 	
 	for i = 1, limit do
 		tableInsert(callsArray, bridge.addText(inputX, inputY + (lineMultiplier * i), data[i].name, configArray.textColor.value).setScale(size.small))
-		tableInsert(callsArray, bridge.addText(inputX + (100 * configArray.textSize.value), inputY + (lineMultiplier * i), data[i].time, configArray.textColor.value).setScale(size.small))
-		tableInsert(callsArray, bridge.addText(inputX + (150 * configArray.textSize.value), inputY + (lineMultiplier * i), data[i].calls, configArray.textColor.value).setScale(size.small))
+		tableInsert(callsArray, bridge.addText(inputX + (125 * configArray.textSize.value), inputY + (lineMultiplier * i), data[i].time, configArray.textColor.value).setScale(size.small))
+		tableInsert(callsArray, bridge.addText(inputX + (175 * configArray.textSize.value), inputY + (lineMultiplier * i), data[i].calls, configArray.textColor.value).setScale(size.small))
 	end
 	
 	for i = 1, #callsArray do
