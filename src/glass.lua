@@ -106,7 +106,7 @@ local tpsHeight = (size.normal * 10)
 local lineMultiplier = headerHeight
 
 local positionArray = {
-	{x = 10, y = 65, width = 95, height = 35}, -- small
+	{x = 10, y = 65, width = 95, height = (size.normal * 10) + (size.large * 10) + 12.5}, -- small
 	{x = 10, y = 65, width = 250, height = (28 * lineMultiplier) + 10}, -- large
 	{x = 10, y = 65, width = 225, height = (12 * lineMultiplier) + 10}, -- rss
 	{x = 10, y = 65, width = 200, height = ((functions.getTableCount(configArray) + 5) * lineMultiplier)  + 10}, -- options
@@ -478,6 +478,14 @@ local function updateSize(newSize)
 	headerHeight = (size.small * 10)
 	tpsHeight = (size.normal * 10)
 	lineMultiplier = headerHeight
+
+	positionArray = {
+		{x = 10, y = 65, width = 95, height = (size.normal * 10) + (size.large * 10) + 12.5}, -- small
+		{x = 10, y = 65, width = 250, height = (28 * lineMultiplier) + 10}, -- large
+		{x = 10, y = 65, width = 225, height = (12 * lineMultiplier) + 10}, -- rss
+		{x = 10, y = 65, width = 200, height = ((functions.getTableCount(configArray) + 5) * lineMultiplier)  + 10}, -- options
+		{x = 10, y = 65, width = 250, height = 100} -- help
+	}
 	
 	configArray.textSize.value = newSize
 	functions.debug("Writing data to disk")
