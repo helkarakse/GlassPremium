@@ -120,11 +120,11 @@ local currentDisplay = 1 -- main display
 local function drawMain(inputX, inputY, inputWidth, inputHeight)
 	mainBox = bridge.addBox(inputX, inputY, inputWidth, inputHeight, configArray.windowEndColor.value, configArray.opacity.value)
 	edgeBox = bridge.addGradientBox(inputX, inputY + inputHeight - 2, inputWidth, 2, configArray.windowStartColor.value, 1, configArray.windowEndColor.value, 0, 2)
-	header.setZIndex(2)
 end
 
 local function drawHeader(inputX, inputY, inputWidth)
 	header = bridge.addGradientBox(inputX - 5, inputY, inputWidth, headerHeight, configArray.windowEndColor.value, 0, configArray.windowStartColor.value, 1, 2)
+	header.setZIndex(2)
 	headerText = bridge.addText(inputX, inputY + 1, "OTE Glass (c) Helk & Shot 2013", configArray.textColor.value)
 	headerText.setZIndex(3)
 	headerText.setScale(size.small)
