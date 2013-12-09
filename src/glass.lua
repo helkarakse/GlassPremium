@@ -297,13 +297,13 @@ local function drawRss(inputX, inputY)
 	local rssArray = {}
 	
 	table.insert(rssArray, bridge.addText(inputX, inputY, "Title", configArray.textColor.value).setScale(size.small))
-	table.insert(rssArray, bridge.addText(inputX + 150, inputY, "Date", configArray.textColor.value).setScale(size.small))
+	table.insert(rssArray, bridge.addText(inputX + (150 * configArray.textSize.value), inputY, "Date", configArray.textColor.value).setScale(size.small))
 	
 	local j = 1
 	for key, value in pairs(data) do
 		local title, link, desc, pubDate, guid = rssParser.parseItem(value)
 		table.insert(rssArray, bridge.addText(inputX, inputY + (lineMultiplier * j), functions.truncate(title, 50), configArray.textColor.value).setScale(size.small))
-		table.insert(rssArray, bridge.addText(inputX + 150, inputY + (lineMultiplier * j), rssParser.convertDate(pubDate), configArray.textColor.value).setScale(size.small))
+		table.insert(rssArray, bridge.addText(inputX + (150 * configArray.textSize.value), inputY + (lineMultiplier * j), rssParser.convertDate(pubDate), configArray.textColor.value).setScale(size.small))
 		j = j + 1
 	end
 	
@@ -316,18 +316,18 @@ local function drawOptions(inputX, inputY)
 	local optionsArray = {}
 	
 	table.insert(optionsArray, bridge.addText(inputX, inputY, "Option Name", configArray.textColor.value).setScale(size.small))
-	table.insert(optionsArray, bridge.addText(inputX + 100, inputY, "Keyword", configArray.textColor.value).setScale(size.small))
-	table.insert(optionsArray, bridge.addText(inputX + 150, inputY, "Value", configArray.textColor.value).setScale(size.small))
+	table.insert(optionsArray, bridge.addText(inputX + (100 * configArray.textSize.value), inputY, "Keyword", configArray.textColor.value).setScale(size.small))
+	table.insert(optionsArray, bridge.addText(inputX + (150 * configArray.textSize.value), inputY, "Value", configArray.textColor.value).setScale(size.small))
 	
 	local j = 1
 	for key, value in pairs(configArray) do
 		table.insert(optionsArray, bridge.addText(inputX, inputY + (lineMultiplier * j), value.name, configArray.textColor.value).setScale(size.small))
-		table.insert(optionsArray, bridge.addText(inputX + 100, inputY + (lineMultiplier * j), value.keyword, configArray.textColor.value).setScale(size.small))
+		table.insert(optionsArray, bridge.addText(inputX + (100 * configArray.textSize.value), inputY + (lineMultiplier * j), value.keyword, configArray.textColor.value).setScale(size.small))
 		
 		if (value.type == "color") then
-			table.insert(optionsArray, bridge.addText(inputX + 150, inputY + (lineMultiplier * j), functions.decToHex(value.value), configArray.textColor.value).setScale(size.small))
+			table.insert(optionsArray, bridge.addText(inputX + (150 * configArray.textSize.value), inputY + (lineMultiplier * j), functions.decToHex(value.value), configArray.textColor.value).setScale(size.small))
 		else
-			table.insert(optionsArray, bridge.addText(inputX + 150, inputY + (lineMultiplier * j), tostring(value.value), configArray.textColor.value).setScale(size.small))
+			table.insert(optionsArray, bridge.addText(inputX + (150 * configArray.textSize.value), inputY + (lineMultiplier * j), tostring(value.value), configArray.textColor.value).setScale(size.small))
 		end
 		j = j + 1
 	end
