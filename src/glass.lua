@@ -24,6 +24,7 @@ local tostring = tostring
 local tableInsert = table.insert
 local pairs = pairs
 local type = type
+local switch = functions.switch
 
 -- Color array
 local colors = {
@@ -142,7 +143,7 @@ local function drawTps(inputX, inputY)
 	local height = positionArray[currentDisplay].height
 	
 	local tps = tickParser.getTps()
-	local switch = {
+	local check = switch {
 		[1] = function()
 			local tpsLabelText = bridge.addText(inputX + width - (55 * configArray.textSize.value), inputY + height - tpsHeight, "TPS:", configArray.textColor.value)
 			tpsLabelText.setScale(size.normal)
@@ -188,7 +189,7 @@ local function drawTps(inputX, inputY)
 		end
 	}
 	
-	switch[currentDisplay]()
+	check:case(currentDisplay)
 end
 
 local function drawEntities(inputX, inputY)
@@ -356,7 +357,7 @@ local function drawScreen()
 	local height = positionArray[currentDisplay].height
 	
 	bridge.clear()
-	local switch = {
+	local check = switch {
 		[1] = function()
 			-- draw main, header and tps
 			drawMain(xPos, yPos, width, height)
@@ -392,7 +393,7 @@ local function drawScreen()
 			end,
 	}
 	
-	switch[currentDisplay]()
+	check:case(currentDisplay)
 end
 
 -- Data Retrieval
@@ -531,20 +532,45 @@ local eventHandler = function()
 		local event, message = os.pullEvent("chat_command")
 		
 		local args = functions.explode(" ", message)
-		if (args[1] == "change") then
-			if (args[2] ~= nil and (tonumber(args[2]) >= 1 and tonumber(args[2]) <= 5) and type(tonumber(args[2])) == "number") then
-				functions.debug("Changing screen to: ", args[2])
-				currentDisplay = tonumber(args[2])
+		if (args[1] == "show") then
+			if (args[2] == nil) then
+				-- show with no args means show the interface
 				drawScreen()
+			else
+				local screenId = 0
+				local check = switch {
+					["mini"] = function()
+							screenId = 1
+						end,
+					["tps"] = function()
+							screenId = 2
+						end,
+					["rss"] = function()
+							screenId = 3
+						end,
+					["options"] = function()
+							screenId = 4
+						end,
+					default = function()
+							screenId = 0
+						end
+				}
+				
+				check:case(tostring(args[2]))
+				
+				-- only change the screen if screenId is not 0
+				if (screenId > 0) then
+					functions.debug("Changing screen to: ", args[2])
+					currentDisplay = tonumber(args[2])
+					drawScreen()
+				end
 			end
 		elseif (args[1] == "hide") then
 			bridge.clear()
 			drawHeader(positionArray[currentDisplay].x, positionArray[currentDisplay].y, positionArray[currentDisplay].width)
 			drawSanta(positionArray[currentDisplay].x + 10, positionArray[currentDisplay].y - 1)
-		elseif (args[1] == "show") then
-			drawScreen()
 		else
-			local switch = {
+			local check = switch {
 				[1] = function()
 						-- tick and clock
 						functions.debug("Message was retrieved by the event [1]: ", message)
@@ -592,7 +618,7 @@ local eventHandler = function()
 					end,
 			}
 			
-			switch[currentDisplay]()
+			check:case(currentDisplay)
 		end
 	end
 end
