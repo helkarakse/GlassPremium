@@ -39,7 +39,7 @@ local colors = {
 }
 
 -- Default config function
-local function getDefaultConfig()
+local function getDefaultConfig(key)
 	-- default settings
 	local array = {
 		textColor = {
@@ -74,7 +74,11 @@ local function getDefaultConfig()
 		}
 	}
 	
-	return array
+	if (key) then
+		return array[key]
+	else
+		return array
+	end
 end
 
 -- Load configuration file
@@ -526,6 +530,13 @@ local function updateWindowEndColor(newColor)
 	functions.writeTable(configArray, configFile)
 end
 
+local function resetConfig(specificKey)
+	local defaultConfig = getDefaultConfig(specificKey)
+	for key, value in pairs(configArray) do
+	
+	end
+end
+
 -- Event handler for chat commands
 local eventHandler = function()
 	while true do
@@ -587,25 +598,52 @@ local eventHandler = function()
 						-- options
 						functions.debug("Message was retrieved by the event [4]: ", message)
 						if (args[2] ~= nil) then
-							if (args[1] == "size") then
-								updateSize(tonumber(args[2]))
-							elseif (args[1] == "opacity") then
-								updateOpacity(tonumber(args[2]))
-							elseif (args[1] == "color") then
-								updateTextColor(args[2])
-							elseif (args[1] == "window" and args[3] ~= nil) then
-								if (args[2] == "start") then
-									updateWindowStartColor(args[3])
-								elseif (args[2] == "end") then
-									updateWindowEndColor(args[3])
+							local option = switch {
+							["size"] = function()
+									updateSize(tonumber(args[2]))
+								end,
+							["opacity"] = function()
+									updateOpacity(tonumber(args[2]))
+								end,
+							["color"] = function()
+									updateTextColor(args[2])
+								end,
+							["window"] = function()
+									if (args[3] ~= nil) then
+										if (args[2] == "start") then
+											updateWindowStartColor(args[3])
+										elseif (args[2] == "end") then
+											updateWindowEndColor(args[3])
+										end
+									end
+								end,
+							["reset"] = function()
+									if (args[2] == "all") then
+										functions.debug("Resetting configuration back to factory defaults")
+										configArray = getDefaultConfig()
+										updateSize(configArray.textSize.value)
+										functions.debug("Writing the config file to disk")
+										functions.writeTable(configArray, configFile)
+									else
+										local configKey
+										if (args[2] == "size") then
+											configKey = "textSize"
+										elseif (args[2] == "opacity") then
+											configKey = "opacity"
+										elseif (args[2] == "color") then
+											configKey = "textColor"
+										elseif (args[2] == "window" and args[3] ~= nil) then
+											if (args[2] == "start") then
+												configKey = "windowStartColor"
+											elseif (args[2] == "end") then
+												configKey = "windowEndColor"
+											end
+										end
+									end
 								end
-							elseif (args[1] == "reset") then
-								functions.debug("Resetting configuration back to factory defaults")
-								configArray = getDefaultConfig()
-								updateSize(configArray.textSize.value)
-								functions.debug("Writing the config file to disk")
-								functions.writeTable(configArray, configFile)
-							end
+							}
+							
+							option:case(tostring(args[1]))
 							drawScreen()
 						end
 					end,
@@ -631,7 +669,6 @@ local function init()
 	end
 	
 	getTickData()
---	getRssData()
 	drawScreen()
 	
 	parallel.waitForAll(tickRefreshLoop, clockRefreshLoop, rssRefreshLoop, eventHandler)
