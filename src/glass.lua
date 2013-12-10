@@ -586,30 +586,32 @@ local eventHandler = function()
 				[4] = function()
 						-- options
 						functions.debug("Message was retrieved by the event [4]: ", message)
-						if (args[1] == "size" and args[2] ~= nil) then
-							updateSize(tonumber(args[2]))
-							drawScreen()
-						elseif (args[1] == "opacity" and args[2] ~= nil) then
-							updateOpacity(tonumber(args[2]))
-							drawScreen()
-						elseif (args[1] == "color" and args[2] ~= nil) then
-							updateTextColor(args[2])
-							drawScreen()
-						elseif (args[1] == "window") then
-							if (args[2] == "start" and args[3] ~= nil) then
-								updateWindowStartColor(args[3])
+						if (args[2] ~= nil) then
+							if (args[1] == "size") then
+								updateSize(tonumber(args[2]))
 								drawScreen()
-							elseif (args[2] == "end" and args[3] ~= nil) then
-								updateWindowEndColor(args[3])
+							elseif (args[1] == "opacity") then
+								updateOpacity(tonumber(args[2]))
+								drawScreen()
+							elseif (args[1] == "color") then
+								updateTextColor(args[2])
+								drawScreen()
+							elseif (args[1] == "window" and args[3] ~= nil) then
+								if (args[2] == "start") then
+									updateWindowStartColor(args[3])
+									drawScreen()
+								elseif (args[2] == "end") then
+									updateWindowEndColor(args[3])
+									drawScreen()
+								end
+							elseif (args[1] == "reset") then
+								functions.debug("Resetting configuration back to factory defaults")
+								configArray = getDefaultConfig()
+								updateSize(configArray.textSize.value)
+								functions.debug("Writing the config file to disk")
+								functions.writeTable(configArray, configFile)
 								drawScreen()
 							end
-						elseif (args[1] == "reset") then
-							functions.debug("Resetting configuration back to factory defaults")
-							configArray = getDefaultConfig()
-							updateSize(configArray.textSize.value)
-							functions.debug("Writing the config file to disk")
-							functions.writeTable(configArray, configFile)
-							drawScreen()
 						end
 					end,
 				[5] = function()
