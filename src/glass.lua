@@ -644,9 +644,9 @@ local eventHandler = function()
 												end,
 											["window"] = function()
 													if (args[3] ~= nil) then
-														if (args[2] == "start") then
+														if (args[3] == "start") then
 															configKey = "windowStartColor"
-														elseif (args[2] == "end") then
+														elseif (args[3] == "end") then
 															configKey = "windowEndColor"
 														end
 													end
