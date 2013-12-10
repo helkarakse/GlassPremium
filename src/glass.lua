@@ -1,11 +1,10 @@
 --[[
 
-	OTE GlassPremium Version 1.0 Alpha
+	OTE GlassPremium Version 1.1 Release
 	Do not modify, copy or distribute without permission of author
 	Helkarakse & Shotexpert, 20131203
 	
-	TODO: Add animations for the opening and closing - version 1.1
-	TODO: Add granular reset functions for the config - version 1.1
+	TODO: Add color schemes v1.2
 ]]
 
 -- Libraries
