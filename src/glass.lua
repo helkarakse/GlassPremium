@@ -560,8 +560,8 @@ local eventHandler = function()
 				
 				-- only change the screen if screenId is not 0
 				if (screenId > 0) then
-					functions.debug("Changing screen to: ", args[2])
-					currentDisplay = tonumber(args[2])
+					functions.debug("Changing screen to: ", screenId)
+					currentDisplay = tonumber(screenId)
 					drawScreen()
 				end
 			end
