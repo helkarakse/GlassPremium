@@ -589,20 +589,15 @@ local eventHandler = function()
 						if (args[2] ~= nil) then
 							if (args[1] == "size") then
 								updateSize(tonumber(args[2]))
-								drawScreen()
 							elseif (args[1] == "opacity") then
 								updateOpacity(tonumber(args[2]))
-								drawScreen()
 							elseif (args[1] == "color") then
 								updateTextColor(args[2])
-								drawScreen()
 							elseif (args[1] == "window" and args[3] ~= nil) then
 								if (args[2] == "start") then
 									updateWindowStartColor(args[3])
-									drawScreen()
 								elseif (args[2] == "end") then
 									updateWindowEndColor(args[3])
-									drawScreen()
 								end
 							elseif (args[1] == "reset") then
 								functions.debug("Resetting configuration back to factory defaults")
@@ -610,8 +605,8 @@ local eventHandler = function()
 								updateSize(configArray.textSize.value)
 								functions.debug("Writing the config file to disk")
 								functions.writeTable(configArray, configFile)
-								drawScreen()
 							end
+							drawScreen()
 						end
 					end,
 				[5] = function()
