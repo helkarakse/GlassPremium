@@ -531,10 +531,16 @@ local function updateWindowEndColor(newColor)
 end
 
 local function resetConfig(specificKey)
+	functions.debug("Resetting the configuration for: ", specificKey)
 	local defaultConfig = getDefaultConfig(specificKey)
-	for key, value in pairs(configArray) do
+	configArray[specificKey] = defaultConfig
 	
+	if (specificKey == "textSize") then
+		updateSize(configArray.textSize.value)
 	end
+	
+	functions.debug("Writing data to disk")
+	functions.writeTable(configArray, configFile)
 end
 
 -- Event handler for chat commands
@@ -625,19 +631,34 @@ local eventHandler = function()
 										functions.debug("Writing the config file to disk")
 										functions.writeTable(configArray, configFile)
 									else
-										local configKey
-										if (args[2] == "size") then
-											configKey = "textSize"
-										elseif (args[2] == "opacity") then
-											configKey = "opacity"
-										elseif (args[2] == "color") then
-											configKey = "textColor"
-										elseif (args[2] == "window" and args[3] ~= nil) then
-											if (args[2] == "start") then
-												configKey = "windowStartColor"
-											elseif (args[2] == "end") then
-												configKey = "windowEndColor"
-											end
+										local configKey = ""
+										local configReset = switch {
+											["size"] = function()
+													configKey = "textSize"
+												end,
+											["opacity"] = function()
+													configKey = "opacity"
+												end,
+											["color"] = function()
+													configKey = "textColor"
+												end,
+											["window"] = function()
+													if (args[3] ~= nil) then
+														if (args[2] == "start") then
+															configKey = "windowStartColor"
+														elseif (args[2] == "end") then
+															configKey = "windowEndColor"
+														end
+													end
+												end,
+											default = function()
+												configKey = ""
+											end,
+										}
+										
+										configReset:case(tostring(args[2]))
+										if (configKey ~= "") then
+											resetConfig(configKey)
 										end
 									end
 								end
