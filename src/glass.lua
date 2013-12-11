@@ -37,6 +37,8 @@ local colors = {
 	yellow = 0xFFFF00,
 }
 
+local colorSchemes = {}
+
 -- Default config function
 local function getDefaultConfig(key)
 	-- default settings
@@ -121,7 +123,7 @@ local positionArray = {
 	{x = 10, y = 65, width = 260 * configArray.textSize.value, height = (28 * lineMultiplier) + 10}, -- large
 	{x = 10, y = 65, width = 225 * configArray.textSize.value, height = (12 * lineMultiplier) + 10}, -- rss
 	{x = 10, y = 65, width = 200 * configArray.textSize.value, height = ((functions.getTableCount(configArray) + 6) * lineMultiplier)  + 10}, -- options
-	{x = 10, y = 65, width = 250 * configArray.textSize.value, height = 100} -- help
+	{x = 10, y = 65, width = 250 * configArray.textSize.value, height = (20 * lineMultiplier) + 10} -- help
 }
 
 -- Event handling related
@@ -491,7 +493,7 @@ local function updateSize(newSize)
 		{x = 10, y = 65, width = 260 * newSize, height = (28 * lineMultiplier) + 10}, -- large
 		{x = 10, y = 65, width = 225 * newSize, height = (12 * lineMultiplier) + 10}, -- rss
 		{x = 10, y = 65, width = 200 * newSize, height = ((functions.getTableCount(configArray) + 6) * lineMultiplier)  + 10}, -- options
-		{x = 10, y = 65, width = 250 * newSize, height = 100} -- help
+		{x = 10, y = 65, width = 250 * newSize, height = (20 * lineMultiplier) + 10} -- help
 	}
 	
 	configArray.textSize.value = newSize
