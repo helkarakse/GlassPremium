@@ -72,12 +72,6 @@ local function getDefaultConfig(key)
 			value = 0.15,
 			formattedValue = "0.15"
 		},
-		windowStartColor = {
-			value = colors.headerStart,
-		},
-		windowEndColor = {
-			value = colors.headerEnd,
-		},
 		userTheme = {
 			value = 10,
 		},
@@ -140,12 +134,12 @@ local currentDisplay = 1 -- main display
 
 -- Functions
 local function drawMain(inputX, inputY, inputWidth, inputHeight)
-	mainBox = bridge.addBox(inputX, inputY, inputWidth, inputHeight, configArray.windowEndColor.value, configArray.opacity.value)
-	edgeBox = bridge.addGradientBox(inputX, inputY + inputHeight - 2, inputWidth, 2, configArray.windowStartColor.value, 1, configArray.windowEndColor.value, 0, 2)
+	mainBox = bridge.addBox(inputX, inputY, inputWidth, inputHeight, themeArray[configArray.userTheme.value].endColor, configArray.opacity.value)
+	edgeBox = bridge.addGradientBox(inputX, inputY + inputHeight - 2, inputWidth, 2, themeArray[configArray.userTheme.value].startColor, 1, themeArray[configArray.userTheme.value].endColor, 0, 2)
 end
 
 local function drawHeader(inputX, inputY, inputWidth)
-	header = bridge.addGradientBox(inputX - 5, inputY, inputWidth, headerHeight, configArray.windowEndColor.value, 0, configArray.windowStartColor.value, 1, 2)
+	header = bridge.addGradientBox(inputX - 5, inputY, inputWidth, headerHeight, themeArray[configArray.userTheme.value].endColor, 0, themeArray[configArray.userTheme.value].startColor, 1, 2)
 	header.setZIndex(2)
 	headerText = bridge.addText(inputX, inputY + 1, "OTE Glass (c) Helk & Shot 2013", configArray.textColor.value)
 	headerText.setZIndex(3)
@@ -582,16 +576,16 @@ end
 
 --local function updateWindowStartColor(newColor)
 --	newColor = tonumber("0x" .. newColor)
---	functions.debug("Updating the text color from ", functions.decToHex(configArray.windowStartColor.value), " to ", functions.decToHex(newColor))
---	configArray.windowStartColor.value = newColor
+--	functions.debug("Updating the text color from ", functions.decToHex(themeArray[configArray.userTheme.value].startColor), " to ", functions.decToHex(newColor))
+--	themeArray[configArray.userTheme.value].startColor = newColor
 --	functions.debug("Writing data to disk")
 --	functions.writeTable(configArray, configFile)
 --end
 --
 --local function updateWindowEndColor(newColor)
 --	newColor = tonumber("0x" .. newColor)
---	functions.debug("Updating the text color from ", functions.decToHex(configArray.windowEndColor.value), " to ", functions.decToHex(newColor))
---	configArray.windowEndColor.value = newColor
+--	functions.debug("Updating the text color from ", functions.decToHex(themeArray[configArray.userTheme.value].endColor), " to ", functions.decToHex(newColor))
+--	themeArray[configArray.userTheme.value].endColor = newColor
 --	functions.debug("Writing data to disk")
 --	functions.writeTable(configArray, configFile)
 --end
