@@ -78,9 +78,6 @@ local function getDefaultConfig(key)
 		windowEndColor = {
 			value = colors.headerEnd,
 		},
-		userTheme = {
-		
-		},
 		theme = {
 			value = 10,
 		},
