@@ -370,10 +370,18 @@ local function drawOptions(inputX, inputY)
 end
 
 local function drawThemes(inputX, inputY)
-	local themeArray = {}
+	local themesArray = {}
+	
+	tableInsert(themesArray, bridge.addText(inputX, inputY, "ID", configArray.textColor.value).setScale(size.small))
+	tableInsert(themesArray, bridge.addText(inputX + (25 * configArray.textSize.value), inputY, "Theme Name", configArray.textColor.value).setScale(size.small))
 	
 	for i = 1, #themeArray do
-		themeArray[i].setZIndex(5)
+		tableInsert(themesArray, bridge.addText(inputX, inputY + (lineMultiplier * i), tostring(i), configArray.textColor.value).setScale(size.small))
+		tableInsert(themesArray, bridge.addText(inputX + (25 * configArray.textSize.value), inputY + (lineMultiplier * i), themeArray[i].name, configArray.textColor.value).setScale(size.small))
+	end
+	
+	for i = 1, #themesArray do
+		themesArray[i].setZIndex(5)
 	end
 end
 
