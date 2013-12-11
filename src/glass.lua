@@ -361,6 +361,9 @@ local function drawHelp(inputX, inputY)
 	local helpArray = {}
 	
 	tableInsert(helpArray, bridge.addText(inputX, inputY + (lineMultiplier * 0), "Sample placeholder for help text.", configArray.textColor.value).setScale(size.small))
+	-- tableInsert(helpArray, bridge.addText(inputX, inputY + (lineMultiplier * 1), "Second line of text", configArray.textColor.value).setScale(size.small))
+	-- tableInsert(helpArray, bridge.addText(inputX, inputY + (lineMultiplier * 2), "Third line of text", configArray.textColor.value).setScale(size.small))
+	-- tableInsert(helpArray, bridge.addText(inputX, inputY + (lineMultiplier * 3), "Sample placeholder for really really really really long text.", configArray.textColor.value).setScale(size.small))
 	
 	for i = 1, #helpArray do
 		helpArray[i].setZIndex(5)
