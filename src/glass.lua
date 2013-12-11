@@ -611,18 +611,6 @@ local eventHandler = function()
 			drawScreen()
 		else
 			local check = switch {
-				[1] = function()
-						-- tick and clock
-						functions.debug("Message was retrieved by the event [1]: ", message)
-					end,
-				[2] = function()
-						-- full tick
-						functions.debug("Message was retrieved by the event [2]: ", message)
-					end,
-				[3] = function()
-						-- rss
-						functions.debug("Message was retrieved by the event [3]: ", message)
-					end,
 				[4] = function()
 						-- options
 						functions.debug("Message was retrieved by the event [4]: ", message)
@@ -691,9 +679,8 @@ local eventHandler = function()
 							drawScreen()
 						end
 					end,
-				[5] = function()
-						-- help
-						functions.debug("Message was retrieved by the event [5]:", message)
+				default = function()
+						functions.debug("Message retrieved by event:", message)
 					end,
 			}
 			
