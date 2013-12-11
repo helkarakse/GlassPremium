@@ -73,16 +73,13 @@ local function getDefaultConfig(key)
 			formattedValue = "0.15"
 		},
 		windowStartColor = {
-			name = "Window Gradient Start Color",
-			keyword = "window start",
 			value = colors.headerStart,
-			type = "color"
 		},
 		windowEndColor = {
-			name = "Window Gradient End Color",
-			keyword = "window end",
 			value = colors.headerEnd,
-			type = "color"
+		},
+		userTheme = {
+		
 		},
 		theme = {
 			value = 10,
@@ -361,15 +358,15 @@ local function drawOptions(inputX, inputY)
 	
 	local j = 1
 	for key, value in pairs(configArray) do
-		if (key ~= "theme") then
+		if (key ~= "theme" and key ~= "windowStartColor" and key ~= "windowEndColor") then
 			tableInsert(optionsArray, bridge.addText(inputX, inputY + (lineMultiplier * j), value.name, configArray.textColor.value).setScale(size.small))
 			tableInsert(optionsArray, bridge.addText(inputX + (100 * configArray.textSize.value), inputY + (lineMultiplier * j), value.keyword, configArray.textColor.value).setScale(size.small))
 			
-			if (value.type == "color") then
-				tableInsert(optionsArray, bridge.addText(inputX + (150 * configArray.textSize.value), inputY + (lineMultiplier * j), functions.decToHex(value.value), configArray.textColor.value).setScale(size.small))
-			else
-				tableInsert(optionsArray, bridge.addText(inputX + (150 * configArray.textSize.value), inputY + (lineMultiplier * j), tostring(value.value), configArray.textColor.value).setScale(size.small))
-			end
+--			if (value.type == "color") then
+--				tableInsert(optionsArray, bridge.addText(inputX + (150 * configArray.textSize.value), inputY + (lineMultiplier * j), functions.decToHex(value.value), configArray.textColor.value).setScale(size.small))
+--			else
+--				tableInsert(optionsArray, bridge.addText(inputX + (150 * configArray.textSize.value), inputY + (lineMultiplier * j), tostring(value.value), configArray.textColor.value).setScale(size.small))
+--			end
 			j = j + 1
 		end
 	end
