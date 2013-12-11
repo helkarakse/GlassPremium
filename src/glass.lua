@@ -370,8 +370,8 @@ local function drawOptions(inputX, inputY)
 			else
 				tableInsert(optionsArray, bridge.addText(inputX + (150 * configArray.textSize.value), inputY + (lineMultiplier * j), tostring(value.value), configArray.textColor.value).setScale(size.small))
 			end
+			j = j + 1
 		end
-		j = j + 1
 	end
 	
 	j = j + 1
@@ -640,7 +640,7 @@ local eventHandler = function()
 					["options"] = function()
 							screenId = 4
 						end,
-					["theme"] = function()
+					["themes"] = function()
 							screenId = 5
 						end,
 					["help"] = function()
