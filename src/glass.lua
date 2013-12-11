@@ -83,7 +83,10 @@ local function getDefaultConfig(key)
 			keyword = "window end",
 			value = colors.headerEnd,
 			type = "color"
-		}
+		},
+		theme = {
+			value = 10,
+		},
 	}
 	
 	if (key) then
@@ -203,7 +206,19 @@ local function drawTps(inputX, inputY)
 			rssUpdatedText = bridge.addText(inputX + width - (80 * configArray.textSize.value), inputY + 1, "", configArray.textColor.value)
 			rssUpdatedText.setScale(size.small)
 			rssUpdatedText.setZIndex(4)
-		end
+		end,
+		[5] = function()
+			local rssUpdatedLabelText = bridge.addText(inputX + width - (125 * configArray.textSize.value), inputY + 1, "Last Updated:", configArray.textColor.value)
+			rssUpdatedLabelText.setScale(size.small)
+			rssUpdatedLabelText.setZIndex(4)
+			
+			rssUpdatedText = bridge.addText(inputX + width - (80 * configArray.textSize.value), inputY + 1, "", configArray.textColor.value)
+			rssUpdatedText.setScale(size.small)
+			rssUpdatedText.setZIndex(4)
+		end,
+		default = function()
+			
+		end,
 	}
 	
 	check:case(currentDisplay)
@@ -346,13 +361,15 @@ local function drawOptions(inputX, inputY)
 	
 	local j = 1
 	for key, value in pairs(configArray) do
-		tableInsert(optionsArray, bridge.addText(inputX, inputY + (lineMultiplier * j), value.name, configArray.textColor.value).setScale(size.small))
-		tableInsert(optionsArray, bridge.addText(inputX + (100 * configArray.textSize.value), inputY + (lineMultiplier * j), value.keyword, configArray.textColor.value).setScale(size.small))
-		
-		if (value.type == "color") then
-			tableInsert(optionsArray, bridge.addText(inputX + (150 * configArray.textSize.value), inputY + (lineMultiplier * j), functions.decToHex(value.value), configArray.textColor.value).setScale(size.small))
-		else
-			tableInsert(optionsArray, bridge.addText(inputX + (150 * configArray.textSize.value), inputY + (lineMultiplier * j), tostring(value.value), configArray.textColor.value).setScale(size.small))
+		if (key ~= "theme") then
+			tableInsert(optionsArray, bridge.addText(inputX, inputY + (lineMultiplier * j), value.name, configArray.textColor.value).setScale(size.small))
+			tableInsert(optionsArray, bridge.addText(inputX + (100 * configArray.textSize.value), inputY + (lineMultiplier * j), value.keyword, configArray.textColor.value).setScale(size.small))
+			
+			if (value.type == "color") then
+				tableInsert(optionsArray, bridge.addText(inputX + (150 * configArray.textSize.value), inputY + (lineMultiplier * j), functions.decToHex(value.value), configArray.textColor.value).setScale(size.small))
+			else
+				tableInsert(optionsArray, bridge.addText(inputX + (150 * configArray.textSize.value), inputY + (lineMultiplier * j), tostring(value.value), configArray.textColor.value).setScale(size.small))
+			end
 		end
 		j = j + 1
 	end
