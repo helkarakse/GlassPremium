@@ -357,6 +357,16 @@ local function drawOptions(inputX, inputY)
 	end
 end
 
+local function drawHelp(inputX, inputY)
+	local helpArray = {}
+	
+	tableInsert(helpArray, bridge.addText(inputX, inputY + (lineMultiplier * 1), "Sample placeholder for help text.", configArray.textColor.value).setScale(size.small))
+	
+	for i = 1, #helpArray do
+		helpArray[i].setZIndex(5)
+	end
+end
+
 local function drawScreen()
 	local xPos = positionArray[currentDisplay].x
 	local yPos = positionArray[currentDisplay].y
@@ -390,12 +400,13 @@ local function drawScreen()
 		[4] = function()
 			drawMain(xPos, yPos, width, height)
 			drawHeader(xPos, yPos, width)
-			drawOptions(xPos + 5, yPos  + headerHeight + 5)
+			drawOptions(xPos + 5, yPos + headerHeight + 5)
 			drawSanta(xPos + 10, yPos - 1)
 			end,
 		[5] = function()
 			drawMain(xPos, yPos, width, height)
 			drawHeader(xPos, yPos, width)
+			drawHelp(xPos + 5, yPos + headerHeight + 5)
 			drawSanta(xPos + 10, yPos - 1)
 			end,
 	}
