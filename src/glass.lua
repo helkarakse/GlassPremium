@@ -591,7 +591,10 @@ end
 --end
 
 local function updateTheme(themeId)
-
+	functions.debug("Updating the user theme id from: ", configArray.userTheme.value, " to ", themeId)
+	configArray.userTheme.value = themeId
+	functions.debug("Writing data to disk")
+	functions.writeTable(configArray, configFile)
 end
 
 local function resetConfig(specificKey)
