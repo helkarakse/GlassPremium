@@ -380,7 +380,7 @@ local function drawThemes(inputX, inputY)
 		tableInsert(themesArray, bridge.addText(inputX + (15 * configArray.textSize.value), inputY + (lineMultiplier * i), themeArray[i].name, configArray.textColor.value).setScale(size.small))
 	end
 	
-	local k = #themeArray + 1
+	local k = #themeArray + 2
 	tableInsert(themesArray, bridge.addText(inputX, inputY + (lineMultiplier * k), "To change the currently selected theme, type $$theme <id>", configArray.textColor.value).setScale(size.small))
 	
 	for j = 1, #themesArray do
