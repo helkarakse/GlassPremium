@@ -596,6 +596,10 @@ end
 --	functions.writeTable(configArray, configFile)
 --end
 
+local function updateTheme(themeId)
+
+end
+
 local function resetConfig(specificKey)
 	functions.debug("Resetting the configuration for: ", specificKey)
 	local defaultConfig = getDefaultConfig(specificKey)
@@ -728,6 +732,13 @@ local eventHandler = function()
 							}
 							
 							option:case(tostring(args[1]))
+							drawScreen()
+						end
+					end,
+				[5] = function()
+						-- themes
+						if (tostring(args[1]) == "theme") then
+							updateTheme(tonumber(args[2]))
 							drawScreen()
 						end
 					end,
