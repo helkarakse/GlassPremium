@@ -373,15 +373,18 @@ local function drawThemes(inputX, inputY)
 	local themesArray = {}
 	
 	tableInsert(themesArray, bridge.addText(inputX, inputY, "ID", configArray.textColor.value).setScale(size.small))
-	tableInsert(themesArray, bridge.addText(inputX + (25 * configArray.textSize.value), inputY, "Theme Name", configArray.textColor.value).setScale(size.small))
+	tableInsert(themesArray, bridge.addText(inputX + (15 * configArray.textSize.value), inputY, "Theme Name", configArray.textColor.value).setScale(size.small))
 	
 	for i = 1, #themeArray do
 		tableInsert(themesArray, bridge.addText(inputX, inputY + (lineMultiplier * i), tostring(i), configArray.textColor.value).setScale(size.small))
-		tableInsert(themesArray, bridge.addText(inputX + (25 * configArray.textSize.value), inputY + (lineMultiplier * i), themeArray[i].name, configArray.textColor.value).setScale(size.small))
+		tableInsert(themesArray, bridge.addText(inputX + (15 * configArray.textSize.value), inputY + (lineMultiplier * i), themeArray[i].name, configArray.textColor.value).setScale(size.small))
 	end
 	
-	for i = 1, #themesArray do
-		themesArray[i].setZIndex(5)
+	local k = #themeArray + 1
+	tableInsert(themesArray, bridge.addText(inputX, inputY + (lineMultiplier * k), "To change the currently selected theme, type $$theme <id>", configArray.textColor.value).setScale(size.small))
+	
+	for j = 1, #themesArray do
+		themesArray[j].setZIndex(5)
 	end
 end
 
