@@ -353,22 +353,19 @@ local function drawOptions(inputX, inputY)
 	tableInsert(optionsArray, bridge.addText(inputX + (100 * configArray.textSize.value), inputY, "Keyword", configArray.textColor.value).setScale(size.small))
 	tableInsert(optionsArray, bridge.addText(inputX + (150 * configArray.textSize.value), inputY, "Value", configArray.textColor.value).setScale(size.small))
 	
-	local j = 1
-	for key, value in pairs(configArray) do
-		if (key ~= "theme" and key ~= "windowStartColor" and key ~= "windowEndColor") then
-			tableInsert(optionsArray, bridge.addText(inputX, inputY + (lineMultiplier * j), value.name, configArray.textColor.value).setScale(size.small))
-			tableInsert(optionsArray, bridge.addText(inputX + (100 * configArray.textSize.value), inputY + (lineMultiplier * j), value.keyword, configArray.textColor.value).setScale(size.small))
-			
---			if (value.type == "color") then
---				tableInsert(optionsArray, bridge.addText(inputX + (150 * configArray.textSize.value), inputY + (lineMultiplier * j), functions.decToHex(value.value), configArray.textColor.value).setScale(size.small))
---			else
---				tableInsert(optionsArray, bridge.addText(inputX + (150 * configArray.textSize.value), inputY + (lineMultiplier * j), tostring(value.value), configArray.textColor.value).setScale(size.small))
---			end
-			j = j + 1
-		end
-	end
+	-- textSize
+	tableInsert(optionsArray, bridge.addText(inputX, inputY + (lineMultiplier * 1), configArray.textSize.name, configArray.textColor.value).setScale(size.small))
+	tableInsert(optionsArray, bridge.addText(inputX + (100 * configArray.textSize.value), inputY + (lineMultiplier * 1), configArray.textSize.value, configArray.textColor.value).setScale(size.small))
 	
-	j = j + 1
+	-- textColor
+	tableInsert(optionsArray, bridge.addText(inputX, inputY + (lineMultiplier * 2), configArray.textColor.name, configArray.textColor.value).setScale(size.small))
+	tableInsert(optionsArray, bridge.addText(inputX + (100 * configArray.textSize.value), inputY + (lineMultiplier * 2), functions.decToHex(configArray.textColor.value), configArray.textColor.value).setScale(size.small))
+	
+	-- opacity
+	tableInsert(optionsArray, bridge.addText(inputX, inputY + (lineMultiplier * 3), configArray.opacity.name, configArray.textColor.value).setScale(size.small))
+	tableInsert(optionsArray, bridge.addText(inputX + (100 * configArray.textSize.value), inputY + (lineMultiplier * 3), configArray.opacity.value, configArray.textColor.value).setScale(size.small))
+	
+	local j = 4
 	tableInsert(optionsArray, bridge.addText(inputX, inputY + (lineMultiplier * j), "To change the options, type $$<keyword> <value> in chat.", configArray.textColor.value).setScale(size.small))
 	j = j + 1
 	tableInsert(optionsArray, bridge.addText(inputX, inputY + (lineMultiplier * j), "To reset all the options, type $$reset all", configArray.textColor.value).setScale(size.small))
