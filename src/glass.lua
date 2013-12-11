@@ -37,7 +37,18 @@ local colors = {
 	yellow = 0xFFFF00,
 }
 
-local colorSchemes = {}
+local colorSchemes = {
+	{ name = "Night Black", startColor = 0x000000, endColor = 0xAA0000},
+	{ name = "Cherry Red", startColor = 0xAA0000, endColor = 0xFF5555},
+	{ name = "Pimple Purple", startColor = 0xAA00AA, endColor = 0xFF55FF},
+	{ name = "Sunny Yellow", startColor = 0xFFAA00, endColor = 0xFFFF55},
+	{ name = "Crazy Sunrise", startColor = 0xFFAA00, endColor = 0xFF55FF},
+	{ name = "Grassy Green", startColor = 0x00AA00, endColor = 0x55FF55},
+	{ name = "Historic Grey", startColor = 0x000000, endColor = 0xAAAAAA},
+	{ name = "Ocean Blue", startColor = 0x5555FF, endColor = 0x55FFFF},
+	{ name = "Fluor Green", startColor = 0x55FF55, endColor = 0xFFFF55},
+	{ name = "Default", startColor = 0x18caf0, endColor = 0x9fedfd},
+}
 
 -- Default config function
 local function getDefaultConfig(key)
