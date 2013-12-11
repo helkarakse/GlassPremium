@@ -369,6 +369,14 @@ local function drawOptions(inputX, inputY)
 	end
 end
 
+local function drawThemes(inputX, inputY)
+	local themeArray = {}
+	
+	for i = 1, #themeArray do
+		themeArray[i].setZIndex(5)
+	end
+end
+
 local function drawHelp(inputX, inputY)
 	local helpArray = {}
 	
@@ -419,6 +427,12 @@ local function drawScreen()
 			drawSanta(xPos + 10, yPos - 1)
 			end,
 		[5] = function()
+			drawMain(xPos, yPos, width, height)
+			drawHeader(xPos, yPos, width)
+			drawThemes(xPos + 5, yPos + headerHeight + 5)
+			drawSanta(xPos + 10, yPos - 1)
+			end,
+		[6] = function()
 			drawMain(xPos, yPos, width, height)
 			drawHeader(xPos, yPos, width)
 			drawHelp(xPos + 5, yPos + headerHeight + 5)
@@ -598,10 +612,10 @@ local eventHandler = function()
 					["options"] = function()
 							screenId = 4
 						end,
-					["help"] = function()
+					["theme"] = function()
 							screenId = 5
 						end,
-					["theme"] = function()
+					["help"] = function()
 							screenId = 6
 						end,
 					default = function()
