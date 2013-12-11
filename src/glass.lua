@@ -37,7 +37,7 @@ local colors = {
 	yellow = 0xFFFF00,
 }
 
-local colorSchemes = {
+local themeArray = {
 	{ name = "Night Black", startColor = 0x000000, endColor = 0xAA0000},
 	{ name = "Cherry Red", startColor = 0xAA0000, endColor = 0xFF5555},
 	{ name = "Pimple Purple", startColor = 0xAA00AA, endColor = 0xFF55FF},
@@ -133,7 +133,8 @@ local positionArray = {
 	{x = 10, y = 65, width = 95 * configArray.textSize.value, height = (size.normal * 10) + (size.large * 10) + 12.5}, -- small
 	{x = 10, y = 65, width = 260 * configArray.textSize.value, height = (28 * lineMultiplier) + 10}, -- large
 	{x = 10, y = 65, width = 225 * configArray.textSize.value, height = (12 * lineMultiplier) + 10}, -- rss
-	{x = 10, y = 65, width = 200 * configArray.textSize.value, height = ((functions.getTableCount(configArray) + 6) * lineMultiplier)  + 10}, -- options
+	{x = 10, y = 65, width = 200 * configArray.textSize.value, height = ((functions.getTableCount(configArray) + 6) * lineMultiplier) + 10}, -- options
+	{x = 10, y = 65, width = 200 * configArray.textSize.value, height = ((functions.getTableCount(themeArray) + 6) * lineMultiplier) + 10}, -- themes
 	{x = 10, y = 65, width = 250 * configArray.textSize.value, height = (20 * lineMultiplier) + 10} -- help
 }
 
@@ -517,7 +518,8 @@ local function updateSize(newSize)
 		{x = 10, y = 65, width = 95 * newSize, height = (size.normal * 10) + (size.large * 10) + 12.5}, -- small
 		{x = 10, y = 65, width = 260 * newSize, height = (28 * lineMultiplier) + 10}, -- large
 		{x = 10, y = 65, width = 225 * newSize, height = (12 * lineMultiplier) + 10}, -- rss
-		{x = 10, y = 65, width = 200 * newSize, height = ((functions.getTableCount(configArray) + 6) * lineMultiplier)  + 10}, -- options
+		{x = 10, y = 65, width = 200 * newSize, height = ((functions.getTableCount(configArray) + 6) * lineMultiplier) + 10}, -- options
+		{x = 10, y = 65, width = 200 * newSize, height = ((functions.getTableCount(themeArray) + 6) * lineMultiplier) + 10}, -- themes
 		{x = 10, y = 65, width = 250 * newSize, height = (20 * lineMultiplier) + 10} -- help
 	}
 	
@@ -598,6 +600,9 @@ local eventHandler = function()
 						end,
 					["help"] = function()
 							screenId = 5
+						end,
+					["theme"] = function()
+							screenId = 6
 						end,
 					default = function()
 							screenId = 0
