@@ -125,7 +125,7 @@ local positionArray = {
 	{x = 10, y = 65, width = 260 * configArray.textSize.value, height = (28 * lineMultiplier) + 10}, -- large
 	{x = 10, y = 65, width = 225 * configArray.textSize.value, height = (12 * lineMultiplier) + 10}, -- rss
 	{x = 10, y = 65, width = 200 * configArray.textSize.value, height = ((functions.getTableCount(configArray) + 5) * lineMultiplier) + 10}, -- options
-	{x = 10, y = 65, width = 200 * configArray.textSize.value, height = ((functions.getTableCount(themeArray) + 5) * lineMultiplier) + 10}, -- themes
+	{x = 10, y = 65, width = 200 * configArray.textSize.value, height = ((functions.getTableCount(themeArray) + 6) * lineMultiplier) + 10}, -- themes
 	{x = 10, y = 65, width = 250 * configArray.textSize.value, height = (20 * lineMultiplier) + 10} -- help
 }
 
@@ -386,6 +386,8 @@ local function drawThemes(inputX, inputY)
 	end
 	
 	local k = #themeArray + 2
+	tableInsert(themesArray, bridge.addText(inputX, inputY + (lineMultiplier * k), "Currently selected theme: " .. themeArray[configArray.userTheme.value].name, configArray.textColor.value).setScale(size.small))
+	k = k + 1
 	tableInsert(themesArray, bridge.addText(inputX, inputY + (lineMultiplier * k), "To change the currently selected theme, type $$theme <id>", configArray.textColor.value).setScale(size.small))
 	
 	for j = 1, #themesArray do
@@ -549,7 +551,7 @@ local function updateSize(newSize)
 		{x = 10, y = 65, width = 260 * newSize, height = (28 * lineMultiplier) + 10}, -- large
 		{x = 10, y = 65, width = 225 * newSize, height = (12 * lineMultiplier) + 10}, -- rss
 		{x = 10, y = 65, width = 200 * newSize, height = ((functions.getTableCount(configArray) + 5) * lineMultiplier) + 10}, -- options
-		{x = 10, y = 65, width = 200 * newSize, height = ((functions.getTableCount(themeArray) + 5) * lineMultiplier) + 10}, -- themes
+		{x = 10, y = 65, width = 200 * newSize, height = ((functions.getTableCount(themeArray) + 6) * lineMultiplier) + 10}, -- themes
 		{x = 10, y = 65, width = 250 * newSize, height = (20 * lineMultiplier) + 10} -- help
 	}
 	
