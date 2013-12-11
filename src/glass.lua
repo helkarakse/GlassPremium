@@ -78,7 +78,7 @@ local function getDefaultConfig(key)
 		windowEndColor = {
 			value = colors.headerEnd,
 		},
-		theme = {
+		userTheme = {
 			value = 10,
 		},
 	}
@@ -357,16 +357,16 @@ local function drawOptions(inputX, inputY)
 	tableInsert(optionsArray, bridge.addText(inputX, inputY + (lineMultiplier * 1), configArray.textSize.name, configArray.textColor.value).setScale(size.small))
 	tableInsert(optionsArray, bridge.addText(inputX + (100 * configArray.textSize.value), inputY + (lineMultiplier * 1), configArray.textSize.keyword, configArray.textColor.value).setScale(size.small))
 	tableInsert(optionsArray, bridge.addText(inputX + (150 * configArray.textSize.value), inputY + (lineMultiplier * 1), tostring(configArray.textSize.value), configArray.textColor.value).setScale(size.small))
+
+	-- opacity
+	tableInsert(optionsArray, bridge.addText(inputX, inputY + (lineMultiplier * 3), configArray.opacity.name, configArray.textColor.value).setScale(size.small))
+	tableInsert(optionsArray, bridge.addText(inputX + (100 * configArray.textSize.value), inputY + (lineMultiplier * 3), configArray.opacity.keyword, configArray.textColor.value).setScale(size.small))
+	tableInsert(optionsArray, bridge.addText(inputX + (150 * configArray.textSize.value), inputY + (lineMultiplier * 3), tostring(configArray.opacity.value), configArray.textColor.value).setScale(size.small))
 	
 	-- textColor
 	tableInsert(optionsArray, bridge.addText(inputX, inputY + (lineMultiplier * 2), configArray.textColor.name, configArray.textColor.value).setScale(size.small))
 	tableInsert(optionsArray, bridge.addText(inputX + (100 * configArray.textSize.value), inputY + (lineMultiplier * 2), configArray.textColor.keyword, configArray.textColor.value).setScale(size.small))
 	tableInsert(optionsArray, bridge.addText(inputX + (150 * configArray.textSize.value), inputY + (lineMultiplier * 2), functions.decToHex(configArray.textColor.value), configArray.textColor.value).setScale(size.small))
-	
-	-- opacity
-	tableInsert(optionsArray, bridge.addText(inputX, inputY + (lineMultiplier * 3), configArray.opacity.name, configArray.textColor.value).setScale(size.small))
-	tableInsert(optionsArray, bridge.addText(inputX + (100 * configArray.textSize.value), inputY + (lineMultiplier * 3), configArray.opacity.keyword, configArray.textColor.value).setScale(size.small))
-	tableInsert(optionsArray, bridge.addText(inputX + (150 * configArray.textSize.value), inputY + (lineMultiplier * 3), tostring(configArray.opacity.value), configArray.textColor.value).setScale(size.small))
 	
 	local j = 5
 	tableInsert(optionsArray, bridge.addText(inputX, inputY + (lineMultiplier * j), "To change the options, type $$<keyword> <value> in chat.", configArray.textColor.value).setScale(size.small))
@@ -580,21 +580,21 @@ local function updateTextColor(newColor)
 	functions.writeTable(configArray, configFile)
 end
 
-local function updateWindowStartColor(newColor)
-	newColor = tonumber("0x" .. newColor)
-	functions.debug("Updating the text color from ", functions.decToHex(configArray.windowStartColor.value), " to ", functions.decToHex(newColor))
-	configArray.windowStartColor.value = newColor
-	functions.debug("Writing data to disk")
-	functions.writeTable(configArray, configFile)
-end
-
-local function updateWindowEndColor(newColor)
-	newColor = tonumber("0x" .. newColor)
-	functions.debug("Updating the text color from ", functions.decToHex(configArray.windowEndColor.value), " to ", functions.decToHex(newColor))
-	configArray.windowEndColor.value = newColor
-	functions.debug("Writing data to disk")
-	functions.writeTable(configArray, configFile)
-end
+--local function updateWindowStartColor(newColor)
+--	newColor = tonumber("0x" .. newColor)
+--	functions.debug("Updating the text color from ", functions.decToHex(configArray.windowStartColor.value), " to ", functions.decToHex(newColor))
+--	configArray.windowStartColor.value = newColor
+--	functions.debug("Writing data to disk")
+--	functions.writeTable(configArray, configFile)
+--end
+--
+--local function updateWindowEndColor(newColor)
+--	newColor = tonumber("0x" .. newColor)
+--	functions.debug("Updating the text color from ", functions.decToHex(configArray.windowEndColor.value), " to ", functions.decToHex(newColor))
+--	configArray.windowEndColor.value = newColor
+--	functions.debug("Writing data to disk")
+--	functions.writeTable(configArray, configFile)
+--end
 
 local function resetConfig(specificKey)
 	functions.debug("Resetting the configuration for: ", specificKey)
@@ -677,15 +677,15 @@ local eventHandler = function()
 							["color"] = function()
 									updateTextColor(args[2])
 								end,
-							["window"] = function()
-									if (args[3] ~= nil) then
-										if (args[2] == "start") then
-											updateWindowStartColor(args[3])
-										elseif (args[2] == "end") then
-											updateWindowEndColor(args[3])
-										end
-									end
-								end,
+--							["window"] = function()
+--									if (args[3] ~= nil) then
+--										if (args[2] == "start") then
+--											updateWindowStartColor(args[3])
+--										elseif (args[2] == "end") then
+--											updateWindowEndColor(args[3])
+--										end
+--									end
+--								end,
 							["reset"] = function()
 									if (args[2] == "all") then
 										functions.debug("Resetting configuration back to factory defaults")
@@ -705,15 +705,15 @@ local eventHandler = function()
 											["color"] = function()
 													configKey = "textColor"
 												end,
-											["window"] = function()
-													if (args[3] ~= nil) then
-														if (args[3] == "start") then
-															configKey = "windowStartColor"
-														elseif (args[3] == "end") then
-															configKey = "windowEndColor"
-														end
-													end
-												end,
+--											["window"] = function()
+--													if (args[3] ~= nil) then
+--														if (args[3] == "start") then
+--															configKey = "windowStartColor"
+--														elseif (args[3] == "end") then
+--															configKey = "windowEndColor"
+--														end
+--													end
+--												end,
 											default = function()
 												configKey = ""
 											end,
