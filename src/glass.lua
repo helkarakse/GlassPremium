@@ -571,6 +571,9 @@ local eventHandler = function()
 					["options"] = function()
 							screenId = 4
 						end,
+					["help"] = function()
+							screenId = 5
+						end,
 					default = function()
 							screenId = 0
 						end
@@ -589,6 +592,9 @@ local eventHandler = function()
 			bridge.clear()
 			drawHeader(positionArray[currentDisplay].x, positionArray[currentDisplay].y, positionArray[currentDisplay].width)
 			drawSanta(positionArray[currentDisplay].x + 10, positionArray[currentDisplay].y - 1)
+		elseif (args[1] == "help") then
+			currentDisplay = 5
+			drawScreen()
 		else
 			local check = switch {
 				[1] = function()
