@@ -1,11 +1,10 @@
 --[[
 
-	OTE GlassPremium Version 1.0 Alpha
+	OTE GlassPremium Version 1.1 Release
 	Do not modify, copy or distribute without permission of author
 	Helkarakse & Shotexpert, 20131203
 	
-	TODO: Add animations for the opening and closing - version 1.1
-	TODO: Add granular reset functions for the config - version 1.1
+	TODO: Add color schemes v1.2
 ]]
 
 -- Libraries
@@ -38,6 +37,19 @@ local colors = {
 	yellow = 0xFFFF00,
 }
 
+local themeArray = {
+	{ name = "Night Black", startColor = 0x000000, endColor = 0xAA0000},
+	{ name = "Cherry Red", startColor = 0xAA0000, endColor = 0xFF5555},
+	{ name = "Pimple Purple", startColor = 0xAA00AA, endColor = 0xFF55FF},
+	{ name = "Sunny Yellow", startColor = 0xFFAA00, endColor = 0xFFFF55},
+	{ name = "Crazy Sunrise", startColor = 0xFFAA00, endColor = 0xFF55FF},
+	{ name = "Grassy Green", startColor = 0x00AA00, endColor = 0x55FF55},
+	{ name = "Historic Grey", startColor = 0x000000, endColor = 0xAAAAAA},
+	{ name = "Ocean Blue", startColor = 0x5555FF, endColor = 0x55FFFF},
+	{ name = "Fluor Green", startColor = 0x55FF55, endColor = 0xFFFF55},
+	{ name = "Default", startColor = 0x18caf0, endColor = 0x9fedfd},
+}
+
 -- Default config function
 local function getDefaultConfig(key)
 	-- default settings
@@ -60,18 +72,9 @@ local function getDefaultConfig(key)
 			value = 0.15,
 			formattedValue = "0.15"
 		},
-		windowStartColor = {
-			name = "Window Gradient Start Color",
-			keyword = "window start",
-			value = colors.headerStart,
-			type = "color"
+		userTheme = {
+			value = 10,
 		},
-		windowEndColor = {
-			name = "Window Gradient End Color",
-			keyword = "window end",
-			value = colors.headerEnd,
-			type = "color"
-		}
 	}
 	
 	if (key) then
@@ -121,8 +124,9 @@ local positionArray = {
 	{x = 10, y = 65, width = 95 * configArray.textSize.value, height = (size.normal * 10) + (size.large * 10) + 12.5}, -- small
 	{x = 10, y = 65, width = 260 * configArray.textSize.value, height = (28 * lineMultiplier) + 10}, -- large
 	{x = 10, y = 65, width = 225 * configArray.textSize.value, height = (12 * lineMultiplier) + 10}, -- rss
-	{x = 10, y = 65, width = 200 * configArray.textSize.value, height = ((functions.getTableCount(configArray) + 6) * lineMultiplier)  + 10}, -- options
-	{x = 10, y = 65, width = 250 * configArray.textSize.value, height = 100} -- help
+	{x = 10, y = 65, width = 200 * configArray.textSize.value, height = ((functions.getTableCount(configArray) + 5) * lineMultiplier) + 10}, -- options
+	{x = 10, y = 65, width = 200 * configArray.textSize.value, height = ((functions.getTableCount(themeArray) + 6) * lineMultiplier) + 10}, -- themes
+	{x = 10, y = 65, width = 250 * configArray.textSize.value, height = (20 * lineMultiplier) + 10} -- help
 }
 
 -- Event handling related
@@ -130,12 +134,12 @@ local currentDisplay = 1 -- main display
 
 -- Functions
 local function drawMain(inputX, inputY, inputWidth, inputHeight)
-	mainBox = bridge.addBox(inputX, inputY, inputWidth, inputHeight, configArray.windowEndColor.value, configArray.opacity.value)
-	edgeBox = bridge.addGradientBox(inputX, inputY + inputHeight - 2, inputWidth, 2, configArray.windowStartColor.value, 1, configArray.windowEndColor.value, 0, 2)
+	mainBox = bridge.addBox(inputX, inputY, inputWidth, inputHeight, themeArray[configArray.userTheme.value].endColor, configArray.opacity.value)
+	edgeBox = bridge.addGradientBox(inputX, inputY + inputHeight - 2, inputWidth, 2, themeArray[configArray.userTheme.value].startColor, 1, themeArray[configArray.userTheme.value].endColor, 0, 2)
 end
 
 local function drawHeader(inputX, inputY, inputWidth)
-	header = bridge.addGradientBox(inputX - 5, inputY, inputWidth, headerHeight, configArray.windowEndColor.value, 0, configArray.windowStartColor.value, 1, 2)
+	header = bridge.addGradientBox(inputX - 5, inputY, inputWidth, headerHeight, themeArray[configArray.userTheme.value].endColor, 0, themeArray[configArray.userTheme.value].startColor, 1, 2)
 	header.setZIndex(2)
 	headerText = bridge.addText(inputX, inputY + 1, "OTE Glass (c) Helk & Shot 2013", configArray.textColor.value)
 	headerText.setZIndex(3)
@@ -190,7 +194,19 @@ local function drawTps(inputX, inputY)
 			rssUpdatedText = bridge.addText(inputX + width - (80 * configArray.textSize.value), inputY + 1, "", configArray.textColor.value)
 			rssUpdatedText.setScale(size.small)
 			rssUpdatedText.setZIndex(4)
-		end
+		end,
+		[5] = function()
+			local rssUpdatedLabelText = bridge.addText(inputX + width - (125 * configArray.textSize.value), inputY + 1, "Last Updated:", configArray.textColor.value)
+			rssUpdatedLabelText.setScale(size.small)
+			rssUpdatedLabelText.setZIndex(4)
+			
+			rssUpdatedText = bridge.addText(inputX + width - (80 * configArray.textSize.value), inputY + 1, "", configArray.textColor.value)
+			rssUpdatedText.setScale(size.small)
+			rssUpdatedText.setZIndex(4)
+		end,
+		default = function()
+			
+		end,
 	}
 	
 	check:case(currentDisplay)
@@ -331,20 +347,22 @@ local function drawOptions(inputX, inputY)
 	tableInsert(optionsArray, bridge.addText(inputX + (100 * configArray.textSize.value), inputY, "Keyword", configArray.textColor.value).setScale(size.small))
 	tableInsert(optionsArray, bridge.addText(inputX + (150 * configArray.textSize.value), inputY, "Value", configArray.textColor.value).setScale(size.small))
 	
-	local j = 1
-	for key, value in pairs(configArray) do
-		tableInsert(optionsArray, bridge.addText(inputX, inputY + (lineMultiplier * j), value.name, configArray.textColor.value).setScale(size.small))
-		tableInsert(optionsArray, bridge.addText(inputX + (100 * configArray.textSize.value), inputY + (lineMultiplier * j), value.keyword, configArray.textColor.value).setScale(size.small))
-		
-		if (value.type == "color") then
-			tableInsert(optionsArray, bridge.addText(inputX + (150 * configArray.textSize.value), inputY + (lineMultiplier * j), functions.decToHex(value.value), configArray.textColor.value).setScale(size.small))
-		else
-			tableInsert(optionsArray, bridge.addText(inputX + (150 * configArray.textSize.value), inputY + (lineMultiplier * j), tostring(value.value), configArray.textColor.value).setScale(size.small))
-		end
-		j = j + 1
-	end
+	-- textSize
+	tableInsert(optionsArray, bridge.addText(inputX, inputY + (lineMultiplier * 1), configArray.textSize.name, configArray.textColor.value).setScale(size.small))
+	tableInsert(optionsArray, bridge.addText(inputX + (100 * configArray.textSize.value), inputY + (lineMultiplier * 1), configArray.textSize.keyword, configArray.textColor.value).setScale(size.small))
+	tableInsert(optionsArray, bridge.addText(inputX + (150 * configArray.textSize.value), inputY + (lineMultiplier * 1), tostring(configArray.textSize.value), configArray.textColor.value).setScale(size.small))
+
+	-- opacity
+	tableInsert(optionsArray, bridge.addText(inputX, inputY + (lineMultiplier * 3), configArray.opacity.name, configArray.textColor.value).setScale(size.small))
+	tableInsert(optionsArray, bridge.addText(inputX + (100 * configArray.textSize.value), inputY + (lineMultiplier * 3), configArray.opacity.keyword, configArray.textColor.value).setScale(size.small))
+	tableInsert(optionsArray, bridge.addText(inputX + (150 * configArray.textSize.value), inputY + (lineMultiplier * 3), tostring(configArray.opacity.value), configArray.textColor.value).setScale(size.small))
 	
-	j = j + 1
+	-- textColor
+	tableInsert(optionsArray, bridge.addText(inputX, inputY + (lineMultiplier * 2), configArray.textColor.name, configArray.textColor.value).setScale(size.small))
+	tableInsert(optionsArray, bridge.addText(inputX + (100 * configArray.textSize.value), inputY + (lineMultiplier * 2), configArray.textColor.keyword, configArray.textColor.value).setScale(size.small))
+	tableInsert(optionsArray, bridge.addText(inputX + (150 * configArray.textSize.value), inputY + (lineMultiplier * 2), functions.decToHex(configArray.textColor.value), configArray.textColor.value).setScale(size.small))
+	
+	local j = 5
 	tableInsert(optionsArray, bridge.addText(inputX, inputY + (lineMultiplier * j), "To change the options, type $$<keyword> <value> in chat.", configArray.textColor.value).setScale(size.small))
 	j = j + 1
 	tableInsert(optionsArray, bridge.addText(inputX, inputY + (lineMultiplier * j), "To reset all the options, type $$reset all", configArray.textColor.value).setScale(size.small))
@@ -353,6 +371,40 @@ local function drawOptions(inputX, inputY)
 	
 	for i = 1, #optionsArray do
 		optionsArray[i].setZIndex(5)
+	end
+end
+
+local function drawThemes(inputX, inputY)
+	local themesArray = {}
+	
+	tableInsert(themesArray, bridge.addText(inputX, inputY, "ID", configArray.textColor.value).setScale(size.small))
+	tableInsert(themesArray, bridge.addText(inputX + (15 * configArray.textSize.value), inputY, "Theme Name", configArray.textColor.value).setScale(size.small))
+	
+	for i = 1, #themeArray do
+		tableInsert(themesArray, bridge.addText(inputX, inputY + (lineMultiplier * i), tostring(i), configArray.textColor.value).setScale(size.small))
+		tableInsert(themesArray, bridge.addText(inputX + (15 * configArray.textSize.value), inputY + (lineMultiplier * i), themeArray[i].name, configArray.textColor.value).setScale(size.small))
+	end
+	
+	local k = #themeArray + 2
+	tableInsert(themesArray, bridge.addText(inputX, inputY + (lineMultiplier * k), "Currently selected theme: " .. themeArray[configArray.userTheme.value].name, configArray.textColor.value).setScale(size.small))
+	k = k + 1
+	tableInsert(themesArray, bridge.addText(inputX, inputY + (lineMultiplier * k), "To change the currently selected theme, type $$theme <id>", configArray.textColor.value).setScale(size.small))
+	
+	for j = 1, #themesArray do
+		themesArray[j].setZIndex(5)
+	end
+end
+
+local function drawHelp(inputX, inputY)
+	local helpArray = {}
+	
+	tableInsert(helpArray, bridge.addText(inputX, inputY + (lineMultiplier * 0), "Sample placeholder for help text.", configArray.textColor.value).setScale(size.small))
+	-- tableInsert(helpArray, bridge.addText(inputX, inputY + (lineMultiplier * 1), "Second line of text", configArray.textColor.value).setScale(size.small))
+	-- tableInsert(helpArray, bridge.addText(inputX, inputY + (lineMultiplier * 2), "Third line of text", configArray.textColor.value).setScale(size.small))
+	-- tableInsert(helpArray, bridge.addText(inputX, inputY + (lineMultiplier * 3), "Sample placeholder for really really really really long text.", configArray.textColor.value).setScale(size.small))
+	
+	for i = 1, #helpArray do
+		helpArray[i].setZIndex(5)
 	end
 end
 
@@ -389,12 +441,19 @@ local function drawScreen()
 		[4] = function()
 			drawMain(xPos, yPos, width, height)
 			drawHeader(xPos, yPos, width)
-			drawOptions(xPos + 5, yPos  + headerHeight + 5)
+			drawOptions(xPos + 5, yPos + headerHeight + 5)
 			drawSanta(xPos + 10, yPos - 1)
 			end,
 		[5] = function()
 			drawMain(xPos, yPos, width, height)
 			drawHeader(xPos, yPos, width)
+			drawThemes(xPos + 5, yPos + headerHeight + 5)
+			drawSanta(xPos + 10, yPos - 1)
+			end,
+		[6] = function()
+			drawMain(xPos, yPos, width, height)
+			drawHeader(xPos, yPos, width)
+			drawHelp(xPos + 5, yPos + headerHeight + 5)
 			drawSanta(xPos + 10, yPos - 1)
 			end,
 	}
@@ -491,8 +550,9 @@ local function updateSize(newSize)
 		{x = 10, y = 65, width = 95 * newSize, height = (size.normal * 10) + (size.large * 10) + 12.5}, -- small
 		{x = 10, y = 65, width = 260 * newSize, height = (28 * lineMultiplier) + 10}, -- large
 		{x = 10, y = 65, width = 225 * newSize, height = (12 * lineMultiplier) + 10}, -- rss
-		{x = 10, y = 65, width = 200 * newSize, height = ((functions.getTableCount(configArray) + 6) * lineMultiplier)  + 10}, -- options
-		{x = 10, y = 65, width = 250 * newSize, height = 100} -- help
+		{x = 10, y = 65, width = 200 * newSize, height = ((functions.getTableCount(configArray) + 5) * lineMultiplier) + 10}, -- options
+		{x = 10, y = 65, width = 200 * newSize, height = ((functions.getTableCount(themeArray) + 6) * lineMultiplier) + 10}, -- themes
+		{x = 10, y = 65, width = 250 * newSize, height = (20 * lineMultiplier) + 10} -- help
 	}
 	
 	configArray.textSize.value = newSize
@@ -516,18 +576,25 @@ local function updateTextColor(newColor)
 	functions.writeTable(configArray, configFile)
 end
 
-local function updateWindowStartColor(newColor)
-	newColor = tonumber("0x" .. newColor)
-	functions.debug("Updating the text color from ", functions.decToHex(configArray.windowStartColor.value), " to ", functions.decToHex(newColor))
-	configArray.windowStartColor.value = newColor
-	functions.debug("Writing data to disk")
-	functions.writeTable(configArray, configFile)
-end
+--local function updateWindowStartColor(newColor)
+--	newColor = tonumber("0x" .. newColor)
+--	functions.debug("Updating the text color from ", functions.decToHex(themeArray[configArray.userTheme.value].startColor), " to ", functions.decToHex(newColor))
+--	themeArray[configArray.userTheme.value].startColor = newColor
+--	functions.debug("Writing data to disk")
+--	functions.writeTable(configArray, configFile)
+--end
+--
+--local function updateWindowEndColor(newColor)
+--	newColor = tonumber("0x" .. newColor)
+--	functions.debug("Updating the text color from ", functions.decToHex(themeArray[configArray.userTheme.value].endColor), " to ", functions.decToHex(newColor))
+--	themeArray[configArray.userTheme.value].endColor = newColor
+--	functions.debug("Writing data to disk")
+--	functions.writeTable(configArray, configFile)
+--end
 
-local function updateWindowEndColor(newColor)
-	newColor = tonumber("0x" .. newColor)
-	functions.debug("Updating the text color from ", functions.decToHex(configArray.windowEndColor.value), " to ", functions.decToHex(newColor))
-	configArray.windowEndColor.value = newColor
+local function updateTheme(themeId)
+	functions.debug("Updating the user theme id from: ", configArray.userTheme.value, " to ", themeId)
+	configArray.userTheme.value = themeId
 	functions.debug("Writing data to disk")
 	functions.writeTable(configArray, configFile)
 end
@@ -570,6 +637,12 @@ local eventHandler = function()
 					["options"] = function()
 							screenId = 4
 						end,
+					["themes"] = function()
+							screenId = 5
+						end,
+					["help"] = function()
+							screenId = 6
+						end,
 					default = function()
 							screenId = 0
 						end
@@ -588,20 +661,11 @@ local eventHandler = function()
 			bridge.clear()
 			drawHeader(positionArray[currentDisplay].x, positionArray[currentDisplay].y, positionArray[currentDisplay].width)
 			drawSanta(positionArray[currentDisplay].x + 10, positionArray[currentDisplay].y - 1)
+		elseif (args[1] == "help") then
+			currentDisplay = 5
+			drawScreen()
 		else
 			local check = switch {
-				[1] = function()
-						-- tick and clock
-						functions.debug("Message was retrieved by the event [1]: ", message)
-					end,
-				[2] = function()
-						-- full tick
-						functions.debug("Message was retrieved by the event [2]: ", message)
-					end,
-				[3] = function()
-						-- rss
-						functions.debug("Message was retrieved by the event [3]: ", message)
-					end,
 				[4] = function()
 						-- options
 						functions.debug("Message was retrieved by the event [4]: ", message)
@@ -616,15 +680,15 @@ local eventHandler = function()
 							["color"] = function()
 									updateTextColor(args[2])
 								end,
-							["window"] = function()
-									if (args[3] ~= nil) then
-										if (args[2] == "start") then
-											updateWindowStartColor(args[3])
-										elseif (args[2] == "end") then
-											updateWindowEndColor(args[3])
-										end
-									end
-								end,
+--							["window"] = function()
+--									if (args[3] ~= nil) then
+--										if (args[2] == "start") then
+--											updateWindowStartColor(args[3])
+--										elseif (args[2] == "end") then
+--											updateWindowEndColor(args[3])
+--										end
+--									end
+--								end,
 							["reset"] = function()
 									if (args[2] == "all") then
 										functions.debug("Resetting configuration back to factory defaults")
@@ -644,15 +708,15 @@ local eventHandler = function()
 											["color"] = function()
 													configKey = "textColor"
 												end,
-											["window"] = function()
-													if (args[3] ~= nil) then
-														if (args[3] == "start") then
-															configKey = "windowStartColor"
-														elseif (args[3] == "end") then
-															configKey = "windowEndColor"
-														end
-													end
-												end,
+--											["window"] = function()
+--													if (args[3] ~= nil) then
+--														if (args[3] == "start") then
+--															configKey = "windowStartColor"
+--														elseif (args[3] == "end") then
+--															configKey = "windowEndColor"
+--														end
+--													end
+--												end,
 											default = function()
 												configKey = ""
 											end,
@@ -671,8 +735,14 @@ local eventHandler = function()
 						end
 					end,
 				[5] = function()
-						-- help
-						functions.debug("Message was retrieved by the event [5]:", message)
+						-- themes
+						if (tostring(args[1]) == "theme") then
+							updateTheme(tonumber(args[2]))
+							drawScreen()
+						end
+					end,
+				default = function()
+						functions.debug("Message retrieved by event:", message)
 					end,
 			}
 			
