@@ -662,7 +662,7 @@ local eventHandler = function()
 			drawHeader(positionArray[currentDisplay].x, positionArray[currentDisplay].y, positionArray[currentDisplay].width)
 			drawSanta(positionArray[currentDisplay].x + 10, positionArray[currentDisplay].y - 1)
 		elseif (args[1] == "help") then
-			currentDisplay = 5
+			currentDisplay = 6
 			drawScreen()
 		else
 			local check = switch {
