@@ -142,7 +142,7 @@ end
 local function drawHeader(inputX, inputY, inputWidth)
 	header = bridge.addGradientBox(inputX - 5, inputY, inputWidth, headerHeight, themeArray[configArray.userTheme.value].endColor, 0, themeArray[configArray.userTheme.value].startColor, 1, 2)
 	header.setZIndex(2)
-	headerText = bridge.addText(inputX, inputY + 1, "OTE Glass (c) Helk & Shot 2013", configArray.textColor.value)
+	headerText = bridge.addText(inputX, inputY + (0.5 * size.small), "OTE Glass (c) Helk & Shot 2013", configArray.textColor.value)
 	headerText.setZIndex(3)
 	headerText.setScale(size.small)
 end
