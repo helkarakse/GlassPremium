@@ -13,7 +13,8 @@ os.loadAPI("tickParser")
 os.loadAPI("rssParser")
 
 -- Variables
-local jsonFile = "profile.txt"
+local dimId = string.sub(os.getComputerLabel(), 1, 1)
+local remoteUrl = "http://www.otegamers.com/custom/helkarakse/upload.php?req=show&dim=" .. dimId
 local rssLink = "http://www.otegamers.com/index.php?app=core&module=global&section=rss&type=forums&id=24"
 local configFile = "config"
 
@@ -225,7 +226,7 @@ local function drawEntities(inputX, inputY)
 		tableInsert(entitiesArray, bridge.addText(inputX, inputY + (lineMultiplier * i), data[i].name, configArray.textColor.value).setScale(size.small))
 		tableInsert(entitiesArray, bridge.addText(inputX + (125 * configArray.textSize.value), inputY + (lineMultiplier * i), data[i].position, configArray.textColor.value).setScale(size.small))
 		tableInsert(entitiesArray, bridge.addText(inputX + (175 * configArray.textSize.value), inputY + (lineMultiplier * i), data[i].percent, tickParser.getPercentHexColor(data[i].percent)).setScale(size.small))
-		tableInsert(entitiesArray, bridge.addText(inputX + (200 * configArray.textSize.value), inputY + (lineMultiplier * i), tickParser.getDimensionName(tickParser.getServerId(os.getComputerID()), data[i].dimId), configArray.textColor.value).setScale(size.small))
+		tableInsert(entitiesArray, bridge.addText(inputX + (200 * configArray.textSize.value), inputY + (lineMultiplier * i), tickParser.getDimensionName(dimId, data[i].dimId), configArray.textColor.value).setScale(size.small))
 	end
 	
 	for i = 1, #entitiesArray do
@@ -477,39 +478,29 @@ local function getRssData()
 end
 
 local function getTickData()
-	local file = fs.open(jsonFile, "r")
-	local text = file.readAll()
-	file.close()
-	
-	-- reset the updated time and the new file size
-	currentFileSize = fs.getSize(jsonFile)
-	functions.debug("Setting the current file size to: ", currentFileSize)
-	lastUpdated = 0
-	
-	-- re-parse the data
-	tickParser.parseData(text)
+	local data = http.get(remoteUrl)
+	if (data) then
+		functions.debug("Data retrieved from remote server.")
+		-- re-parse the data
+		local text = data.readAll()
+		tickParser.parseData(text)
+	else
+		functions.debug("Failed to retrieve data from remote server.")
+	end
 end
 
 -- Loops
 local tickRefreshLoop = function()
 	lastUpdated = 0
 	while true do
-		if (fs.getSize(jsonFile) ~= currentFileSize) then
-			-- Get the new data
-			functions.debug("File size of profile.txt has changed. Assuming new data.")
-			getTickData()
-			
-			-- redraw the new data
-			functions.debug("Current display is: ", currentDisplay)
-			drawScreen()
-		else
-			if (currentDisplay == 2) then
-				lastUpdatedText.setText(lastUpdated .. "s")
-			end
-		end
+		-- Get the new data
+		getTickData()
 		
-		lastUpdated = lastUpdated + 1
-		sleep(1)
+		-- redraw the new data
+		functions.debug("Current display is: ", currentDisplay)
+		drawScreen()
+		
+		sleep(20)
 	end
 end
 
