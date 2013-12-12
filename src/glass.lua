@@ -162,7 +162,7 @@ local function drawTps(inputX, inputY)
 			tpsText.setScale(size.normal)
 			tpsText.setZIndex(4)
 			
-			clockText = bridge.addText(inputX + 5, inputY + headerHeight + 5, "", configArray.textColor.value)
+			clockText = bridge.addText(inputX + 5, inputY + headerHeight + 5, textutils.formatTime(os.time(), false), configArray.textColor.value)
 			clockText.setScale(size.large)
 			clockText.setZIndex(4)
 		end,
@@ -175,7 +175,7 @@ local function drawTps(inputX, inputY)
 			tpsText.setScale(size.normal)
 			tpsText.setZIndex(4)
 			
-			clockText = bridge.addText(inputX + width - (30 * configArray.textSize.value), inputY + 1, "", configArray.textColor.value)
+			clockText = bridge.addText(inputX + width - (30 * configArray.textSize.value), inputY + 1, textutils.formatTime(os.time(), false), configArray.textColor.value)
 			clockText.setScale(size.small)
 			clockText.setZIndex(4)
 			
@@ -183,7 +183,7 @@ local function drawTps(inputX, inputY)
 			lastUpdatedLabelText.setScale(size.small)
 			lastUpdatedLabelText.setZIndex(4)
 			
-			lastUpdatedText = bridge.addText(inputX + width - (55 * configArray.textSize.value), inputY + 1, "", configArray.textColor.value)
+			lastUpdatedText = bridge.addText(inputX + width - (55 * configArray.textSize.value), inputY + 1, textutils.formatTime(os.time(), false), configArray.textColor.value)
 			lastUpdatedText.setScale(size.small)
 			lastUpdatedText.setZIndex(4)
 		end,
@@ -192,7 +192,7 @@ local function drawTps(inputX, inputY)
 			rssUpdatedLabelText.setScale(size.small)
 			rssUpdatedLabelText.setZIndex(4)
 			
-			rssUpdatedText = bridge.addText(inputX + width - (80 * configArray.textSize.value), inputY + 1, "", configArray.textColor.value)
+			rssUpdatedText = bridge.addText(inputX + width - (80 * configArray.textSize.value), inputY + 1, textutils.formatTime(os.time(), false), configArray.textColor.value)
 			rssUpdatedText.setScale(size.small)
 			rssUpdatedText.setZIndex(4)
 		end,
@@ -201,7 +201,7 @@ local function drawTps(inputX, inputY)
 			rssUpdatedLabelText.setScale(size.small)
 			rssUpdatedLabelText.setZIndex(4)
 			
-			rssUpdatedText = bridge.addText(inputX + width - (80 * configArray.textSize.value), inputY + 1, "", configArray.textColor.value)
+			rssUpdatedText = bridge.addText(inputX + width - (80 * configArray.textSize.value), inputY + 1, textutils.formatTime(os.time(), false), configArray.textColor.value)
 			rssUpdatedText.setScale(size.small)
 			rssUpdatedText.setZIndex(4)
 		end,
@@ -516,9 +516,7 @@ end
 
 local clockRefreshLoop = function()
 	while true do
-		-- no currentDisplay checks because clock will be on all of them
-		local nTime = os.time()
-		clockText.setText(textutils.formatTime(nTime, false))
+		clockText.setText(textutils.formatTime(os.time(), false))
 		sleep(1)
 	end
 end
