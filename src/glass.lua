@@ -18,7 +18,7 @@ local remoteUrl = "http://www.otegamers.com/custom/helkarakse/upload.php?req=sho
 local rssLink = "http://www.otegamers.com/index.php?app=core&module=global&section=rss&type=forums&id=24"
 local configFile = "config"
 
--- Supposedly references like this improve performance
+-- References
 local tonumber = tonumber
 local tostring = tostring
 local tableInsert = table.insert
@@ -179,11 +179,11 @@ local function drawTps(inputX, inputY)
 			clockText.setScale(size.small)
 			clockText.setZIndex(4)
 			
-			local lastUpdatedLabelText = bridge.addText(inputX + width - (100 * configArray.textSize.value), inputY + 1, "Last Updated:", configArray.textColor.value)
+			local lastUpdatedLabelText = bridge.addText(inputX + width - (125 * configArray.textSize.value), inputY + 1, "Last Updated:", configArray.textColor.value)
 			lastUpdatedLabelText.setScale(size.small)
 			lastUpdatedLabelText.setZIndex(4)
 			
-			lastUpdatedText = bridge.addText(inputX + width - (55 * configArray.textSize.value), inputY + 1, textutils.formatTime(os.time(), false), configArray.textColor.value)
+			lastUpdatedText = bridge.addText(inputX + width - (80 * configArray.textSize.value), inputY + 1, textutils.formatTime(os.time(), false), configArray.textColor.value)
 			lastUpdatedText.setScale(size.small)
 			lastUpdatedText.setZIndex(4)
 		end,
