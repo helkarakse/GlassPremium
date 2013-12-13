@@ -97,10 +97,9 @@ local function getDefaultConfig(key)
 end
 
 -- Load authentication package
-functions.debug("Retrieving authentication level from server...")
 local handle = http.get(remoteUrl)
 if (handle) then
-	functions.debug("Hash retrieved from remote server.")
+	functions.debug("Hash retrieved from remote server for user: " .. userName)
 	
 	local hash = handle.readAll()
 	if (hash == adminAuth) then
