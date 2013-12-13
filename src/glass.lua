@@ -1,10 +1,9 @@
 --[[
 
-	OTE GlassPremium Version 1.1 Release
+	OTE GlassPremium
 	Do not modify, copy or distribute without permission of author
 	Helkarakse & Shotexpert, 20131203
 	
-	TODO: Add color schemes v1.2
 ]]
 
 -- Libraries
