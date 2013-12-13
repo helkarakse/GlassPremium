@@ -270,6 +270,12 @@ local function drawCalls(inputX, inputY)
 	end
 end
 
+local function drawLastUpdated(inputX, inputY)
+	local updatedText = bridge.addText(inputX, inputY, "Last Updated: " .. tickParser.getUpdatedDate(), configArray.textColor.value)
+	updatedText.setScale(size.small)
+	updatedText.setZIndex(5)
+end
+
 local function drawSanta(inputX, inputY)
 	local boxArray = {}
 	--white parts
@@ -296,6 +302,7 @@ local function drawData()
 	drawChunks(positionArray[currentDisplay].x + 5, positionArray[currentDisplay].y + headerHeight + 5 + ((limit + 2) * lineMultiplier))
 	drawTypes(positionArray[currentDisplay].x + 5, positionArray[currentDisplay].y + headerHeight + 5 + ((limit + 2) * 2 * lineMultiplier))
 	drawCalls(positionArray[currentDisplay].x + 5, positionArray[currentDisplay].y + headerHeight + 5 + ((limit + 2) * 3 * lineMultiplier))
+	drawLastUpdated(positionArray[currentDisplay].x + 5, positionArray[currentDisplay].y + headerHeight + 5 + ((limit + 2) * 4 * lineMultiplier))
 end
 
 local function drawRss(inputX, inputY)	
