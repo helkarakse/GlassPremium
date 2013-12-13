@@ -22,6 +22,11 @@ local authUrl = "http://www.otegamers.com/custom/helkarakse/auth.php?name=" .. u
 local configFile = "config"
 local modemFrequency = 1
 
+-- Authentication
+local adminAuth = "c4ca4238a0b923820dcc509a6f75849b"
+local userAuth = "c81e728d9d4c2f636f067f89cc14862c"
+local authLevel = ""
+
 -- References
 local tonumber = tonumber
 local tostring = tostring
@@ -92,7 +97,14 @@ end
 
 -- Load authentication package
 functions.debug("Retrieving authentication level from server...")
-
+local handle = http.get(remoteUrl)
+if (handle) then
+	functions.debug("Hash retrieved from remote server.")
+	authLevel = handle.readAll()
+	handle.close()
+else
+	functions.debug("Failed to retrieve hash from remote server.")
+end
 
 -- Load configuration package
 local configExists, configArray = functions.readTable(configFile)
