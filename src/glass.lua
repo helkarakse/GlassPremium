@@ -487,9 +487,6 @@ end
 local rssRefreshLoop = function()
 	while true do
 		getRssData()
-		if (currentDisplay == 3) then
-			rssUpdatedText.setText(rssParser.convertDate(rssParser.getPubDate()))
-		end
 		sleep(60)
 	end
 end
