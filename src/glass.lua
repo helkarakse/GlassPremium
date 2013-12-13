@@ -19,13 +19,14 @@ local remoteUrl = "http://www.otegamers.com/custom/helkarakse/upload.php?req=sho
 local backupUrl = "http://www.otegamers.com/custom/helkarakse/backup.php?name=" .. userName .. "&dim=" .. dimId
 local rssLink = "http://www.otegamers.com/index.php?app=core&module=global&section=rss&type=forums&id=24"
 local authUrl = "http://www.otegamers.com/custom/helkarakse/auth.php?name=" .. userName
+
 local configFile = "config"
 local modemFrequency = 1
 
 -- Authentication
 local adminAuth = "c4ca4238a0b923820dcc509a6f75849b"
 local userAuth = "c81e728d9d4c2f636f067f89cc14862c"
-local authLevel = ""
+local authLevel = 0
 
 -- References
 local tonumber = tonumber
@@ -100,7 +101,7 @@ functions.debug("Retrieving authentication level from server...")
 local handle = http.get(remoteUrl)
 if (handle) then
 	functions.debug("Hash retrieved from remote server.")
-	authLevel = handle.readAll()
+	authLevel = tonumber(handle.readAll())
 	handle.close()
 else
 	functions.debug("Failed to retrieve hash from remote server.")
@@ -658,6 +659,9 @@ local chatEventHandler = function()
 		elseif (args[1] == "help") then
 			currentDisplay = 6
 			drawScreen()
+		elseif (args[1] == "admin" and authLevel == 1) then
+			-- Admin only commands
+			functions.debug("Admin commands accessed.")
 		else
 			local check = switch {
 				[4] = function()
