@@ -18,6 +18,7 @@ local userName = string.sub(os.getComputerLabel(), 2)
 local remoteUrl = "http://www.otegamers.com/custom/helkarakse/upload.php?req=show&dim=" .. dimId
 local backupUrl = "http://www.otegamers.com/custom/helkarakse/backup.php?name=" .. userName .. "&dim=" .. dimId
 local rssLink = "http://www.otegamers.com/index.php?app=core&module=global&section=rss&type=forums&id=24"
+local authUrl = "http://www.otegamers.com/custom/helkarakse/auth.php?name=" .. userName
 local configFile = "config"
 local modemFrequency = 1
 
@@ -89,7 +90,11 @@ local function getDefaultConfig(key)
 	end
 end
 
--- Load configuration file
+-- Load authentication package
+functions.debug("Retrieving authentication level from server...")
+
+
+-- Load configuration package
 local configExists, configArray = functions.readTable(configFile)
 if (configExists ~= true) then
 	functions.debug("Config file not found, creating config array in memory")
