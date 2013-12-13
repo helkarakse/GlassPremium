@@ -19,7 +19,8 @@ local peripheral = peripheral
 -- Arrays
 local menuOptions = {
 	{name = "[1] Perform configuration backup"},
-	{name = "[2] Perform rolling reboots"}
+	{name = "[2] Perform rolling reboots"},
+	{name = "[3] Reboot this computer"}
 }
 
 local function displayMenu()
@@ -39,6 +40,8 @@ local function displayMenu()
 				functions.debug("1")
 			elseif (tonumber(option) == 2) then
 				functions.debug("2")
+			elseif (tonumber(option) == 3) then
+				os.reboot()
 			end
 		end
 	end
