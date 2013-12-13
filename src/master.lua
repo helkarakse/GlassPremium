@@ -25,6 +25,8 @@ local menuOptions = {
 local function displayMenu()
 	while true do
 		term.clear()
+		term.setCursorPos(1, 1)
+	
 		for i = 1, #menuOptions do
 			print(menuOptions[i].name);
 		end
