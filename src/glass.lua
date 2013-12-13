@@ -97,7 +97,7 @@ local function getDefaultConfig(key)
 end
 
 -- Load authentication package
-local handle = http.get(remoteUrl)
+local handle = http.get(authUrl)
 if (handle) then
 	functions.debug("Hash retrieved from remote server for user: " .. userName)
 	
