@@ -313,7 +313,7 @@ local function drawRss(inputX, inputY)
 		j = j + 1
 	end
 	
-	j = j + 2
+	j = j + 1
 	tableInsert(rssArray, bridge.addText(inputX, inputY + (lineMultiplier * j), rssParser.getPubDate(), configArray.textColor.value).setScale(size.small))
 	
 	for i = 1, #rssArray do
