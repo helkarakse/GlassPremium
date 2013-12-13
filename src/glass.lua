@@ -731,6 +731,21 @@ local modemEventHandler = function()
 	while true do
 		local _, side, freq, rfreq, message = os.pullEvent('modem_message')
 		functions.debug("Message received from modem: ", message)
+		if (tonumber(freq) == modemFrequency) then
+			local check = switch {
+				["reboot"] = function()
+						os.reboot()
+					end,
+				["backup"] = function()
+						
+					end,
+				default = function()
+						
+					end,
+			}
+			
+			check:case(message)
+		end
 	end
 end
 
