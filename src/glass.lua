@@ -25,6 +25,7 @@ local tableInsert = table.insert
 local pairs = pairs
 local type = type
 local switch = functions.switch
+local os = os
 
 -- Color array
 local colors = {
@@ -95,7 +96,7 @@ if (configExists ~= true) then
 end
 
 -- Glass elements
-local bridge, mainBox, edgeBox
+local bridge, mainBox, edgeBox, modem
 local header, headerText, clockText, tpsText, lastUpdatedText, rssUpdatedText
 
 -- Display limit
@@ -142,7 +143,7 @@ end
 local function drawHeader(inputX, inputY, inputWidth)
 	header = bridge.addGradientBox(inputX - 5, inputY, inputWidth, headerHeight, themeArray[configArray.userTheme.value].endColor, 0, themeArray[configArray.userTheme.value].startColor, 1, 2)
 	header.setZIndex(2)
-	headerText = bridge.addText(inputX, inputY + (0.3125 * headerHeight), "OTE Glass (c) Helk & Shot 2013", configArray.textColor.value)
+	headerText = bridge.addText(inputX, inputY + (0.375 * headerHeight), "OTE Glass (c) Helk & Shot 2013", configArray.textColor.value)
 	headerText.setZIndex(3)
 	headerText.setScale(size.small)
 end
@@ -586,7 +587,7 @@ local function resetConfig(specificKey)
 end
 
 -- Event handler for chat commands
-local eventHandler = function()
+local chatEventHandler = function()
 	while true do
 		local event, message = os.pullEvent("chat_command")
 		
@@ -724,20 +725,38 @@ local eventHandler = function()
 	end
 end
 
+-- Redstone handler for rebooting computers
+-- or for performing specific maintenance functions
+local modemEventHandler = function()
+	while true do
+		local _, side, freq, rfreq, message = os.pullEvent('modem_message')
+		functions.debug("Message received from modem: ", message)
+	end
+end
+
 local function init()
 	local hasBridge, bridgeDir = functions.locatePeripheral("glassesbridge")
 	if (hasBridge ~= true) then
 		functions.debug("Terminal glasses bridge peripheral required.")
+		return
 	else
 		functions.debug("Found terminal bridge peripheral at: ", bridgeDir)
 		bridge = peripheral.wrap(bridgeDir)
 		bridge.clear()
 	end
 	
+	local hasModem, modemDir = functions.locatePeripheral("modem")
+	if (hasModem ~= true) then
+		functions.debug("Modem not found, will not be able to listen to maintenance messages.")
+	else
+		functions.debug("Found modem peripheral at: ", modemDir)
+		modem = peripheral.wrap(modemDir)
+	end
+	
 	getTickData()
 	drawScreen()
 	
-	parallel.waitForAll(tickRefreshLoop, clockRefreshLoop, rssRefreshLoop, eventHandler)
+	parallel.waitForAll(tickRefreshLoop, clockRefreshLoop, rssRefreshLoop, chatEventHandler, modemEventHandler)
 end
 
 init()
