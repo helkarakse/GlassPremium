@@ -18,7 +18,7 @@ local remoteUrl = "http://www.otegamers.com/custom/helkarakse/upload.php?req=sho
 local rssLink = "http://www.otegamers.com/index.php?app=core&module=global&section=rss&type=forums&id=24"
 local configFile = "config"
 
--- Supposedly references like this improve performance
+-- References
 local tonumber = tonumber
 local tostring = tostring
 local tableInsert = table.insert
@@ -123,8 +123,8 @@ local lineMultiplier = headerHeight
 
 local positionArray = {
 	{x = 10, y = 65, width = 95 * configArray.textSize.value, height = (size.normal * 10) + (size.large * 10) + 12.5}, -- small
-	{x = 10, y = 65, width = 260 * configArray.textSize.value, height = (28 * lineMultiplier) + 10}, -- large
-	{x = 10, y = 65, width = 225 * configArray.textSize.value, height = (12 * lineMultiplier) + 10}, -- rss
+	{x = 10, y = 65, width = 260 * configArray.textSize.value, height = (30 * lineMultiplier) + 10}, -- large
+	{x = 10, y = 65, width = 225 * configArray.textSize.value, height = (14 * lineMultiplier) + 10}, -- rss
 	{x = 10, y = 65, width = 200 * configArray.textSize.value, height = ((functions.getTableCount(configArray) + 5) * lineMultiplier) + 10}, -- options
 	{x = 10, y = 65, width = 200 * configArray.textSize.value, height = ((functions.getTableCount(themeArray) + 6) * lineMultiplier) + 10}, -- themes
 	{x = 10, y = 65, width = 250 * configArray.textSize.value, height = (20 * lineMultiplier) + 10} -- help
@@ -142,7 +142,7 @@ end
 local function drawHeader(inputX, inputY, inputWidth)
 	header = bridge.addGradientBox(inputX - 5, inputY, inputWidth, headerHeight, themeArray[configArray.userTheme.value].endColor, 0, themeArray[configArray.userTheme.value].startColor, 1, 2)
 	header.setZIndex(2)
-	headerText = bridge.addText(inputX, inputY + 1, "OTE Glass (c) Helk & Shot 2013", configArray.textColor.value)
+	headerText = bridge.addText(inputX, inputY + (0.5 * size.small), "OTE Glass (c) Helk & Shot 2013", configArray.textColor.value)
 	headerText.setZIndex(3)
 	headerText.setScale(size.small)
 end
@@ -178,32 +178,11 @@ local function drawTps(inputX, inputY)
 			clockText = bridge.addText(inputX + width - (30 * configArray.textSize.value), inputY + 1, textutils.formatTime(os.time(), false), configArray.textColor.value)
 			clockText.setScale(size.small)
 			clockText.setZIndex(4)
-			
-			local lastUpdatedLabelText = bridge.addText(inputX + width - (100 * configArray.textSize.value), inputY + 1, "Last Updated:", configArray.textColor.value)
-			lastUpdatedLabelText.setScale(size.small)
-			lastUpdatedLabelText.setZIndex(4)
-			
-			lastUpdatedText = bridge.addText(inputX + width - (55 * configArray.textSize.value), inputY + 1, textutils.formatTime(os.time(), false), configArray.textColor.value)
-			lastUpdatedText.setScale(size.small)
-			lastUpdatedText.setZIndex(4)
 		end,
 		[3] = function()
-			local rssUpdatedLabelText = bridge.addText(inputX + width - (125 * configArray.textSize.value), inputY + 1, "Last Updated:", configArray.textColor.value)
-			rssUpdatedLabelText.setScale(size.small)
-			rssUpdatedLabelText.setZIndex(4)
-			
-			rssUpdatedText = bridge.addText(inputX + width - (80 * configArray.textSize.value), inputY + 1, textutils.formatTime(os.time(), false), configArray.textColor.value)
-			rssUpdatedText.setScale(size.small)
-			rssUpdatedText.setZIndex(4)
-		end,
-		[5] = function()
-			local rssUpdatedLabelText = bridge.addText(inputX + width - (125 * configArray.textSize.value), inputY + 1, "Last Updated:", configArray.textColor.value)
-			rssUpdatedLabelText.setScale(size.small)
-			rssUpdatedLabelText.setZIndex(4)
-			
-			rssUpdatedText = bridge.addText(inputX + width - (80 * configArray.textSize.value), inputY + 1, textutils.formatTime(os.time(), false), configArray.textColor.value)
-			rssUpdatedText.setScale(size.small)
-			rssUpdatedText.setZIndex(4)
+			clockText = bridge.addText(inputX + width - (30 * configArray.textSize.value), inputY + 1, textutils.formatTime(os.time(), false), configArray.textColor.value)
+			clockText.setScale(size.small)
+			clockText.setZIndex(4)
 		end,
 		default = function()
 			
@@ -291,6 +270,12 @@ local function drawCalls(inputX, inputY)
 	end
 end
 
+local function drawLastUpdated(inputX, inputY)
+	local updatedText = bridge.addText(inputX, inputY, "Last Updated: " .. tickParser.getUpdatedDate(), configArray.textColor.value)
+	updatedText.setScale(size.small)
+	updatedText.setZIndex(5)
+end
+
 local function drawSanta(inputX, inputY)
 	local boxArray = {}
 	--white parts
@@ -317,11 +302,10 @@ local function drawData()
 	drawChunks(positionArray[currentDisplay].x + 5, positionArray[currentDisplay].y + headerHeight + 5 + ((limit + 2) * lineMultiplier))
 	drawTypes(positionArray[currentDisplay].x + 5, positionArray[currentDisplay].y + headerHeight + 5 + ((limit + 2) * 2 * lineMultiplier))
 	drawCalls(positionArray[currentDisplay].x + 5, positionArray[currentDisplay].y + headerHeight + 5 + ((limit + 2) * 3 * lineMultiplier))
+	drawLastUpdated(positionArray[currentDisplay].x + 5, positionArray[currentDisplay].y + headerHeight + 5 + ((limit + 2) * 4 * lineMultiplier))
 end
 
-local function drawRss(inputX, inputY)
-	rssUpdatedText.setText(rssParser.convertDate(rssParser.getPubDate()))
-	
+local function drawRss(inputX, inputY)	
 	local data = rssParser.getItems()
 	local rssArray = {}
 	
@@ -335,6 +319,9 @@ local function drawRss(inputX, inputY)
 		tableInsert(rssArray, bridge.addText(inputX + (150 * configArray.textSize.value), inputY + (lineMultiplier * j), rssParser.convertDate(pubDate), configArray.textColor.value).setScale(size.small))
 		j = j + 1
 	end
+	
+	j = j + 1
+	tableInsert(rssArray, bridge.addText(inputX, inputY + (lineMultiplier * j), "Published at: " .. rssParser.getPubDate(), configArray.textColor.value).setScale(size.small))
 	
 	for i = 1, #rssArray do
 		rssArray[i].setZIndex(5)
@@ -507,9 +494,6 @@ end
 local rssRefreshLoop = function()
 	while true do
 		getRssData()
-		if (currentDisplay == 3) then
-			rssUpdatedText.setText(rssParser.convertDate(rssParser.getPubDate()))
-		end
 		sleep(60)
 	end
 end
@@ -537,8 +521,8 @@ local function updateSize(newSize)
 
 	positionArray = {
 		{x = 10, y = 65, width = 95 * newSize, height = (size.normal * 10) + (size.large * 10) + 12.5}, -- small
-		{x = 10, y = 65, width = 260 * newSize, height = (28 * lineMultiplier) + 10}, -- large
-		{x = 10, y = 65, width = 225 * newSize, height = (12 * lineMultiplier) + 10}, -- rss
+		{x = 10, y = 65, width = 260 * newSize, height = (30 * lineMultiplier) + 10}, -- large
+		{x = 10, y = 65, width = 225 * newSize, height = (14 * lineMultiplier) + 10}, -- rss
 		{x = 10, y = 65, width = 200 * newSize, height = ((functions.getTableCount(configArray) + 5) * lineMultiplier) + 10}, -- options
 		{x = 10, y = 65, width = 200 * newSize, height = ((functions.getTableCount(themeArray) + 6) * lineMultiplier) + 10}, -- themes
 		{x = 10, y = 65, width = 250 * newSize, height = (20 * lineMultiplier) + 10} -- help
