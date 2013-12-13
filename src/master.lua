@@ -35,7 +35,7 @@ local function displayMenu()
 			
 			if (tonumber(option) == 1) then
 				functions.debug("1")
-			else if (tonumber(option) == 2) then
+			elseif (tonumber(option) == 2) then
 				functions.debug("2")
 			end
 		end
