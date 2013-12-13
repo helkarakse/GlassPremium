@@ -16,6 +16,7 @@ local dimId = string.sub(os.getComputerLabel(), 1, 1)
 local remoteUrl = "http://www.otegamers.com/custom/helkarakse/upload.php?req=show&dim=" .. dimId
 local rssLink = "http://www.otegamers.com/index.php?app=core&module=global&section=rss&type=forums&id=24"
 local configFile = "config"
+local modemFrequency = 1
 
 -- References
 local tonumber = tonumber
@@ -750,6 +751,7 @@ local function init()
 	else
 		functions.debug("Found modem peripheral at: ", modemDir)
 		modem = peripheral.wrap(modemDir)
+		modem.open(modemFrequency)
 	end
 	
 	getTickData()
