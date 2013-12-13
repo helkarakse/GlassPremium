@@ -321,7 +321,7 @@ local function drawRss(inputX, inputY)
 	end
 	
 	j = j + 1
-	tableInsert(rssArray, bridge.addText(inputX, inputY + (lineMultiplier * j), rssParser.getPubDate(), configArray.textColor.value).setScale(size.small))
+	tableInsert(rssArray, bridge.addText(inputX, inputY + (lineMultiplier * j), "Published at: " .. rssParser.getPubDate(), configArray.textColor.value).setScale(size.small))
 	
 	for i = 1, #rssArray do
 		rssArray[i].setZIndex(5)
