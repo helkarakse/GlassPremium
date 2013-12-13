@@ -23,8 +23,22 @@ local menuOptions = {
 }
 
 local function displayMenu()
-	for i = 1, #menuOptions do
-		print(menuOptions[i].name);
+	while true do
+		term.clear()
+		for i = 1, #menuOptions do
+			print(menuOptions[i].name);
+		end
+		
+		while true do
+			print("Enter option:")
+			local option = read()
+			
+			if (tonumber(option) == 1) then
+				functions.debug("1")
+			else if (tonumber(option) == 2) then
+				functions.debug("2")
+			end
+		end
 	end
 end
 
