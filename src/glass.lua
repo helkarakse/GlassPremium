@@ -1,9 +1,9 @@
 --[[
 
-	OTE GlassPremium
-	Do not modify, copy or distribute without permission of author
-	Helkarakse & Shotexpert, 20131203
-	
+OTE GlassPremium
+Do not modify, copy or distribute without permission of author
+Helkarakse & Shotexpert, 20131203
+
 ]]
 
 -- Libraries
@@ -88,7 +88,7 @@ local function getDefaultConfig(key)
 			value = 10,
 		},
 	}
-	
+
 	if (key) then
 		return array[key]
 	else
@@ -100,14 +100,14 @@ end
 local handle = http.get(authUrl)
 if (handle) then
 	functions.debug("Hash retrieved from remote server for user: " .. userName)
-	
+
 	local hash = handle.readAll()
 	if (hash == adminAuth) then
 		authLevel = 1
 	elseif (hash == userAuth) then
 		authLevel = 2
 	end
-	
+
 	handle.close()
 else
 	functions.debug("Failed to retrieve hash from remote server.")
@@ -149,14 +149,21 @@ local headerHeight = (size.small * 12)
 local tpsHeight = (size.normal * 10)
 local lineMultiplier = headerHeight
 
-local positionArray = {
-	{x = 10, y = 65, width = 95 * configArray.textSize.value, height = (size.normal * 10) + (size.large * 10) + 12.5}, -- small
-	{x = 10, y = 65, width = 260 * configArray.textSize.value, height = (30 * lineMultiplier) + 10}, -- large
-	{x = 10, y = 65, width = 225 * configArray.textSize.value, height = (14 * lineMultiplier) + 10}, -- rss
-	{x = 10, y = 65, width = 200 * configArray.textSize.value, height = ((functions.getTableCount(configArray) + 5) * lineMultiplier) + 10}, -- options
-	{x = 10, y = 65, width = 200 * configArray.textSize.value, height = ((functions.getTableCount(themeArray) + 6) * lineMultiplier) + 10}, -- themes
-	{x = 10, y = 65, width = 250 * configArray.textSize.value, height = (20 * lineMultiplier) + 10} -- help
-}
+-- Default positional array function
+local function getPositionalArray()
+	local array = {
+		{x = 10, y = 65, width = 95 * configArray.textSize.value, height = (size.normal * 10) + (size.large * 10) + 12.5}, -- small
+		{x = 10, y = 65, width = 260 * configArray.textSize.value, height = (30 * lineMultiplier) + 10}, -- large
+		{x = 10, y = 65, width = 225 * configArray.textSize.value, height = (14 * lineMultiplier) + 10}, -- rss
+		{x = 10, y = 65, width = 200 * configArray.textSize.value, height = ((functions.getTableCount(configArray) + 5) * lineMultiplier) + 10}, -- options
+		{x = 10, y = 65, width = 200 * configArray.textSize.value, height = ((functions.getTableCount(themeArray) + 6) * lineMultiplier) + 10}, -- themes
+		{x = 10, y = 65, width = 250 * configArray.textSize.value, height = (20 * lineMultiplier) + 10} -- help
+	}
+
+	return array
+end
+
+local positionArray = getPositionalArray()
 
 -- Event handling related
 local currentDisplay = 1 -- main display
@@ -178,18 +185,18 @@ end
 local function drawTps(inputX, inputY)
 	local width = positionArray[currentDisplay].width
 	local height = positionArray[currentDisplay].height
-	
+
 	local tps = tickParser.getTps()
 	local check = switch {
 		[1] = function()
 			local tpsLabelText = bridge.addText(inputX + width - (55 * configArray.textSize.value), inputY + height - tpsHeight, "TPS:", configArray.textColor.value)
 			tpsLabelText.setScale(size.normal)
 			tpsLabelText.setZIndex(4)
-			
+
 			tpsText = bridge.addText(inputX + width - (30 * configArray.textSize.value), inputY + height - tpsHeight, tps, tickParser.getTpsHexColor(tps))
 			tpsText.setScale(size.normal)
 			tpsText.setZIndex(4)
-			
+
 			clockText = bridge.addText(inputX + 5, inputY + headerHeight + 5, textutils.formatTime(os.time(), false), configArray.textColor.value)
 			clockText.setScale(size.large)
 			clockText.setZIndex(4)
@@ -198,11 +205,11 @@ local function drawTps(inputX, inputY)
 			local tpsLabelText = bridge.addText(inputX + width - (55 * configArray.textSize.value), inputY + height - tpsHeight, "TPS:", configArray.textColor.value)
 			tpsLabelText.setScale(size.normal)
 			tpsLabelText.setZIndex(4)
-			
+
 			tpsText = bridge.addText(inputX + width - (30 * configArray.textSize.value), inputY + height - tpsHeight, tps, tickParser.getTpsHexColor(tps))
 			tpsText.setScale(size.normal)
 			tpsText.setZIndex(4)
-			
+
 			clockText = bridge.addText(inputX + width - (30 * configArray.textSize.value), inputY + 1, textutils.formatTime(os.time(), false), configArray.textColor.value)
 			clockText.setScale(size.small)
 			clockText.setZIndex(4)
@@ -213,29 +220,29 @@ local function drawTps(inputX, inputY)
 			clockText.setZIndex(4)
 		end,
 		default = function()
-			
+
 		end,
 	}
-	
+
 	check:case(currentDisplay)
 end
 
 local function drawEntities(inputX, inputY)
 	local data = tickParser.getSingleEntities()
 	entitiesArray = {}
-	
+
 	tableInsert(entitiesArray, bridge.addText(inputX, inputY, "Entity Name:", configArray.textColor.value).setScale(size.small))
 	tableInsert(entitiesArray, bridge.addText(inputX + (125 * configArray.textSize.value), inputY, "Position:", configArray.textColor.value).setScale(size.small))
 	tableInsert(entitiesArray, bridge.addText(inputX + (175 * configArray.textSize.value), inputY, "%", configArray.textColor.value).setScale(size.small))
 	tableInsert(entitiesArray, bridge.addText(inputX + (200 * configArray.textSize.value), inputY, "Dimension:", configArray.textColor.value).setScale(size.small))
-	
+
 	for i = 1, limit do
 		tableInsert(entitiesArray, bridge.addText(inputX, inputY + (lineMultiplier * i), data[i].name, configArray.textColor.value).setScale(size.small))
 		tableInsert(entitiesArray, bridge.addText(inputX + (125 * configArray.textSize.value), inputY + (lineMultiplier * i), data[i].position, configArray.textColor.value).setScale(size.small))
 		tableInsert(entitiesArray, bridge.addText(inputX + (175 * configArray.textSize.value), inputY + (lineMultiplier * i), data[i].percent, tickParser.getPercentHexColor(data[i].percent)).setScale(size.small))
 		tableInsert(entitiesArray, bridge.addText(inputX + (200 * configArray.textSize.value), inputY + (lineMultiplier * i), tickParser.getDimensionName(dimId, data[i].dimId), configArray.textColor.value).setScale(size.small))
 	end
-	
+
 	for i = 1, #entitiesArray do
 		entitiesArray[i].setZIndex(5)
 	end
@@ -244,17 +251,17 @@ end
 local function drawChunks(inputX, inputY)
 	local data = tickParser.getChunks()
 	chunksArray = {}
-	
+
 	tableInsert(chunksArray, bridge.addText(inputX, inputY, "Chunk Position (X, Z):", configArray.textColor.value).setScale(size.small))
 	tableInsert(chunksArray, bridge.addText(inputX + (125 * configArray.textSize.value), inputY, "Time/Tick:", configArray.textColor.value).setScale(size.small))
 	tableInsert(chunksArray, bridge.addText(inputX + (175 * configArray.textSize.value), inputY, "%", configArray.textColor.value).setScale(size.small))
-	
+
 	for i = 1, limit do
 		tableInsert(chunksArray, bridge.addText(inputX, inputY + (lineMultiplier * i), data[i].positionX .. ", " .. data[i].positionZ, configArray.textColor.value).setScale(size.small))
 		tableInsert(chunksArray, bridge.addText(inputX + (125 * configArray.textSize.value), inputY + (lineMultiplier * i), data[i].time, configArray.textColor.value).setScale(size.small))
 		tableInsert(chunksArray, bridge.addText(inputX + (175 * configArray.textSize.value), inputY + (lineMultiplier * i), data[i].percent, tickParser.getPercentHexColor(data[i].percent)).setScale(size.small))
 	end
-	
+
 	for i = 1, #chunksArray do
 		chunksArray[i].setZIndex(5)
 	end
@@ -263,17 +270,17 @@ end
 local function drawTypes(inputX, inputY)
 	local data = tickParser.getEntityByTypes()
 	typesArray = {}
-	
+
 	tableInsert(typesArray, bridge.addText(inputX, inputY, "Entity Type:", configArray.textColor.value).setScale(size.small))
 	tableInsert(typesArray, bridge.addText(inputX + (125 * configArray.textSize.value), inputY, "Time/Tick:", configArray.textColor.value).setScale(size.small))
 	tableInsert(typesArray, bridge.addText(inputX + (175 * configArray.textSize.value), inputY, "%", configArray.textColor.value).setScale(size.small))
-	
+
 	for i = 1, limit do
 		tableInsert(typesArray, bridge.addText(inputX, inputY + (lineMultiplier * i), data[i].type, configArray.textColor.value).setScale(size.small))
 		tableInsert(typesArray, bridge.addText(inputX + (125 * configArray.textSize.value), inputY + (lineMultiplier * i), data[i].time, configArray.textColor.value).setScale(size.small))
 		tableInsert(typesArray, bridge.addText(inputX + (175 * configArray.textSize.value), inputY + (lineMultiplier * i), data[i].percent, tickParser.getPercentHexColor(data[i].percent)).setScale(size.small))
 	end
-	
+
 	for i = 1, #typesArray do
 		typesArray[i].setZIndex(5)
 	end
@@ -282,17 +289,17 @@ end
 local function drawCalls(inputX, inputY)
 	local data = tickParser.getAverageCalls()
 	callsArray = {}
-	
+
 	tableInsert(callsArray, bridge.addText(inputX, inputY, "Entity Name:", configArray.textColor.value).setScale(size.small))
 	tableInsert(callsArray, bridge.addText(inputX + (125 * configArray.textSize.value), inputY, "Time/Tick:", configArray.textColor.value).setScale(size.small))
 	tableInsert(callsArray, bridge.addText(inputX + (175 * configArray.textSize.value), inputY, "Average Calls", configArray.textColor.value).setScale(size.small))
-	
+
 	for i = 1, limit do
 		tableInsert(callsArray, bridge.addText(inputX, inputY + (lineMultiplier * i), data[i].name, configArray.textColor.value).setScale(size.small))
 		tableInsert(callsArray, bridge.addText(inputX + (125 * configArray.textSize.value), inputY + (lineMultiplier * i), data[i].time, configArray.textColor.value).setScale(size.small))
 		tableInsert(callsArray, bridge.addText(inputX + (175 * configArray.textSize.value), inputY + (lineMultiplier * i), data[i].calls, configArray.textColor.value).setScale(size.small))
 	end
-	
+
 	for i = 1, #callsArray do
 		callsArray[i].setZIndex(5)
 	end
@@ -309,7 +316,7 @@ local function drawSanta(inputX, inputY)
 	--white parts
 	tableInsert(boxArray, bridge.addBox(inputX, inputY-9, 2, 2, colors.white, 1))
 	tableInsert(boxArray, bridge.addBox(inputX-9, inputY-1, 9, 2, colors.white, 1))
-	
+
 	--red parts
 	tableInsert(boxArray, bridge.addBox(inputX-2, inputY-8, 2, 1, colors.red, 1))
 	tableInsert(boxArray, bridge.addBox(inputX-3, inputY-7, 4, 1, colors.red, 1))
@@ -318,7 +325,7 @@ local function drawSanta(inputX, inputY)
 	tableInsert(boxArray, bridge.addBox(inputX-6, inputY-4, 5, 1, colors.red, 1))
 	tableInsert(boxArray, bridge.addBox(inputX-7, inputY-3, 6, 1, colors.red, 1))
 	tableInsert(boxArray, bridge.addBox(inputX-8, inputY-2, 8, 1, colors.red, 1))
-	
+
 	--set zindexes
 	for key, value in pairs(boxArray) do
 		value.setZIndex(7)
@@ -333,13 +340,13 @@ local function drawData()
 	drawLastUpdated(positionArray[currentDisplay].x + 5, positionArray[currentDisplay].y + headerHeight + 5 + ((limit + 2) * 4 * lineMultiplier))
 end
 
-local function drawRss(inputX, inputY)	
+local function drawRss(inputX, inputY)
 	local data = rssParser.getItems()
 	local rssArray = {}
-	
+
 	tableInsert(rssArray, bridge.addText(inputX, inputY, "Title", configArray.textColor.value).setScale(size.small))
 	tableInsert(rssArray, bridge.addText(inputX + (150 * configArray.textSize.value), inputY, "Date", configArray.textColor.value).setScale(size.small))
-	
+
 	local j = 1
 	for key, value in pairs(data) do
 		local title, link, desc, pubDate, guid = rssParser.parseItem(value)
@@ -347,10 +354,10 @@ local function drawRss(inputX, inputY)
 		tableInsert(rssArray, bridge.addText(inputX + (150 * configArray.textSize.value), inputY + (lineMultiplier * j), rssParser.convertDate(pubDate), configArray.textColor.value).setScale(size.small))
 		j = j + 1
 	end
-	
+
 	j = j + 1
 	tableInsert(rssArray, bridge.addText(inputX, inputY + (lineMultiplier * j), "Published at: " .. rssParser.getPubDate(), configArray.textColor.value).setScale(size.small))
-	
+
 	for i = 1, #rssArray do
 		rssArray[i].setZIndex(5)
 	end
@@ -358,11 +365,11 @@ end
 
 local function drawOptions(inputX, inputY)
 	local optionsArray = {}
-	
+
 	tableInsert(optionsArray, bridge.addText(inputX, inputY, "Option Name", configArray.textColor.value).setScale(size.small))
 	tableInsert(optionsArray, bridge.addText(inputX + (100 * configArray.textSize.value), inputY, "Keyword", configArray.textColor.value).setScale(size.small))
 	tableInsert(optionsArray, bridge.addText(inputX + (150 * configArray.textSize.value), inputY, "Value", configArray.textColor.value).setScale(size.small))
-	
+
 	-- textSize
 	tableInsert(optionsArray, bridge.addText(inputX, inputY + (lineMultiplier * 1), configArray.textSize.name, configArray.textColor.value).setScale(size.small))
 	tableInsert(optionsArray, bridge.addText(inputX + (100 * configArray.textSize.value), inputY + (lineMultiplier * 1), configArray.textSize.keyword, configArray.textColor.value).setScale(size.small))
@@ -372,19 +379,19 @@ local function drawOptions(inputX, inputY)
 	tableInsert(optionsArray, bridge.addText(inputX, inputY + (lineMultiplier * 3), configArray.opacity.name, configArray.textColor.value).setScale(size.small))
 	tableInsert(optionsArray, bridge.addText(inputX + (100 * configArray.textSize.value), inputY + (lineMultiplier * 3), configArray.opacity.keyword, configArray.textColor.value).setScale(size.small))
 	tableInsert(optionsArray, bridge.addText(inputX + (150 * configArray.textSize.value), inputY + (lineMultiplier * 3), tostring(configArray.opacity.value), configArray.textColor.value).setScale(size.small))
-	
+
 	-- textColor
 	tableInsert(optionsArray, bridge.addText(inputX, inputY + (lineMultiplier * 2), configArray.textColor.name, configArray.textColor.value).setScale(size.small))
 	tableInsert(optionsArray, bridge.addText(inputX + (100 * configArray.textSize.value), inputY + (lineMultiplier * 2), configArray.textColor.keyword, configArray.textColor.value).setScale(size.small))
 	tableInsert(optionsArray, bridge.addText(inputX + (150 * configArray.textSize.value), inputY + (lineMultiplier * 2), functions.decToHex(configArray.textColor.value), configArray.textColor.value).setScale(size.small))
-	
+
 	local j = 5
 	tableInsert(optionsArray, bridge.addText(inputX, inputY + (lineMultiplier * j), "To change the options, type $$<keyword> <value> in chat.", configArray.textColor.value).setScale(size.small))
 	j = j + 1
 	tableInsert(optionsArray, bridge.addText(inputX, inputY + (lineMultiplier * j), "To reset all the options, type $$reset all", configArray.textColor.value).setScale(size.small))
 	j = j + 1
 	tableInsert(optionsArray, bridge.addText(inputX, inputY + (lineMultiplier * j), "To reset specific options, type $$reset <keyword>", configArray.textColor.value).setScale(size.small))
-	
+
 	for i = 1, #optionsArray do
 		optionsArray[i].setZIndex(5)
 	end
@@ -392,20 +399,20 @@ end
 
 local function drawThemes(inputX, inputY)
 	local themesArray = {}
-	
+
 	tableInsert(themesArray, bridge.addText(inputX, inputY, "ID", configArray.textColor.value).setScale(size.small))
 	tableInsert(themesArray, bridge.addText(inputX + (15 * configArray.textSize.value), inputY, "Theme Name", configArray.textColor.value).setScale(size.small))
-	
+
 	for i = 1, #themeArray do
 		tableInsert(themesArray, bridge.addText(inputX, inputY + (lineMultiplier * i), tostring(i), configArray.textColor.value).setScale(size.small))
 		tableInsert(themesArray, bridge.addText(inputX + (15 * configArray.textSize.value), inputY + (lineMultiplier * i), themeArray[i].name, configArray.textColor.value).setScale(size.small))
 	end
-	
+
 	local k = #themeArray + 2
 	tableInsert(themesArray, bridge.addText(inputX, inputY + (lineMultiplier * k), "Currently selected theme: " .. themeArray[configArray.userTheme.value].name, configArray.textColor.value).setScale(size.small))
 	k = k + 1
 	tableInsert(themesArray, bridge.addText(inputX, inputY + (lineMultiplier * k), "To change the currently selected theme, type $$theme <id>", configArray.textColor.value).setScale(size.small))
-	
+
 	for j = 1, #themesArray do
 		themesArray[j].setZIndex(5)
 	end
@@ -413,12 +420,12 @@ end
 
 local function drawHelp(inputX, inputY)
 	local helpArray = {}
-	
+
 	tableInsert(helpArray, bridge.addText(inputX, inputY + (lineMultiplier * 0), "Sample placeholder for help text.", configArray.textColor.value).setScale(size.small))
 	-- tableInsert(helpArray, bridge.addText(inputX, inputY + (lineMultiplier * 1), "Second line of text", configArray.textColor.value).setScale(size.small))
 	-- tableInsert(helpArray, bridge.addText(inputX, inputY + (lineMultiplier * 2), "Third line of text", configArray.textColor.value).setScale(size.small))
 	-- tableInsert(helpArray, bridge.addText(inputX, inputY + (lineMultiplier * 3), "Sample placeholder for really really really really long text.", configArray.textColor.value).setScale(size.small))
-	
+
 	for i = 1, #helpArray do
 		helpArray[i].setZIndex(5)
 	end
@@ -429,7 +436,7 @@ local function drawScreen()
 	local yPos = positionArray[currentDisplay].y
 	local width = positionArray[currentDisplay].width
 	local height = positionArray[currentDisplay].height
-	
+
 	bridge.clear()
 	local check = switch {
 		[1] = function()
@@ -438,7 +445,7 @@ local function drawScreen()
 			drawHeader(xPos, yPos, width)
 			drawTps(xPos, yPos)
 			drawSanta(xPos + 10, yPos - 1)
-			end,
+		end,
 		[2] = function()
 			-- draw main, header, tps and data
 			drawMain(xPos, yPos, width, height)
@@ -446,34 +453,34 @@ local function drawScreen()
 			drawTps(xPos, yPos)
 			drawData()
 			drawSanta(xPos + 10, yPos - 1)
-			end,
+		end,
 		[3] = function()
 			drawMain(xPos, yPos, width, height)
 			drawHeader(xPos, yPos, width)
 			drawTps(xPos, yPos)
 			drawRss(xPos + 5, yPos + headerHeight + 5)
 			drawSanta(xPos + 10, yPos - 1)
-			end,
+		end,
 		[4] = function()
 			drawMain(xPos, yPos, width, height)
 			drawHeader(xPos, yPos, width)
 			drawOptions(xPos + 5, yPos + headerHeight + 5)
 			drawSanta(xPos + 10, yPos - 1)
-			end,
+		end,
 		[5] = function()
 			drawMain(xPos, yPos, width, height)
 			drawHeader(xPos, yPos, width)
 			drawThemes(xPos + 5, yPos + headerHeight + 5)
 			drawSanta(xPos + 10, yPos - 1)
-			end,
+		end,
 		[6] = function()
 			drawMain(xPos, yPos, width, height)
 			drawHeader(xPos, yPos, width)
 			drawHelp(xPos + 5, yPos + headerHeight + 5)
 			drawSanta(xPos + 10, yPos - 1)
-			end,
+		end,
 	}
-	
+
 	check:case(currentDisplay)
 end
 
@@ -482,7 +489,7 @@ local function getRssData()
 	local xmlString
 	local data = http.get(rssLink)
 	if (data) then
-    	functions.debug("XML file successfully retrieved.")
+		functions.debug("XML file successfully retrieved.")
 		xmlString = data.readAll()
 		rssParser.parseData(xmlString)
 		return true
@@ -504,17 +511,22 @@ local function getTickData()
 	end
 end
 
+local function saveConfig()
+	functions.debug("Writing data to disk")
+	functions.writeTable(configArray, configFile)
+end
+
 -- Loops
 local tickRefreshLoop = function()
 	lastUpdated = 0
 	while true do
 		-- Get the new data
 		getTickData()
-		
+
 		-- redraw the new data
 		functions.debug("Current display is: ", currentDisplay)
 		drawScreen()
-		
+
 		sleep(20)
 	end
 end
@@ -541,76 +553,61 @@ local function updateSize(newSize)
 	size.small = constSizeSmall * newSize
 	size.normal = constSizeNormal * newSize
 	size.large = constSizeLarge * newSize
-	
+
 	-- update the header, tpsHeights and lineMultiplier as the sizes changed
 	headerHeight = (size.small * 10)
 	tpsHeight = (size.normal * 10)
 	lineMultiplier = headerHeight
 
-	positionArray = {
-		{x = 10, y = 65, width = 95 * newSize, height = (size.normal * 10) + (size.large * 10) + 12.5}, -- small
-		{x = 10, y = 65, width = 260 * newSize, height = (30 * lineMultiplier) + 10}, -- large
-		{x = 10, y = 65, width = 225 * newSize, height = (14 * lineMultiplier) + 10}, -- rss
-		{x = 10, y = 65, width = 200 * newSize, height = ((functions.getTableCount(configArray) + 5) * lineMultiplier) + 10}, -- options
-		{x = 10, y = 65, width = 200 * newSize, height = ((functions.getTableCount(themeArray) + 6) * lineMultiplier) + 10}, -- themes
-		{x = 10, y = 65, width = 250 * newSize, height = (20 * lineMultiplier) + 10} -- help
-	}
-	
 	configArray.textSize.value = newSize
-	functions.debug("Writing data to disk")
-	functions.writeTable(configArray, configFile)
+	positionArray = getPositionalArray()
+	saveConfig()
 end
 
 -- Update the opacity of the main box
 local function updateOpacity(newOpacity)
 	functions.debug("Updating the opacity from ", configArray.opacity.value, " to ", newOpacity)
 	configArray.opacity.value = newOpacity
-	functions.debug("Writing data to disk")
-	functions.writeTable(configArray, configFile)
+	saveConfig()
 end
 
 local function updateTextColor(newColor)
 	newColor = tonumber("0x" .. newColor)
 	functions.debug("Updating the text color from ", functions.decToHex(configArray.textColor.value), " to ", functions.decToHex(newColor))
 	configArray.textColor.value = newColor
-	functions.debug("Writing data to disk")
-	functions.writeTable(configArray, configFile)
+	saveConfig()
 end
 
 --local function updateWindowStartColor(newColor)
 --	newColor = tonumber("0x" .. newColor)
 --	functions.debug("Updating the text color from ", functions.decToHex(themeArray[configArray.userTheme.value].startColor), " to ", functions.decToHex(newColor))
 --	themeArray[configArray.userTheme.value].startColor = newColor
---	functions.debug("Writing data to disk")
---	functions.writeTable(configArray, configFile)
+--	saveConfig()
 --end
 --
 --local function updateWindowEndColor(newColor)
 --	newColor = tonumber("0x" .. newColor)
 --	functions.debug("Updating the text color from ", functions.decToHex(themeArray[configArray.userTheme.value].endColor), " to ", functions.decToHex(newColor))
 --	themeArray[configArray.userTheme.value].endColor = newColor
---	functions.debug("Writing data to disk")
---	functions.writeTable(configArray, configFile)
+--	saveConfig()
 --end
 
 local function updateTheme(themeId)
 	functions.debug("Updating the user theme id from: ", configArray.userTheme.value, " to ", themeId)
 	configArray.userTheme.value = themeId
-	functions.debug("Writing data to disk")
-	functions.writeTable(configArray, configFile)
+	saveConfig()
 end
 
 local function resetConfig(specificKey)
 	functions.debug("Resetting the configuration for: ", specificKey)
 	local defaultConfig = getDefaultConfig(specificKey)
 	configArray[specificKey] = defaultConfig
-	
+
 	if (specificKey == "textSize") then
 		updateSize(configArray.textSize.value)
 	end
-	
-	functions.debug("Writing data to disk")
-	functions.writeTable(configArray, configFile)
+
+	saveConfig()
 end
 
 -- Event Handlers
@@ -621,30 +618,30 @@ local function runShowHandler(args)
 		local screenId = 0
 		local check = switch {
 			["mini"] = function()
-					screenId = 1
-				end,
+				screenId = 1
+			end,
 			["tps"] = function()
-					screenId = 2
-				end,
+				screenId = 2
+			end,
 			["rss"] = function()
-					screenId = 3
-				end,
+				screenId = 3
+			end,
 			["options"] = function()
-					screenId = 4
-				end,
+				screenId = 4
+			end,
 			["themes"] = function()
-					screenId = 5
-				end,
+				screenId = 5
+			end,
 			["help"] = function()
-					screenId = 6
-				end,
+				screenId = 6
+			end,
 			default = function()
-					screenId = 0
-				end
+				screenId = 0
+			end
 		}
-		
+
 		check:case(tostring(args[2]))
-		
+
 		-- only change the screen if screenId is not 0
 		if (screenId > 0) then
 			functions.debug("Changing screen to: ", screenId)
@@ -656,54 +653,56 @@ end
 
 local function runAdminHandler(args)
 	local check = switch {
+		["tps"] = function()
+
+		end,
 		default = function()
-			
-			end,
+
+		end,
 	}
-	
+
 	check:case(args[2])
 end
 
 local function runSpecificHandler(args)
 	local check = switch {
-	[4] = function()
+		[4] = function()
 			-- options
-			functions.debug("Message was retrieved by the event [4]: ", message)
+--			functions.debug("Message was retrieved by the event [4]: ", message)
 			if (args[2] ~= nil) then
 				local option = switch {
-				["size"] = function()
+					["size"] = function()
 						updateSize(tonumber(args[2]))
 					end,
-				["opacity"] = function()
+					["opacity"] = function()
 						updateOpacity(tonumber(args[2]))
 					end,
-				["color"] = function()
+					["color"] = function()
 						updateTextColor(args[2])
 					end,
-				["reset"] = function()
+					["reset"] = function()
 						if (args[2] == "all") then
 							functions.debug("Resetting configuration back to factory defaults")
 							configArray = getDefaultConfig()
 							updateSize(configArray.textSize.value)
-							functions.debug("Writing the config file to disk")
-							functions.writeTable(configArray, configFile)
+							saveConfig()
 						else
 							local configKey = ""
 							local configReset = switch {
 								["size"] = function()
-										configKey = "textSize"
-									end,
+									configKey = "textSize"
+								end,
 								["opacity"] = function()
-										configKey = "opacity"
-									end,
+									configKey = "opacity"
+								end,
 								["color"] = function()
-										configKey = "textColor"
-									end,
+									configKey = "textColor"
+								end,
 								default = function()
 									configKey = ""
 								end,
 							}
-							
+
 							configReset:case(tostring(args[2]))
 							if (configKey ~= "") then
 								resetConfig(configKey)
@@ -711,23 +710,23 @@ local function runSpecificHandler(args)
 						end
 					end
 				}
-				
+
 				option:case(tostring(args[1]))
 				drawScreen()
 			end
 		end,
-	[5] = function()
+		[5] = function()
 			-- themes
 			if (tostring(args[1]) == "theme") then
 				updateTheme(tonumber(args[2]))
 				drawScreen()
 			end
 		end,
-	default = function()
+		default = function()
 			functions.debug("Message retrieved by event:", message)
-			end,
+		end,
 	}
-	
+
 	check:case(currentDisplay)
 end
 
@@ -735,7 +734,7 @@ end
 local chatEventHandler = function()
 	while true do
 		local event, message = os.pullEvent("chat_command")
-		
+
 		local args = functions.explode(" ", message)
 		if (args[1] == "show") then
 			runShowHandler(args)
@@ -763,27 +762,27 @@ local modemEventHandler = function()
 		if (tonumber(freq) == modemFrequency) then
 			local check = switch {
 				["reboot"] = function()
-						os.reboot()
-					end,
+					os.reboot()
+				end,
 				["backup"] = function()
-						local file = fs.open(configFile, "r")
-						local outputText = file.readAll()
-						file.close()
-						
-						local response = http.post(backupUrl, "config=" .. textutils.urlEncode(outputText))
-						if (response) then
-							local responseText = response.readAll()
-							functions.debug(responseText)
-							response.close()
-						else
-							functions.debug("Warning: Failed to retrieve response from server")
-						end
-					end,
+					local file = fs.open(configFile, "r")
+					local outputText = file.readAll()
+					file.close()
+
+					local response = http.post(backupUrl, "config=" .. textutils.urlEncode(outputText))
+					if (response) then
+						local responseText = response.readAll()
+						functions.debug(responseText)
+						response.close()
+					else
+						functions.debug("Warning: Failed to retrieve response from server")
+					end
+				end,
 				default = function()
-						
-					end,
+
+				end,
 			}
-			
+
 			check:case(message)
 		end
 	end
@@ -795,23 +794,23 @@ local function init()
 		functions.debug("Terminal glasses bridge peripheral required.")
 		return
 	else
-		functions.debug("Found terminal bridge peripheral at: ", bridgeDir)
+--		functions.debug("Found terminal bridge peripheral at: ", bridgeDir)
 		bridge = peripheral.wrap(bridgeDir)
 		bridge.clear()
 	end
-	
+
 	local hasModem, modemDir = functions.locatePeripheral("modem")
 	if (hasModem ~= true) then
 		functions.debug("Modem not found, will not be able to listen to maintenance messages.")
 	else
-		functions.debug("Found modem peripheral at: ", modemDir)
+--		functions.debug("Found modem peripheral at: ", modemDir)
 		modem = peripheral.wrap(modemDir)
 		modem.open(modemFrequency)
 	end
-	
+
 	getTickData()
 	drawScreen()
-	
+
 	parallel.waitForAll(tickRefreshLoop, clockRefreshLoop, rssRefreshLoop, chatEventHandler, modemEventHandler)
 end
 
