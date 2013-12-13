@@ -6,6 +6,9 @@
 	
 ]]
 
+-- Libraries
+os.loadAPI("functions")
+
 -- Variables
 local modemFrequency = 1
 local modem
