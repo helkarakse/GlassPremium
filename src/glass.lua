@@ -174,6 +174,10 @@ local function drawTps(inputX, inputY)
 			tpsText = bridge.addText(inputX + width - (30 * configArray.textSize.value), inputY + height - tpsHeight, tps, tickParser.getTpsHexColor(tps))
 			tpsText.setScale(size.normal)
 			tpsText.setZIndex(4)
+			
+			clockText = bridge.addText(inputX + width - (30 * configArray.textSize.value), inputY + 1, textutils.formatTime(os.time(), false), configArray.textColor.value)
+			clockText.setScale(size.small)
+			clockText.setZIndex(4)
 		end,
 		[3] = function()
 			clockText = bridge.addText(inputX + width - (30 * configArray.textSize.value), inputY + 1, textutils.formatTime(os.time(), false), configArray.textColor.value)
