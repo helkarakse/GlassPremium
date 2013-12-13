@@ -613,6 +613,124 @@ local function resetConfig(specificKey)
 	functions.writeTable(configArray, configFile)
 end
 
+-- Event Handlers
+local function runShowHandler(args)
+	if (args[2] == nil) then
+		drawScreen()
+	else
+		local screenId = 0
+		local check = switch {
+			["mini"] = function()
+					screenId = 1
+				end,
+			["tps"] = function()
+					screenId = 2
+				end,
+			["rss"] = function()
+					screenId = 3
+				end,
+			["options"] = function()
+					screenId = 4
+				end,
+			["themes"] = function()
+					screenId = 5
+				end,
+			["help"] = function()
+					screenId = 6
+				end,
+			default = function()
+					screenId = 0
+				end
+		}
+		
+		check:case(tostring(args[2]))
+		
+		-- only change the screen if screenId is not 0
+		if (screenId > 0) then
+			functions.debug("Changing screen to: ", screenId)
+			currentDisplay = tonumber(screenId)
+			drawScreen()
+		end
+	end
+end
+
+local function runAdminHandler(args)
+	local check = switch {
+		default = function()
+			
+			end,
+	}
+	
+	check:case(args[2])
+end
+
+local function runSpecificHandler(args)
+	local check = switch {
+	[4] = function()
+			-- options
+			functions.debug("Message was retrieved by the event [4]: ", message)
+			if (args[2] ~= nil) then
+				local option = switch {
+				["size"] = function()
+						updateSize(tonumber(args[2]))
+					end,
+				["opacity"] = function()
+						updateOpacity(tonumber(args[2]))
+					end,
+				["color"] = function()
+						updateTextColor(args[2])
+					end,
+				["reset"] = function()
+						if (args[2] == "all") then
+							functions.debug("Resetting configuration back to factory defaults")
+							configArray = getDefaultConfig()
+							updateSize(configArray.textSize.value)
+							functions.debug("Writing the config file to disk")
+							functions.writeTable(configArray, configFile)
+						else
+							local configKey = ""
+							local configReset = switch {
+								["size"] = function()
+										configKey = "textSize"
+									end,
+								["opacity"] = function()
+										configKey = "opacity"
+									end,
+								["color"] = function()
+										configKey = "textColor"
+									end,
+								default = function()
+									configKey = ""
+								end,
+							}
+							
+							configReset:case(tostring(args[2]))
+							if (configKey ~= "") then
+								resetConfig(configKey)
+							end
+						end
+					end
+				}
+				
+				option:case(tostring(args[1]))
+				drawScreen()
+			end
+		end,
+	[5] = function()
+			-- themes
+			if (tostring(args[1]) == "theme") then
+				updateTheme(tonumber(args[2]))
+				drawScreen()
+			end
+		end,
+	default = function()
+			functions.debug("Message retrieved by event:", message)
+			end,
+	}
+	
+	check:case(currentDisplay)
+end
+
 -- Event handler for chat commands
 local chatEventHandler = function()
 	while true do
@@ -620,44 +738,7 @@ local chatEventHandler = function()
 		
 		local args = functions.explode(" ", message)
 		if (args[1] == "show") then
-			if (args[2] == nil) then
-				-- show with no args means show the interface
-				drawScreen()
-			else
-				local screenId = 0
-				local check = switch {
-					["mini"] = function()
-							screenId = 1
-						end,
-					["tps"] = function()
-							screenId = 2
-						end,
-					["rss"] = function()
-							screenId = 3
-						end,
-					["options"] = function()
-							screenId = 4
-						end,
-					["themes"] = function()
-							screenId = 5
-						end,
-					["help"] = function()
-							screenId = 6
-						end,
-					default = function()
-							screenId = 0
-						end
-				}
-				
-				check:case(tostring(args[2]))
-				
-				-- only change the screen if screenId is not 0
-				if (screenId > 0) then
-					functions.debug("Changing screen to: ", screenId)
-					currentDisplay = tonumber(screenId)
-					drawScreen()
-				end
-			end
+			runShowHandler(args)
 		elseif (args[1] == "hide") then
 			bridge.clear()
 			drawHeader(positionArray[currentDisplay].x, positionArray[currentDisplay].y, positionArray[currentDisplay].width)
@@ -666,91 +747,9 @@ local chatEventHandler = function()
 			currentDisplay = 6
 			drawScreen()
 		elseif (args[1] == "admin" and authLevel == 1) then
-			-- Admin only commands
-			functions.debug("Admin commands accessed.")
+			runAdminHandler(args)
 		else
-			local check = switch {
-				[4] = function()
-						-- options
-						functions.debug("Message was retrieved by the event [4]: ", message)
-						if (args[2] ~= nil) then
-							local option = switch {
-							["size"] = function()
-									updateSize(tonumber(args[2]))
-								end,
-							["opacity"] = function()
-									updateOpacity(tonumber(args[2]))
-								end,
-							["color"] = function()
-									updateTextColor(args[2])
-								end,
---							["window"] = function()
---									if (args[3] ~= nil) then
---										if (args[2] == "start") then
---											updateWindowStartColor(args[3])
---										elseif (args[2] == "end") then
---											updateWindowEndColor(args[3])
---										end
---									end
---								end,
-							["reset"] = function()
-									if (args[2] == "all") then
-										functions.debug("Resetting configuration back to factory defaults")
-										configArray = getDefaultConfig()
-										updateSize(configArray.textSize.value)
-										functions.debug("Writing the config file to disk")
-										functions.writeTable(configArray, configFile)
-									else
-										local configKey = ""
-										local configReset = switch {
-											["size"] = function()
-													configKey = "textSize"
-												end,
-											["opacity"] = function()
-													configKey = "opacity"
-												end,
-											["color"] = function()
-													configKey = "textColor"
-												end,
---											["window"] = function()
---													if (args[3] ~= nil) then
---														if (args[3] == "start") then
---															configKey = "windowStartColor"
---														elseif (args[3] == "end") then
---															configKey = "windowEndColor"
---														end
---													end
---												end,
-											default = function()
-												configKey = ""
-											end,
-										}
-										
-										configReset:case(tostring(args[2]))
-										if (configKey ~= "") then
-											resetConfig(configKey)
-										end
-									end
-								end
-							}
-							
-							option:case(tostring(args[1]))
-							drawScreen()
-						end
-					end,
-				[5] = function()
-						-- themes
-						if (tostring(args[1]) == "theme") then
-							updateTheme(tonumber(args[2]))
-							drawScreen()
-						end
-					end,
-				default = function()
-						functions.debug("Message retrieved by event:", message)
-					end,
-			}
-			
-			check:case(currentDisplay)
+			runSpecificHandler(args)
 		end
 	end
 end
