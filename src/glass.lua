@@ -179,20 +179,20 @@ local function drawTps(inputX, inputY)
 			clockText.setScale(size.small)
 			clockText.setZIndex(4)
 			
-			local lastUpdatedLabelText = bridge.addText(inputX + width - (125 * configArray.textSize.value), inputY + 1, "Last Updated:", configArray.textColor.value)
+			local lastUpdatedLabelText = bridge.addText(inputX + width - (150 * configArray.textSize.value), inputY + 1, "Last Updated:", configArray.textColor.value)
 			lastUpdatedLabelText.setScale(size.small)
 			lastUpdatedLabelText.setZIndex(4)
 			
-			lastUpdatedText = bridge.addText(inputX + width - (80 * configArray.textSize.value), inputY + 1, tickParser.getUpdatedDate(), configArray.textColor.value)
+			lastUpdatedText = bridge.addText(inputX + width - (105 * configArray.textSize.value), inputY + 1, tickParser.getUpdatedDate(), configArray.textColor.value)
 			lastUpdatedText.setScale(size.small)
 			lastUpdatedText.setZIndex(4)
 		end,
 		[3] = function()
-			local rssUpdatedLabelText = bridge.addText(inputX + width - (125 * configArray.textSize.value), inputY + 1, "Last Updated:", configArray.textColor.value)
+			local rssUpdatedLabelText = bridge.addText(inputX + width - (150 * configArray.textSize.value), inputY + 1, "Last Updated:", configArray.textColor.value)
 			rssUpdatedLabelText.setScale(size.small)
 			rssUpdatedLabelText.setZIndex(4)
 			
-			rssUpdatedText = bridge.addText(inputX + width - (80 * configArray.textSize.value), inputY + 1, rssParser.getPubDate(), configArray.textColor.value)
+			rssUpdatedText = bridge.addText(inputX + width - (105 * configArray.textSize.value), inputY + 1, rssParser.getPubDate(), configArray.textColor.value)
 			rssUpdatedText.setScale(size.small)
 			rssUpdatedText.setZIndex(4)
 		end,
