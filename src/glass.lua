@@ -101,7 +101,14 @@ functions.debug("Retrieving authentication level from server...")
 local handle = http.get(remoteUrl)
 if (handle) then
 	functions.debug("Hash retrieved from remote server.")
-	authLevel = tonumber(handle.readAll())
+	
+	local hash = handle.readAll()
+	if (hash == adminAuth) then
+		authLevel = 1
+	elseif (hash == userAuth) then
+		authLevel = 2
+	end
+	
 	handle.close()
 else
 	functions.debug("Failed to retrieve hash from remote server.")
