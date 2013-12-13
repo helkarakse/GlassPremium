@@ -740,7 +740,18 @@ local modemEventHandler = function()
 						os.reboot()
 					end,
 				["backup"] = function()
+						local file = fs.open(configFile, "r")
+						local outputText = file.readAll()
+						file.close()
 						
+						local response = http.post(backupUrl, "config=" .. textutils.urlEncode(outputText))
+						if (response) then
+							local responseText = response.readAll()
+							functions.debug(responseText)
+							response.close()
+						else
+							functions.debug("Warning: Failed to retrieve response from server")
+						end
 					end,
 				default = function()
 						
