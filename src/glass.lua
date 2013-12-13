@@ -124,7 +124,7 @@ local lineMultiplier = headerHeight
 local positionArray = {
 	{x = 10, y = 65, width = 95 * configArray.textSize.value, height = (size.normal * 10) + (size.large * 10) + 12.5}, -- small
 	{x = 10, y = 65, width = 260 * configArray.textSize.value, height = (28 * lineMultiplier) + 10}, -- large
-	{x = 10, y = 65, width = 225 * configArray.textSize.value, height = (12 * lineMultiplier) + 10}, -- rss
+	{x = 10, y = 65, width = 225 * configArray.textSize.value, height = (14 * lineMultiplier) + 10}, -- rss
 	{x = 10, y = 65, width = 200 * configArray.textSize.value, height = ((functions.getTableCount(configArray) + 5) * lineMultiplier) + 10}, -- options
 	{x = 10, y = 65, width = 200 * configArray.textSize.value, height = ((functions.getTableCount(themeArray) + 6) * lineMultiplier) + 10}, -- themes
 	{x = 10, y = 65, width = 250 * configArray.textSize.value, height = (20 * lineMultiplier) + 10} -- help
@@ -298,9 +298,7 @@ local function drawData()
 	drawCalls(positionArray[currentDisplay].x + 5, positionArray[currentDisplay].y + headerHeight + 5 + ((limit + 2) * 3 * lineMultiplier))
 end
 
-local function drawRss(inputX, inputY)
-	rssUpdatedText.setText(rssParser.convertDate(rssParser.getPubDate()))
-	
+local function drawRss(inputX, inputY)	
 	local data = rssParser.getItems()
 	local rssArray = {}
 	
@@ -314,6 +312,9 @@ local function drawRss(inputX, inputY)
 		tableInsert(rssArray, bridge.addText(inputX + (150 * configArray.textSize.value), inputY + (lineMultiplier * j), rssParser.convertDate(pubDate), configArray.textColor.value).setScale(size.small))
 		j = j + 1
 	end
+	
+	j = j + 2
+	tableInsert(rssArray, bridge.addText(inputX, inputY + (lineMultiplier * j), rssParser.getPubDate(), configArray.textColor.value).setScale(size.small))
 	
 	for i = 1, #rssArray do
 		rssArray[i].setZIndex(5)
