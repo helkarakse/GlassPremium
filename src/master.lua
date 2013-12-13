@@ -15,6 +15,7 @@ local modem
 
 -- References
 local peripheral = peripheral
+local tonumber = tonumber
 
 -- Arrays
 local menuOptions = {
