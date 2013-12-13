@@ -32,17 +32,15 @@ local function displayMenu()
 			print(menuOptions[i].name);
 		end
 		
-		while true do
-			print("Enter option:")
-			local option = read()
-			
-			if (tonumber(option) == 1) then
-				functions.debug("1")
-			elseif (tonumber(option) == 2) then
-				functions.debug("2")
-			elseif (tonumber(option) == 3) then
-				os.reboot()
-			end
+		print("Enter option:")
+		local option = read()
+		
+		if (tonumber(option) == 1) then
+			modem.transmit(modemFrequency, modemFrequency, "backup")
+		elseif (tonumber(option) == 2) then
+			modem.transmit(modemFrequency, modemFrequency, "reboot")
+		elseif (tonumber(option) == 3) then
+			os.reboot()
 		end
 	end
 end
