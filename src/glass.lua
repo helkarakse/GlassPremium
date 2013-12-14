@@ -15,7 +15,7 @@ os.loadAPI("rssParser")
 local dimId = string.sub(os.getComputerLabel(), 1, 1)
 local userName = string.sub(os.getComputerLabel(), 2)
 
-local remoteUrl = "http://www.otegamers.com/custom/helkarakse/upload.php?req=show&dim=" .. dimId
+local remoteUrl = "http://www.otegamers.com/custom/helkarakse/upload.php?req=show&dim=" .. dimId .. "&output=json"
 local backupUrl = "http://www.otegamers.com/custom/helkarakse/backup.php?name=" .. userName .. "&dim=" .. dimId
 local rssLink = "http://www.otegamers.com/index.php?app=core&module=global&section=rss&type=forums&id=24"
 local authUrl = "http://www.otegamers.com/custom/helkarakse/auth.php?name=" .. userName
@@ -494,7 +494,7 @@ local function getRssData()
 		rssParser.parseData(xmlString)
 		return true
 	else
-		functions.debug("Could not retrieve xml file.")
+		functions.debug("Could not retrieve RSS data.")
 		return false
 	end
 end
@@ -524,7 +524,7 @@ local tickRefreshLoop = function()
 		getTickData()
 
 		-- redraw the new data
-		functions.debug("Current display is: ", currentDisplay)
+		--		functions.debug("Current display is: ", currentDisplay)
 		drawScreen()
 
 		sleep(20)
@@ -668,7 +668,7 @@ local function runSpecificHandler(args)
 	local check = switch {
 		[4] = function()
 			-- options
---			functions.debug("Message was retrieved by the event [4]: ", message)
+			--			functions.debug("Message was retrieved by the event [4]: ", message)
 			if (args[2] ~= nil) then
 				local option = switch {
 					["size"] = function()
@@ -794,7 +794,7 @@ local function init()
 		functions.debug("Terminal glasses bridge peripheral required.")
 		return
 	else
---		functions.debug("Found terminal bridge peripheral at: ", bridgeDir)
+		--		functions.debug("Found terminal bridge peripheral at: ", bridgeDir)
 		bridge = peripheral.wrap(bridgeDir)
 		bridge.clear()
 	end
@@ -803,7 +803,7 @@ local function init()
 	if (hasModem ~= true) then
 		functions.debug("Modem not found, will not be able to listen to maintenance messages.")
 	else
---		functions.debug("Found modem peripheral at: ", modemDir)
+		--		functions.debug("Found modem peripheral at: ", modemDir)
 		modem = peripheral.wrap(modemDir)
 		modem.open(modemFrequency)
 	end
