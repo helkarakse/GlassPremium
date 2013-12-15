@@ -11,6 +11,16 @@ os.loadAPI("functions")
 os.loadAPI("tickParser")
 os.loadAPI("rssParser")
 
+-- References
+local tonumber = tonumber
+local tostring = tostring
+local tableInsert = table.insert
+local pairs = pairs
+local type = type
+local switch = functions.switch
+local os = os
+local string = string
+
 -- Variables
 local dimId = string.sub(os.getComputerLabel(), 1, 1)
 local userName = string.sub(os.getComputerLabel(), 2)
@@ -27,15 +37,6 @@ local modemFrequency = 1
 local adminAuth = "c4ca4238a0b923820dcc509a6f75849b"
 local userAuth = "c81e728d9d4c2f636f067f89cc14862c"
 local authLevel = 0
-
--- References
-local tonumber = tonumber
-local tostring = tostring
-local tableInsert = table.insert
-local pairs = pairs
-local type = type
-local switch = functions.switch
-local os = os
 
 -- Color array
 local colors = {
