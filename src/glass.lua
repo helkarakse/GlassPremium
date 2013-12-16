@@ -581,20 +581,6 @@ local function updateTextColor(newColor)
 	saveConfig()
 end
 
---local function updateWindowStartColor(newColor)
---	newColor = tonumber("0x" .. newColor)
---	functions.debug("Updating the text color from ", functions.decToHex(themeArray[configArray.userTheme.value].startColor), " to ", functions.decToHex(newColor))
---	themeArray[configArray.userTheme.value].startColor = newColor
---	saveConfig()
---end
---
---local function updateWindowEndColor(newColor)
---	newColor = tonumber("0x" .. newColor)
---	functions.debug("Updating the text color from ", functions.decToHex(themeArray[configArray.userTheme.value].endColor), " to ", functions.decToHex(newColor))
---	themeArray[configArray.userTheme.value].endColor = newColor
---	saveConfig()
---end
-
 local function updateTheme(themeId)
 	functions.debug("Updating the user theme id from: ", configArray.userTheme.value, " to ", themeId)
 	configArray.userTheme.value = themeId
