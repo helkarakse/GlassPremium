@@ -25,10 +25,10 @@ local string = string
 local dimId = string.sub(os.getComputerLabel(), 1, 1)
 local userName = string.sub(os.getComputerLabel(), 2)
 
-local remoteUrl = "http://www.otegamers.com/custom/helkarakse/upload.php?req=show&dim=" .. dimId .. "&output=json"
-local backupUrl = "http://www.otegamers.com/custom/helkarakse/backup.php?name=" .. userName .. "&dim=" .. dimId
+local remoteUrl = "http://dev.otegamers.com/helkarakse/upload.php?req=show&output=json&dim=" .. dimId
+local backupUrl = "http://dev.otegamers.com/helkarakse/backup.php?name=" .. userName .. "&dim=" .. dimId
 local rssLink = "http://www.otegamers.com/index.php?app=core&module=global&section=rss&type=forums&id=24"
-local authUrl = "http://www.otegamers.com/custom/helkarakse/auth.php?name=" .. userName
+local authUrl = "http://dev.otegamers.com/helkarakse/auth.php?name=" .. userName
 
 local configFile = "config"
 local modemFrequency = 1
