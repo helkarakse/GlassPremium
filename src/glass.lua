@@ -637,9 +637,6 @@ end
 
 local function runAdminHandler(args)
     local check = switch {
-        ["tps"] = function()
-
-        end,
         default = function()
 
         end,
