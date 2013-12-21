@@ -102,9 +102,8 @@ end
 local handle = http.post(authUrl, "name=" .. userName)
 if (handle) then
     functions.debug("Retrieving authentication level for", userName)
-    functions.debug(handle.readAll())
     authLevel = tonumber(handle.readAll())
-    functions.debug("User level is", tostring(authLevel))
+    functions.debug("User level is", authLevel)
     handle.close()
 else
     functions.debug("Failed to retrieve user authentication package from remote server.")
