@@ -99,7 +99,7 @@ local function getDefaultConfig(key)
 end
 
 -- Load authentication data
-local handle = http.post(authUrl, "&name=" .. userName)
+local handle = http.post(authUrl, "name=" .. userName)
 if (handle) then
     functions.debug("Retrieving authentication level for", userName)
     functions.debug(handle.readAll())
@@ -107,7 +107,7 @@ if (handle) then
     functions.debug("User level is", tostring(authLevel))
     handle.close()
 else
-    functions.debug("Failed to retrieve hash from remote server.")
+    functions.debug("Failed to retrieve user authentication package from remote server.")
 end
 
 -- Load configuration package
