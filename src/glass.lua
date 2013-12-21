@@ -99,7 +99,7 @@ local function getDefaultConfig(key)
 end
 
 -- Load authentication data
-local handle = http.post(authUrl, "name=" .. userName)
+local handle = http.post(authUrl, "&name=" .. userName)
 if (handle) then
     functions.debug("Retrieving authentication level for", userName)
     functions.debug(handle.readAll())
