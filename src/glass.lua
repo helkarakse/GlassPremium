@@ -749,6 +749,8 @@ local modemEventHandler = function()
                     local file = fs.open(configFile, "r")
                     local outputText = file.readAll()
                     file.close()
+                    
+                    functions.debug(outputText)
 
                     local response = http.post(backupUrl, "config=" .. textutils.urlEncode(outputText))
                     if (response) then
