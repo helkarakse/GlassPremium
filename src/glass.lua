@@ -26,7 +26,7 @@ local dimId = string.sub(os.getComputerLabel(), 1, 1)
 local userName = string.sub(os.getComputerLabel(), 2)
 
 -- Remote URLs
-local remoteUrl = "http://dev.otegamers.com/helkarakse/tps/upload.php?req=show&output=json&dim=" .. dimId
+local remoteUrl = "http://dev.otegamers.com/helkarakse/tps/upload.php?req=get&format=json&dim=" .. dimId
 local backupUrl = "http://dev.otegamers.com/helkarakse/tps/backup.php?name=" .. userName .. "&dim=" .. dimId
 local authUrl = "http://dev.otegamers.com/helkarakse/ticket/auth.php?cmd=get_auth"
 
