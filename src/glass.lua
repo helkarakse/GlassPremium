@@ -28,10 +28,6 @@ local dimId = labelArray[1]
 local server = string.lower(labelArray[2])
 local userName = labelArray[3]
 
-functions.debug(dimId)
-functions.debug(server)
-functions.debug(userName)
-
 -- Remote URLs
 local remoteUrl = "http://dev.otegamers.com/helkarakse/index.php?c=upload&m=get&server=" .. server .. "&type=" .. dimId
 local backupUrl = "http://dev.otegamers.com/helkarakse/tps/backup.php?name=" .. userName .. "&dim=" .. dimId
