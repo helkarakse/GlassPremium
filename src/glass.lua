@@ -23,8 +23,9 @@ local string = string
 
 -- Variables
 local dimId = string.sub(os.getComputerLabel(), 1, 1)
-local server = string.lower(string.sub(os.getComputerLabel(), 2))
-local userName = string.sub(os.getComputerLabel(), 2)
+local stringArray = functions.explode("-", string.sub(os.getComputerLabel(), 2))
+local server = string.lower(stringArray[1])
+local userName = stringArray[2]
 
 -- Remote URLs
 local remoteUrl = "http://dev.otegamers.com/helkarakse/index.php?c=upload&m=get&server=".. server .. "&type=1" .. dimId
