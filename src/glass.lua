@@ -22,13 +22,14 @@ local os = os
 local string = string
 
 -- Variables
-local dimId = string.sub(os.getComputerLabel(), 1, 1)
-local stringArray = functions.explode("-", string.sub(os.getComputerLabel(), 2))
-local server = string.lower(stringArray[1])
-local userName = stringArray[2]
+local computerLabel = os.getComputerLabel()
+local labelArray = functions.explode("-", computerLabel)
+local dimId = labelArray[1]
+local server = string.lower(labelArray[2])
+local userName = labelArray[3]
 
 -- Remote URLs
-local remoteUrl = "http://dev.otegamers.com/helkarakse/index.php?c=upload&m=get&server=".. server .. "&type=1" .. dimId
+local remoteUrl = "http://dev.otegamers.com/helkarakse/index.php?c=upload&m=get&server=" .. server .. "&type=" .. dimId
 local backupUrl = "http://dev.otegamers.com/helkarakse/tps/backup.php?name=" .. userName .. "&dim=" .. dimId
 local authUrl = "http://dev.otegamers.com/helkarakse/ticket/auth.php?cmd=get_auth"
 
