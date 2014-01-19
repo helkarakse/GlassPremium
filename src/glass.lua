@@ -445,7 +445,7 @@ local function drawScreen()
 			drawMain(xPos, yPos, width, height)
 			drawHeader(xPos, yPos, width)
 			drawTps(xPos, yPos)
-			drawSanta(xPos + 10, yPos - 1)
+			--drawSanta(xPos + 10, yPos - 1)
 		end,
 		[2] = function()
 			-- draw main, header, tps and data
@@ -453,32 +453,32 @@ local function drawScreen()
 			drawHeader(xPos, yPos, width)
 			drawTps(xPos, yPos)
 			drawData()
-			drawSanta(xPos + 10, yPos - 1)
+			--drawSanta(xPos + 10, yPos - 1)
 		end,
 		[3] = function()
 			drawMain(xPos, yPos, width, height)
 			drawHeader(xPos, yPos, width)
 			drawTps(xPos, yPos)
 			drawRss(xPos + 5, yPos + headerHeight + 5)
-			drawSanta(xPos + 10, yPos - 1)
+			--drawSanta(xPos + 10, yPos - 1)
 		end,
 		[4] = function()
 			drawMain(xPos, yPos, width, height)
 			drawHeader(xPos, yPos, width)
 			drawOptions(xPos + 5, yPos + headerHeight + 5)
-			drawSanta(xPos + 10, yPos - 1)
+			--drawSanta(xPos + 10, yPos - 1)
 		end,
 		[5] = function()
 			drawMain(xPos, yPos, width, height)
 			drawHeader(xPos, yPos, width)
 			drawThemes(xPos + 5, yPos + headerHeight + 5)
-			drawSanta(xPos + 10, yPos - 1)
+			--drawSanta(xPos + 10, yPos - 1)
 		end,
 		[6] = function()
 			drawMain(xPos, yPos, width, height)
 			drawHeader(xPos, yPos, width)
 			drawHelp(xPos + 5, yPos + headerHeight + 5)
-			drawSanta(xPos + 10, yPos - 1)
+			--drawSanta(xPos + 10, yPos - 1)
 		end,
 	}
 
