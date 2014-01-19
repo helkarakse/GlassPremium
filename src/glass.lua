@@ -29,9 +29,9 @@ local server = string.lower(labelArray[2])
 local userName = labelArray[3]
 
 -- Remote URLs
-local remoteUrl = "http://dev.otegamers.com/index.php?c=upload&m=get&server=" .. server .. "&type=" .. dimId
-local backupUrl = "http://dev.otegamers.com/tps/backup.php?name=" .. userName .. "&dim=" .. dimId
-local authUrl = "http://dev.otegamers.com/ticket/auth.php?cmd=get_auth"
+local remoteUrl = "http://dev.otegamers.com/api/v1/tps/get/" .. server .. "/" .. dimId
+--local backupUrl = "http://dev.otegamers.com/tps/backup.php?name=" .. userName .. "&dim=" .. dimId
+local authUrl = "http://dev.otegamers.com/api/v1/tracker/admin/auth"
 
 -- RSS URLs
 local rssUrl = "http://www.otegamers.com/index.php?app=core&module=global&section=rss&type=forums&id=24"
@@ -102,7 +102,7 @@ local function getDefaultConfig(key)
 end
 
 -- Load authentication data
-local handle = http.post(authUrl, "name=" .. userName)
+local handle = http.get(authUrl .. "/" .. userName)
 if (handle) then
 	functions.debug("Retrieving authentication level for", userName)
 	authLevel = tonumber(handle.readAll())
@@ -748,20 +748,20 @@ local modemEventHandler = function()
 				["reboot"] = function()
 					os.reboot()
 				end,
-				["backup"] = function()
-					local file = fs.open(configFile, "r")
-					local outputText = file.readAll()
-					file.close()
-
-					local response = http.post(backupUrl, "config=" .. textutils.urlEncode(outputText))
-					if (response) then
-						local responseText = response.readAll()
-						functions.debug(responseText)
-						response.close()
-					else
-						functions.debug("Warning: Failed to retrieve response from server")
-					end
-				end,
+--				["backup"] = function()
+--					local file = fs.open(configFile, "r")
+--					local outputText = file.readAll()
+--					file.close()
+--
+--					local response = http.post(backupUrl, "config=" .. textutils.urlEncode(outputText))
+--					if (response) then
+--						local responseText = response.readAll()
+--						functions.debug(responseText)
+--						response.close()
+--					else
+--						functions.debug("Warning: Failed to retrieve response from server")
+--					end
+--				end,
 				default = function()
 
 				end,
