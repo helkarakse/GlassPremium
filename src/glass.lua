@@ -422,10 +422,15 @@ end
 local function drawHelp(inputX, inputY)
 	local helpArray = {}
 
-	tableInsert(helpArray, bridge.addText(inputX, inputY + (lineMultiplier * 0), "Sample placeholder for help text.", configArray.textColor.value).setScale(size.small))
-	-- tableInsert(helpArray, bridge.addText(inputX, inputY + (lineMultiplier * 1), "Second line of text", configArray.textColor.value).setScale(size.small))
-	-- tableInsert(helpArray, bridge.addText(inputX, inputY + (lineMultiplier * 2), "Third line of text", configArray.textColor.value).setScale(size.small))
-	-- tableInsert(helpArray, bridge.addText(inputX, inputY + (lineMultiplier * 3), "Sample placeholder for really really really really long text.", configArray.textColor.value).setScale(size.small))
+	tableInsert(helpArray, bridge.addText(inputX, inputY + (lineMultiplier * 0), "Available commands (all commands use $$show <variable>): ", configArray.textColor.value).setScale(size.small))
+	tableInsert(helpArray, bridge.addText(inputX, inputY + (lineMultiplier * 2), "$$show mini -- Brings you to the minimalized screen.", configArray.textColor.value).setScale(size.small))
+	tableInsert(helpArray, bridge.addText(inputX, inputY + (lineMultiplier * 3), "$$show tps -- Brings you to the tps screen.", configArray.textColor.value).setScale(size.small))
+	tableInsert(helpArray, bridge.addText(inputX, inputY + (lineMultiplier * 4), "$$show rss -- Brings you to the rrs screen.", configArray.textColor.value).setScale(size.small))
+	tableInsert(helpArray, bridge.addText(inputX, inputY + (lineMultiplier * 5), "$$show help -- Brings you to the help screen.", configArray.textColor.value).setScale(size.small))
+	tableInsert(helpArray, bridge.addText(inputX, inputY + (lineMultiplier * 6), "$$show themes -- Brings you to the themes screen.", configArray.textColor.value).setScale(size.small))
+	tableInsert(helpArray, bridge.addText(inputX, inputY + (lineMultiplier * 7), "$$show options -- Brings you to the options screen.", configArray.textColor.value).setScale(size.small))
+	tableInsert(helpArray, bridge.addText(inputX, inputY + (lineMultiplier * 8), "$$show hide -- Hides the interface.", configArray.textColor.value).setScale(size.small))
+	tableInsert(helpArray, bridge.addText(inputX, inputY + (lineMultiplier * 9), "$$show -- Shows the interface.", configArray.textColor.value).setScale(size.small))
 
 	for i = 1, #helpArray do
 		helpArray[i].setZIndex(5)
@@ -445,7 +450,7 @@ local function drawScreen()
 			drawMain(xPos, yPos, width, height)
 			drawHeader(xPos, yPos, width)
 			drawTps(xPos, yPos)
-			drawSanta(xPos + 10, yPos - 1)
+			--drawSanta(xPos + 10, yPos - 1)
 		end,
 		[2] = function()
 			-- draw main, header, tps and data
@@ -453,32 +458,32 @@ local function drawScreen()
 			drawHeader(xPos, yPos, width)
 			drawTps(xPos, yPos)
 			drawData()
-			drawSanta(xPos + 10, yPos - 1)
+			--drawSanta(xPos + 10, yPos - 1)
 		end,
 		[3] = function()
 			drawMain(xPos, yPos, width, height)
 			drawHeader(xPos, yPos, width)
 			drawTps(xPos, yPos)
 			drawRss(xPos + 5, yPos + headerHeight + 5)
-			drawSanta(xPos + 10, yPos - 1)
+			--drawSanta(xPos + 10, yPos - 1)
 		end,
 		[4] = function()
 			drawMain(xPos, yPos, width, height)
 			drawHeader(xPos, yPos, width)
 			drawOptions(xPos + 5, yPos + headerHeight + 5)
-			drawSanta(xPos + 10, yPos - 1)
+			--drawSanta(xPos + 10, yPos - 1)
 		end,
 		[5] = function()
 			drawMain(xPos, yPos, width, height)
 			drawHeader(xPos, yPos, width)
 			drawThemes(xPos + 5, yPos + headerHeight + 5)
-			drawSanta(xPos + 10, yPos - 1)
+			--drawSanta(xPos + 10, yPos - 1)
 		end,
 		[6] = function()
 			drawMain(xPos, yPos, width, height)
 			drawHeader(xPos, yPos, width)
 			drawHelp(xPos + 5, yPos + headerHeight + 5)
-			drawSanta(xPos + 10, yPos - 1)
+			--drawSanta(xPos + 10, yPos - 1)
 		end,
 	}
 
@@ -725,7 +730,7 @@ local chatEventHandler = function()
 		elseif (args[1] == "hide") then
 			bridge.clear()
 			drawHeader(positionArray[currentDisplay].x, positionArray[currentDisplay].y, positionArray[currentDisplay].width)
-			drawSanta(positionArray[currentDisplay].x + 10, positionArray[currentDisplay].y - 1)
+			--drawSanta(positionArray[currentDisplay].x + 10, positionArray[currentDisplay].y - 1)
 		elseif (args[1] == "help") then
 			currentDisplay = 6
 			drawScreen()
@@ -773,7 +778,7 @@ local modemEventHandler = function()
 end
 
 local function init()
-	local hasBridge, bridgeDir = functions.locatePeripheral("glassesbridge")
+	local hasBridge, bridgeDir = functions.locatePeripheral("openperipheral_glassesbridge")
 	if (hasBridge ~= true) then
 		functions.debug("Terminal glasses bridge peripheral required.")
 		return
