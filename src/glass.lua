@@ -422,15 +422,15 @@ end
 local function drawHelp(inputX, inputY)
 	local helpArray = {}
 
-	tableInsert(helpArray, bridge.addText(inputX, inputY + (lineMultiplier * 0), "Available commands (all commands use $$show <variable>): ", configArray.textColor.value).setScale(size.small))
-	tableInsert(helpArray, bridge.addText(inputX, inputY + (lineMultiplier * 2), "$$show mini -- Brings you to the minimalized screen.", configArray.textColor.value).setScale(size.small))
-	tableInsert(helpArray, bridge.addText(inputX, inputY + (lineMultiplier * 3), "$$show tps -- Brings you to the tps screen.", configArray.textColor.value).setScale(size.small))
-	tableInsert(helpArray, bridge.addText(inputX, inputY + (lineMultiplier * 4), "$$show rss -- Brings you to the rrs screen.", configArray.textColor.value).setScale(size.small))
-	tableInsert(helpArray, bridge.addText(inputX, inputY + (lineMultiplier * 5), "$$show help -- Brings you to the help screen.", configArray.textColor.value).setScale(size.small))
-	tableInsert(helpArray, bridge.addText(inputX, inputY + (lineMultiplier * 6), "$$show themes -- Brings you to the themes screen.", configArray.textColor.value).setScale(size.small))
-	tableInsert(helpArray, bridge.addText(inputX, inputY + (lineMultiplier * 7), "$$show options -- Brings you to the options screen.", configArray.textColor.value).setScale(size.small))
-	tableInsert(helpArray, bridge.addText(inputX, inputY + (lineMultiplier * 8), "$$show hide -- Hides the interface.", configArray.textColor.value).setScale(size.small))
-	tableInsert(helpArray, bridge.addText(inputX, inputY + (lineMultiplier * 9), "$$show -- Shows the interface.", configArray.textColor.value).setScale(size.small))
+	tableInsert(helpArray, bridge.addText(inputX, inputY + (lineMultiplier * 0), "Available commands: (all commands use $$show <variable>): ", configArray.textColor.value).setScale(size.small))
+	tableInsert(helpArray, bridge.addText(inputX, inputY + (lineMultiplier * 2), "$$show mini    -- Displays the time and current TPS.", configArray.textColor.value).setScale(size.small))
+	tableInsert(helpArray, bridge.addText(inputX, inputY + (lineMultiplier * 3), "$$show tps     -- Displays the entire TPS board.", configArray.textColor.value).setScale(size.small))
+	tableInsert(helpArray, bridge.addText(inputX, inputY + (lineMultiplier * 4), "$$show rss     -- Displays the RSS feed for OTE's forums.", configArray.textColor.value).setScale(size.small))
+	tableInsert(helpArray, bridge.addText(inputX, inputY + (lineMultiplier * 5), "$$show help    -- Displays the help screen.", configArray.textColor.value).setScale(size.small))
+	tableInsert(helpArray, bridge.addText(inputX, inputY + (lineMultiplier * 6), "$$show themes  -- Displays the theme selection screen.", configArray.textColor.value).setScale(size.small))
+	tableInsert(helpArray, bridge.addText(inputX, inputY + (lineMultiplier * 7), "$$show options -- Displays the options that you can change.", configArray.textColor.value).setScale(size.small))
+	tableInsert(helpArray, bridge.addText(inputX, inputY + (lineMultiplier * 8), "$$hide         -- Hides the interface.", configArray.textColor.value).setScale(size.small))
+	tableInsert(helpArray, bridge.addText(inputX, inputY + (lineMultiplier * 9), "$$show         -- Shows the interface.", configArray.textColor.value).setScale(size.small))
 
 	for i = 1, #helpArray do
 	--		helpArray[i].setZIndex(5)
