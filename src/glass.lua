@@ -156,7 +156,7 @@ local function getPositionalArray()
 		{x = 10, y = 65, width = 225 * configArray.textSize.value, height = (14 * lineMultiplier) + 10}, -- rss
 		{x = 10, y = 65, width = 200 * configArray.textSize.value, height = ((functions.getTableCount(configArray) + 5) * lineMultiplier) + 10}, -- options
 		{x = 10, y = 65, width = 200 * configArray.textSize.value, height = ((functions.getTableCount(themeArray) + 6) * lineMultiplier) + 10}, -- themes
-		{x = 10, y = 65, width = 250 * configArray.textSize.value, height = (20 * lineMultiplier) + 10} -- help
+		{x = 10, y = 65, width = 175 * configArray.textSize.value, height = (13 * lineMultiplier) + 10} -- help
 	}
 
 	return array
