@@ -546,8 +546,10 @@ end
 
 local clockRefreshLoop = function()
 	while true do
-		clockText.setText(textutils.formatTime(os.time(), false))
-		sleep(1)
+		if (currentDisplay >= 1 and currentDisplay <= 3) then
+			clockText.setText(textutils.formatTime(os.time(), false))
+			sleep(1)
+		end
 	end
 end
 
