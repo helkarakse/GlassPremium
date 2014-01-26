@@ -156,7 +156,7 @@ local function getPositionalArray()
 		{x = 10, y = 65, width = 225 * configArray.textSize.value, height = (14 * lineMultiplier) + 10}, -- rss
 		{x = 10, y = 65, width = 200 * configArray.textSize.value, height = ((functions.getTableCount(configArray) + 5) * lineMultiplier) + 10}, -- options
 		{x = 10, y = 65, width = 200 * configArray.textSize.value, height = ((functions.getTableCount(themeArray) + 6) * lineMultiplier) + 10}, -- themes
-		{x = 10, y = 65, width = 250 * configArray.textSize.value, height = (20 * lineMultiplier) + 10} -- help
+		{x = 10, y = 65, width = 200 * configArray.textSize.value, height = (11 * lineMultiplier) + 10} -- help
 	}
 
 	return array
@@ -175,9 +175,9 @@ end
 
 local function drawHeader(inputX, inputY, inputWidth)
 	header = bridge.addGradientBox(inputX - 5, inputY, inputWidth, headerHeight, themeArray[configArray.userTheme.value].endColor, 0, themeArray[configArray.userTheme.value].startColor, 1, 2)
-	header.setZIndex(2)
+	--	header.setZIndex(2)
 	headerText = bridge.addText(inputX, inputY + (0.375 * headerHeight), "OTE Glass (c) Helk & Shot 2013", configArray.textColor.value)
-	headerText.setZIndex(3)
+	--	headerText.setZIndex(3)
 	headerText.setScale(size.small)
 end
 
@@ -190,33 +190,33 @@ local function drawTps(inputX, inputY)
 		[1] = function()
 			local tpsLabelText = bridge.addText(inputX + width - (55 * configArray.textSize.value), inputY + height - tpsHeight, "TPS:", configArray.textColor.value)
 			tpsLabelText.setScale(size.normal)
-			tpsLabelText.setZIndex(4)
+			--			tpsLabelText.setZIndex(4)
 
 			tpsText = bridge.addText(inputX + width - (30 * configArray.textSize.value), inputY + height - tpsHeight, tps, tickParser.getTpsHexColor(tps))
 			tpsText.setScale(size.normal)
-			tpsText.setZIndex(4)
+			--			tpsText.setZIndex(4)
 
 			clockText = bridge.addText(inputX + 5, inputY + headerHeight + 5, textutils.formatTime(os.time(), false), configArray.textColor.value)
 			clockText.setScale(size.large)
-			clockText.setZIndex(4)
+			--			clockText.setZIndex(4)
 		end,
 		[2] = function()
 			local tpsLabelText = bridge.addText(inputX + width - (55 * configArray.textSize.value), inputY + height - tpsHeight, "TPS:", configArray.textColor.value)
 			tpsLabelText.setScale(size.normal)
-			tpsLabelText.setZIndex(4)
+			--			tpsLabelText.setZIndex(4)
 
 			tpsText = bridge.addText(inputX + width - (30 * configArray.textSize.value), inputY + height - tpsHeight, tps, tickParser.getTpsHexColor(tps))
 			tpsText.setScale(size.normal)
-			tpsText.setZIndex(4)
+			--			tpsText.setZIndex(4)
 
 			clockText = bridge.addText(inputX + width - (30 * configArray.textSize.value), inputY + 1, textutils.formatTime(os.time(), false), configArray.textColor.value)
 			clockText.setScale(size.small)
-			clockText.setZIndex(4)
+			--			clockText.setZIndex(4)
 		end,
 		[3] = function()
 			clockText = bridge.addText(inputX + width - (30 * configArray.textSize.value), inputY + 1, textutils.formatTime(os.time(), false), configArray.textColor.value)
 			clockText.setScale(size.small)
-			clockText.setZIndex(4)
+			--			clockText.setZIndex(4)
 		end,
 		default = function()
 
@@ -243,7 +243,7 @@ local function drawEntities(inputX, inputY)
 	end
 
 	for i = 1, #entitiesArray do
-		entitiesArray[i].setZIndex(5)
+	--		entitiesArray[i].setZIndex(5)
 	end
 end
 
@@ -264,7 +264,7 @@ local function drawChunks(inputX, inputY)
 	end
 
 	for i = 1, #chunksArray do
-		chunksArray[i].setZIndex(5)
+	--		chunksArray[i].setZIndex(5)
 	end
 end
 
@@ -283,7 +283,7 @@ local function drawTypes(inputX, inputY)
 	end
 
 	for i = 1, #typesArray do
-		typesArray[i].setZIndex(5)
+	--		typesArray[i].setZIndex(5)
 	end
 end
 
@@ -302,14 +302,14 @@ local function drawCalls(inputX, inputY)
 	end
 
 	for i = 1, #callsArray do
-		callsArray[i].setZIndex(5)
+	--		callsArray[i].setZIndex(5)
 	end
 end
 
 local function drawLastUpdated(inputX, inputY)
 	local updatedText = bridge.addText(inputX, inputY, "Last Updated: " .. tickParser.getUpdatedDate(), configArray.textColor.value)
 	updatedText.setScale(size.small)
-	updatedText.setZIndex(5)
+	--	updatedText.setZIndex(5)
 end
 
 local function drawSanta(inputX, inputY)
@@ -329,7 +329,7 @@ local function drawSanta(inputX, inputY)
 
 	--set zindexes
 	for key, value in pairs(boxArray) do
-		value.setZIndex(7)
+	--		value.setZIndex(7)
 	end
 end
 
@@ -360,7 +360,7 @@ local function drawRss(inputX, inputY)
 	tableInsert(rssArray, bridge.addText(inputX, inputY + (lineMultiplier * j), "Published at: " .. rssParser.getPubDate(), configArray.textColor.value).setScale(size.small))
 
 	for i = 1, #rssArray do
-		rssArray[i].setZIndex(5)
+	--		rssArray[i].setZIndex(5)
 	end
 end
 
@@ -394,7 +394,7 @@ local function drawOptions(inputX, inputY)
 	tableInsert(optionsArray, bridge.addText(inputX, inputY + (lineMultiplier * j), "To reset specific options, type $$reset <keyword>", configArray.textColor.value).setScale(size.small))
 
 	for i = 1, #optionsArray do
-		optionsArray[i].setZIndex(5)
+	--		optionsArray[i].setZIndex(5)
 	end
 end
 
@@ -415,25 +415,25 @@ local function drawThemes(inputX, inputY)
 	tableInsert(themesArray, bridge.addText(inputX, inputY + (lineMultiplier * k), "To change the currently selected theme, type $$theme <id>", configArray.textColor.value).setScale(size.small))
 
 	for j = 1, #themesArray do
-		themesArray[j].setZIndex(5)
+	--		themesArray[j].setZIndex(5)
 	end
 end
 
 local function drawHelp(inputX, inputY)
 	local helpArray = {}
 
-	tableInsert(helpArray, bridge.addText(inputX, inputY + (lineMultiplier * 0), "Available commands (all commands use $$show <variable>): ", configArray.textColor.value).setScale(size.small))
-	tableInsert(helpArray, bridge.addText(inputX, inputY + (lineMultiplier * 2), "$$show mini -- Brings you to the minimalized screen.", configArray.textColor.value).setScale(size.small))
-	tableInsert(helpArray, bridge.addText(inputX, inputY + (lineMultiplier * 3), "$$show tps -- Brings you to the tps screen.", configArray.textColor.value).setScale(size.small))
-	tableInsert(helpArray, bridge.addText(inputX, inputY + (lineMultiplier * 4), "$$show rss -- Brings you to the rrs screen.", configArray.textColor.value).setScale(size.small))
-	tableInsert(helpArray, bridge.addText(inputX, inputY + (lineMultiplier * 5), "$$show help -- Brings you to the help screen.", configArray.textColor.value).setScale(size.small))
-	tableInsert(helpArray, bridge.addText(inputX, inputY + (lineMultiplier * 6), "$$show themes -- Brings you to the themes screen.", configArray.textColor.value).setScale(size.small))
-	tableInsert(helpArray, bridge.addText(inputX, inputY + (lineMultiplier * 7), "$$show options -- Brings you to the options screen.", configArray.textColor.value).setScale(size.small))
-	tableInsert(helpArray, bridge.addText(inputX, inputY + (lineMultiplier * 8), "$$show hide -- Hides the interface.", configArray.textColor.value).setScale(size.small))
-	tableInsert(helpArray, bridge.addText(inputX, inputY + (lineMultiplier * 9), "$$show -- Shows the interface.", configArray.textColor.value).setScale(size.small))
+	tableInsert(helpArray, bridge.addText(inputX, inputY + (lineMultiplier * 0), "Available commands: (all commands use $$show <variable>): ", configArray.textColor.value).setScale(size.small))
+	tableInsert(helpArray, bridge.addText(inputX, inputY + (lineMultiplier * 2), "$$show mini    -- Displays the time and current TPS.", configArray.textColor.value).setScale(size.small))
+	tableInsert(helpArray, bridge.addText(inputX, inputY + (lineMultiplier * 3), "$$show tps     -- Displays the entire TPS board.", configArray.textColor.value).setScale(size.small))
+	tableInsert(helpArray, bridge.addText(inputX, inputY + (lineMultiplier * 4), "$$show rss     -- Displays the RSS feed for OTE's forums.", configArray.textColor.value).setScale(size.small))
+	tableInsert(helpArray, bridge.addText(inputX, inputY + (lineMultiplier * 5), "$$show help    -- Displays the help screen.", configArray.textColor.value).setScale(size.small))
+	tableInsert(helpArray, bridge.addText(inputX, inputY + (lineMultiplier * 6), "$$show themes  -- Displays the theme selection screen.", configArray.textColor.value).setScale(size.small))
+	tableInsert(helpArray, bridge.addText(inputX, inputY + (lineMultiplier * 7), "$$show options -- Displays the options that you can change.", configArray.textColor.value).setScale(size.small))
+	tableInsert(helpArray, bridge.addText(inputX, inputY + (lineMultiplier * 8), "$$hide         -- Hides the interface.", configArray.textColor.value).setScale(size.small))
+	tableInsert(helpArray, bridge.addText(inputX, inputY + (lineMultiplier * 9), "$$show         -- Shows the interface.", configArray.textColor.value).setScale(size.small))
 
 	for i = 1, #helpArray do
-		helpArray[i].setZIndex(5)
+	--		helpArray[i].setZIndex(5)
 	end
 end
 
@@ -546,7 +546,9 @@ end
 
 local clockRefreshLoop = function()
 	while true do
-		clockText.setText(textutils.formatTime(os.time(), false))
+		if (currentDisplay >= 1 and currentDisplay <= 3) then
+			clockText.setText(textutils.formatTime(os.time(), false))
+		end
 		sleep(1)
 	end
 end
@@ -734,8 +736,8 @@ local chatEventHandler = function()
 		elseif (args[1] == "help") then
 			currentDisplay = 6
 			drawScreen()
---		elseif (args[1] == "admin" and authLevel == 1) then
---			runAdminHandler(args)
+			--		elseif (args[1] == "admin" and authLevel == 1) then
+			--			runAdminHandler(args)
 		else
 			runSpecificHandler(args)
 		end
@@ -753,20 +755,20 @@ local modemEventHandler = function()
 				["reboot"] = function()
 					os.reboot()
 				end,
---				["backup"] = function()
---					local file = fs.open(configFile, "r")
---					local outputText = file.readAll()
---					file.close()
---
---					local response = http.post(backupUrl, "config=" .. textutils.urlEncode(outputText))
---					if (response) then
---						local responseText = response.readAll()
---						functions.debug(responseText)
---						response.close()
---					else
---						functions.debug("Warning: Failed to retrieve response from server")
---					end
---				end,
+				--				["backup"] = function()
+				--					local file = fs.open(configFile, "r")
+				--					local outputText = file.readAll()
+				--					file.close()
+				--
+				--					local response = http.post(backupUrl, "config=" .. textutils.urlEncode(outputText))
+				--					if (response) then
+				--						local responseText = response.readAll()
+				--						functions.debug(responseText)
+				--						response.close()
+				--					else
+				--						functions.debug("Warning: Failed to retrieve response from server")
+				--					end
+				--				end,
 				default = function()
 
 				end,
