@@ -27,6 +27,7 @@ local labelArray = functions.explode("-", computerLabel)
 local dimId = labelArray[1]
 local server = string.lower(labelArray[2])
 local userName = labelArray[3]
+local isShowing = true
 
 -- Remote URLs
 local remoteUrl = "http://dev.otegamers.com/api/v1/tps/get/" .. server .. "/" .. dimId
@@ -546,7 +547,7 @@ end
 
 local clockRefreshLoop = function()
 	while true do
-		if (currentDisplay >= 1 and currentDisplay <= 3) then
+		if ((currentDisplay >= 1 and currentDisplay <= 3) and isShowing == true) then
 			clockText.setText(textutils.formatTime(os.time(), false))
 		end
 		sleep(1)
@@ -728,8 +729,10 @@ local chatEventHandler = function()
 
 		local args = functions.explode(" ", message)
 		if (args[1] == "show") then
+			isShowing = true
 			runShowHandler(args)
 		elseif (args[1] == "hide") then
+			isShowing = false
 			bridge.clear()
 			drawHeader(positionArray[currentDisplay].x, positionArray[currentDisplay].y, positionArray[currentDisplay].width)
 			--drawSanta(positionArray[currentDisplay].x + 10, positionArray[currentDisplay].y - 1)
