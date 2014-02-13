@@ -12,6 +12,7 @@ os.loadAPI("tickParser")
 os.loadAPI("rssParser")
 
 -- References
+local functions = functions
 local tonumber = tonumber
 local tostring = tostring
 local tableInsert = table.insert
@@ -710,8 +711,10 @@ local function runSpecificHandler(args)
 		[5] = function()
 			-- themes
 			if (tostring(args[1]) == "theme") then
-				updateTheme(tonumber(args[2]))
-				drawScreen()
+				if (tonumber(args[2]) > 0 and tonumber(args[2]) <= functions.getTableCount(themeArray)) then
+					updateTheme(tonumber(args[2]))
+					drawScreen()
+				end
 			end
 		end,
 		default = function()
